@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>قسم الألعاب | VC Store 1</title>
+<link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
 <style>
 @import url('https://googleapis.com');
 :root{--bg-dark:#090b10;--bg-card:#121622;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
-body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:40px}
+body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:85px}
 header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:14px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .brand{font-size:1.3rem;font-weight:900;color:#fff;text-decoration:none}
 .brand span{color:var(--primary)}
@@ -30,100 +31,24 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:14px 5%
 .tag-fast{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.6);color:#10b981;font-size:0.7rem;font-weight:800;padding:2px 8px;border-radius:6px}
 .game-card h3{font-size:1rem;font-weight:800;margin-bottom:4px}
 .game-card span{font-size:0.78rem;color:var(--secondary);font-weight:700}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(6px);z-index:1000;display:none;align-items:center;justify-content:center;padding:15px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(6px);z-index:1000;display:none;align-items:center;justify-content:center;padding:15px}
 .modal-overlay.show{display:flex}
 .modal-box{background:#141926;border:1px solid rgba(124,58,237,0.5);border-radius:22px;width:100%;max-width:440px;padding:22px;position:relative;animation:popIn 0.25s ease}
 @keyframes popIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
 .close-modal{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer}
-.modal-title{font-size:1.2rem;font-weight:900;color:var(--gold);margin-bottom:4px}
-.modal-sub{font-size:0.8rem;color:var(--text-dim);margin-bottom:18px}
+.modal-title{font-size:1.15rem;font-weight:900;color:var(--gold);margin-bottom:4px;padding-left:35px}
+.modal-sub{font-size:0.78rem;color:var(--text-dim);margin-bottom:18px}
 .field{margin-bottom:14px}
 .field label{display:block;font-size:0.82rem;color:var(--text-dim);margin-bottom:6px;font-weight:700}
 .field select,.field input{width:100%;padding:12px 14px;background:#090b10;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.92rem;font-weight:600}
 .field select:focus,.field input:focus{outline:none;border-color:var(--secondary)}
-.modal-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
-.btn-send{padding:13px;border:none;border-radius:12px;font-weight:800;font-size:0.9rem;cursor:pointer;color:#fff}
-.wa{background:#16a34a}.tg{background:#0284c7}
+.modal-btns{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-top:20px}
+.btn-exec{padding:13px;border:none;border-radius:12px;font-weight:800;font-size:0.92rem;cursor:pointer;color:#fff;transition:0.2s}
+.btn-confirm{background:linear-gradient(90deg,#7c3aed,#06b6d4);box-shadow:0 4px 15px rgba(124,58,237,0.35)}
+.btn-cancel{background:#23293d;color:var(--text-dim)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#121622;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 10px;z-index:900}
+.nav-tab{text-decoration:none;color:var(--text-dim);font-size:0.72rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
+.nav-tab.active{color:var(--secondary)}
 </style>
 </head>
 <body>
-<header>
-<a href="store.html" class="brand">VC Store <span>1</span></a>
-<a href="store.html" class="back-btn">العودة للمتجر</a>
-</header>
-
-<div class="container">
-<div class="header-box">
-<h1>قسم شحن الألعاب الفوري</h1>
-<p>اختر لعبتك المفضلة لفتح قائمة الباقات المخصصة</p>
-</div>
-
-<div class="games-grid">
-<div class="game-card" onclick="openGameModal('pubg')">
-<div class="game-banner bg-pubg"><span class="tag-fast">شحن بالـ ID</span>🎯</div>
-<h3>ببجي موبايل</h3>
-<span>PUBG Mobile UC</span>
-</div>
-
-<div class="game-card" onclick="openGameModal('ff')">
-<div class="game-banner bg-ff"><span class="tag-fast">شحن بالـ ID</span>🔥</div>
-<h3>فري فاير</h3>
-<span>Free Fire Diamonds</span>
-</div>
-
-<div class="game-card" onclick="openGameModal('ml')">
-<div class="game-banner bg-ml"><span class="tag-fast">فوري</span>⚔️</div>
-<h3>موبايل ليجند</h3>
-<span>Mobile Legends</span>
-</div>
-
-<div class="game-card" onclick="openGameModal('rbx')">
-<div class="game-banner bg-rbx"><span class="tag-fast">بطاقات وحسابات</span>🧱</div>
-<h3>روبلوكس</h3>
-<span>Roblox Robux</span>
-</div>
-
-<div class="game-card" onclick="openGameModal('fc')">
-<div class="game-banner bg-fc"><span class="tag-fast">فوري</span>⚽</div>
-<h3>فيفا موبايل</h3>
-<span>FC Mobile Points</span>
-</div>
-
-<div class="game-card" onclick="openGameModal('cod')">
-<div class="game-banner bg-cod"><span class="tag-fast">فوري</span>🪖</div>
-<h3>كول أوف ديوتي</h3>
-<span>Call of Duty CP</span>
-</div>
-</div>
-</div>
-
-<div class="modal-overlay" id="gameModal" onclick="if(event.target===this)closeModal()">
-<div class="modal-box">
-<button class="close-modal" onclick="closeModal()">✕</button>
-<div class="modal-title" id="mTitle">اسم اللعبة</div>
-<div class="modal-sub" id="mSub">تنفيذ فوري وآمن • الدفع عبر شام كاش</div>
-<div class="field"><label>اختر الباقة المخصصة:</label><select id="mPackages"></select></div>
-<div class="field"><label id="mIdLabel">أدخل معرف اللاعب (Player ID):</label><input type="text" id="mPlayerId" placeholder="اكتب رقم الـ ID بدقة..."></div>
-<div class="modal-btns">
-<button class="btn-send wa" onclick="submitGameOrder('wa')">اطلب عبر واتساب</button>
-<button class="btn-send tg" onclick="submitGameOrder('tg')">اطلب عبر تيليغرام</button>
-</div>
-</div>
-</div>
-
-<script>
-const gamesCatalog={
-pubg:{title:"شحن شدات ببجي موبايل (PUBG UC)",label:"أدخل معرف اللاعب في ببجي (Player ID):",placeholder:"مثال: 5123456789",packages:["60 شدة (UC) - 1$","325 شدة (UC) - 5$","660 شدة (UC) - 10$","1800 شدة (UC) - 25$","3850 شدة (UC) - 50$","8100 شدة (UC) - 100$"]},
-ff:{title:"شحن جواهر فري فاير (Free Fire)",label:"أدخل معرف اللاعب في فري فاير (Player ID):",placeholder:"مثال: 198273645",packages:["100 جوهرة + بونص - 1$","310 جوهرة + بونص - 3$","520 جوهرة + بونص - 5$","1060 جوهرة + بونص - 10$","2180 جوهرة + بونص - 20$","عضوية أسبوعية / شهرية"]},
-ml:{title:"شحن جواهر موبايل ليجند",label:"أدخل الـ User ID مع رقم السيرفر (Zone ID):",placeholder:"مثال: 12345678 (1234)",packages:["86 جوهرة - 2$","172 جوهرة - 4$","257 جوهرة - 5$","706 جوهرة - 14$"]},
-rbx:{title:"شحن روبلوكس (Roblox Robux)",label:"أدخل اسم المستخدم أو رقم الواتساب لاستلام الكود:",placeholder:"اسم الحساب في روبلوكس...",packages:["400 روبوكس - 5$","800 روبوكس - 10$","1700 روبوكس - 20$"]},
-fc:{title:"شحن نقاط FC Mobile",label:"أدخل معرف الحساب (User ID):",placeholder:"اكتب رقم الـ ID هنا...",packages:["100 نقطة FC - 1$","520 نقطة FC - 5$","1070 نقطة FC - 10$"]},
-cod:{title:"شحن نقاط كول أوف ديوتي (COD CP)",label:"أدخل معرف اللاعب (Player ID):",placeholder:"اكتب رقم الـ ID هنا...",packages:["80 نقطة CP - 1$","420 نقطة CP - 5$","880 نقطة CP - 10$"]}
-};
-let currentGame="";
-function openGameModal(key){const g=gamesCatalog[key];currentGame=g.title;document.getElementById('mTitle').innerText=g.title;document.getElementById('mIdLabel').innerText=g.label;document.getElementById('mPlayerId').placeholder=g.placeholder;document.getElementById('mPlayerId').value="";const sel=document.getElementById('mPackages');sel.innerHTML="";g.packages.forEach(p=>{const opt=document.createElement('option');opt.value=p;opt.textContent=p;sel.appendChild(opt)});document.getElementById('gameModal').classList.add('show')}
-function closeModal(){document.getElementById('gameModal').classList.remove('show')}
-function submitGameOrder(platform){const pkg=document.getElementById('mPackages').value;const pid=document.getElementById('mPlayerId').value.trim();if(!pid){alert("يرجى إدخال معرف اللاعب (ID) أولاً!");document.getElementById('mPlayerId').focus();return}const msg=`طلب شحن لعبة من VC Store 1:%0Aاللعبة: ${currentGame}%0Aالباقة: ${pkg}%0Aمعرف اللاعب (ID): ${pid}%0Aالدفع: شام كاش`;const url=platform==='wa'?`https://wa.me{msg}`:`https://t.me{msg}`;window.open(url,'_blank')}
-</script>
-</body>
-</html>
