@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VC Store 1 | المنصة الرقمية المتكاملة</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7c3aed">
 <style>
 @import url('https://googleapis.com');
 :root{--bg-dark:#090b10;--bg-card:#121622;--bg-elevated:#191f30;--primary:#7c3aed;--primary-glow:rgba(124,58,237,0.4);--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
@@ -12,28 +16,11 @@ body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:90px;
 header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:900}
 .wallet-box{background:#1a2035;border:1px solid rgba(6,182,212,0.4);padding:5px 12px;border-radius:50px;display:flex;align-items:center;gap:8px;font-weight:800;font-size:0.9rem;text-decoration:none;color:#fff}
 .plus-badge{background:var(--secondary);color:#000;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
-.brand-title{font-size:1.3rem;font-weight:900;color:#fff;text-decoration:none}
+.brand-title{font-size:1.3rem;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
+.brand-title img{width:34px;height:34px;border-radius:8px;object-fit:cover}
 .brand-title span{color:var(--primary)}
 .menu-btn{background:var(--primary);border:none;color:#fff;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px var(--primary-glow)}
-.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1100;display:none}
-.drawer{position:fixed;top:0;right:-280px;width:270px;height:100%;background:#101420;border-left:1px solid var(--border);z-index:1200;padding:20px;transition:0.3s ease;display:flex;flex-direction:column;justify-content:space-between}
-.drawer.open{right:0}
-.drawer-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:15px;border-bottom:1px solid var(--border);margin-bottom:15px}
-.drawer-links a{display:flex;align-items:center;gap:12px;padding:12px;color:var(--text-main);text-decoration:none;border-radius:10px;margin-bottom:6px;font-weight:700;font-size:0.9rem}
-.drawer-links a:hover{background:var(--bg-elevated);color:var(--secondary)}
-.container{max-width:800px;margin:14px auto;padding:0 14px}
-.pills-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;scrollbar-width:none}
-.pills-row::-webkit-scrollbar{display:none}
-.info-pill{background:var(--bg-card);border:1px solid var(--border);padding:6px 14px;border-radius:50px;font-size:0.78rem;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:6px;color:var(--text-dim)}
-.dot-green{width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981}
-.slider-box{position:relative;overflow:hidden;border-radius:20px;margin-bottom:16px;border:1px solid rgba(168,85,247,0.4);box-shadow:0 10px 25px rgba(0,0,0,0.4);height:160px}
-.slides{display:flex;transition:transform 0.5s ease-in-out;height:100%}
-.slide{min-width:100%;height:100%}
-.slide img{width:100%;height:100%;object-fit:cover;display:block}
-.dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(0,0,0,0.5);padding:4px 10px;border-radius:20px}
-.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:0.3s}
-.dot.active{width:20px;border-radius:10px;background:#06b6d4}
- .telecom-strip{background:linear-gradient(90deg,#7c3aed,#6366f1);border-radius:16px;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;cursor:pointer;box-shadow:0 6px 20px rgba(124,58,237,0.3)}
+.telecom-strip{background:linear-gradient(90deg,#7c3aed,#6366f1);border-radius:16px;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;cursor:pointer;box-shadow:0 6px 20px rgba(124,58,237,0.3)}
 .telecom-text h3{font-size:1.05rem;font-weight:800}
 .telecom-text p{font-size:0.78rem;color:#e0e7ff}
 .telecom-icon{background:rgba(255,255,255,0.2);width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
@@ -69,7 +56,7 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 </style>
 </head>
 <body>
- <div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
+<div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
 <div class="drawer" id="sideDrawer">
 <div>
 <div class="drawer-header"><span style="font-weight:900;font-size:1.1rem;color:var(--secondary)">VC Store 1</span><button onclick="toggleDrawer()" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">✕</button></div>
@@ -87,7 +74,7 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 
 <header>
 <a href="https://wa.me رصيد في محفظتي" target="_blank" class="wallet-box">$0.00 <span class="plus-badge">+</span></a>
-<a href="index.html" class="brand-title">VC Store <span>1</span></a>
+<a href="index.html" class="brand-title"><img src="logo.png" alt="Logo"><div>VC Store <span>1</span></div></a>
 <button class="menu-btn" onclick="toggleDrawer()"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
 </header>
 
@@ -146,7 +133,7 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 <a href="#orderBox" class="nav-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect></svg>المحفظة</a>
 <a href="https://t.me" target="_blank" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>طلباتي</a>
 </nav>
-<script>
+ <script>
 let curSlide=0;
 function goSlide(n){curSlide=n;document.getElementById('adSlides').style.transform=`translateX(${curSlide*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===curSlide))}
 setInterval(()=>{goSlide((curSlide+1)%3)},3500);
