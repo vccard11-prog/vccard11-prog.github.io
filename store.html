@@ -154,7 +154,12 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 </div>
 
 <nav class="bottom-nav">
-<a href="index.html" class="nav-tab"><svg widt<script>
+<a href="index.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>الرئيسية</a>
+<a href="deposit.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>إضافة رصيد</a>
+<a href="store.html" class="nav-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect></svg>المتجر</a>
+<a href="orders.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>طلباتي</a>
+</nav>
+<script>
 let curSlide=0;
 function goSlide(n){curSlide=n;document.getElementById('adSlides').style.transform=`translateX(${curSlide*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===curSlide))}
 setInterval(()=>{goSlide((curSlide+1)%2)},3500);
@@ -266,8 +271,3 @@ window.location.href='orders.html';
 </script>
 </body>
 </html>
-h="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>الرئيسية</a>
-<a href="deposit.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>إضافة رصيد</a>
-<a href="store.html" class="nav-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect></svg>المتجر</a>
-<a href="orders.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>طلباتي</a>
-</nav>
