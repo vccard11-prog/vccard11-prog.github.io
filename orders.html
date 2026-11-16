@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>طلباتي | VC Store 1</title>
+<style>
+@import url('https://googleapis.com');
+:root{--bg-dark:#090b10;--bg-card:#121622;--bg-box:#181d2d;--primary:#7c3aed;--secondary:#06b6d4;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:85px}
+header{background:rgba(18,22,34,0.95);backdrop-filter:blur(12px);padding:12px 4%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.wallet-pill{background:#1a2035;border:1px solid rgba(6,182,212,0.4);padding:5px 12px;border-radius:50px;font-weight:800;font-size:0.85rem;color:#fff;text-decoration:none}
+.brand{font-size:1.25rem;font-weight:900;color:#fff;text-decoration:none}
+.brand span{color:var(--secondary)}
+.back-btn{background:var(--bg-box);border:1px solid var(--border);color:#fff;text-decoration:none;padding:6px 12px;border-radius:10px;font-size:0.85rem;font-weight:700}
+.container{max-width:750px;margin:16px auto;padding:0 14px}
+.page-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.page-head h1{font-size:1.35rem;font-weight:900;border-right:4px solid var(--primary);padding-right:10px}
+.count-pill{background:var(--bg-box);border:1px solid var(--border);padding:4px 12px;border-radius:50px;font-size:0.8rem;color:var(--text-dim);font-weight:700}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:12px 6px;text-align:center}
+.stat-val{font-size:1.05rem;font-weight:900;margin-bottom:2px}
+.stat-lbl{font-size:0.7rem;color:var(--text-dim);font-weight:700}
+.search-input{width:100%;background:var(--bg-card);border:1px solid var(--border);padding:12px 15px;border-radius:12px;color:#fff;font-size:0.88rem;margin-bottom:12px}
+.search-input:focus{outline:none;border-color:var(--primary)}
+.tabs-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;margin-bottom:14px;scrollbar-width:none}
+.tabs-row::-webkit-scrollbar{display:none}
+.filter-tab{background:var(--bg-card);border:1px solid var(--border);color:var(--text-dim);padding:6px 14px;border-radius:50px;font-size:0.78rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.filter-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.order-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:12px}
+.oc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.oc-title{font-size:0.98rem;font-weight:800;display:flex;align-items:center;gap:6px}
+.web-tag{background:rgba(255,255,255,0.08);font-size:0.65rem;padding:2px 6px;border-radius:5px;color:var(--secondary)}
+.oc-id{font-size:0.78rem;color:var(--text-dim);font-family:monospace;margin-top:3px}
+.oc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg-box);padding:10px;border-radius:12px;font-size:0.8rem;margin-bottom:12px}
+.oc-item{display:flex;justify-content:space-between;color:var(--text-dim)}
+.oc-item strong{color:#fff;font-family:monospace}
+.oc-bottom{display:flex;justify-content:space-between;align-items:center}
+.status-badge{padding:4px 12px;border-radius:8px;font-size:0.78rem;font-weight:800}
+.st-done{background:rgba(16,185,129,0.15);color:var(--green)}
+.st-wait{background:rgba(245,158,11,0.15);color:var(--yellow)}
+.st-rej{background:rgba(239,68,68,0.15);color:var(--red)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#121622;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 10px;z-index:900}
+.nav-tab{text-decoration:none;color:var(--text-dim);font-size:0.72rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
+.nav-tab.active{color:var(--secondary)}
+</style>
+</head>
+<body>
+<header>
+<a href="deposit.html" class="wallet-pill">$0.00 +</a>
+<a href="store.html" class="brand">VC Store <span>1</span></a>
+<a href="store.html" class="back-btn">العودة ➔</a>
+</header>
+
+<div class="container">
+<div class="page-head">
+<h1>طلباتي</h1>
+<span class="count-pill" id="totalBadge">0 طلب</span>
+</div>
+
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-val" id="stTotal">0</div><div class="stat-lbl">إجمالي</div></div>
+<div class="stat-card"><div class="stat-val" style="color:var(--yellow)" id="stWait">0</div><div class="stat-lbl">قيد الانتظار</div></div>
+<div class="stat-card"><div class="stat-val" style="color:var(--green)" id="stDone">0</div><div class="stat-lbl">مكتملة</div></div>
+<div class="stat-card"><div class="stat-val" style="color:var(--secondary)" id="stSpent">$0.00</div><div class="stat-lbl">المصروفات</div></div>
+</div>
+
+<input type="text" id="orderSearch" class="search-input" placeholder="بحث برقم الطلب أو Player ID..." onkeyup="renderOrders()">
+
+<div class="tabs-row">
+<button class="filter-tab active" onclick="setFilter('all',this)">الكل</button>
+<button class="filter-tab" onclick="setFilter('wait',this)">قيد الانتظار</button>
+<button class="filter-tab" onclick="setFilter('done',this)">مكتملة</button>
+<button class="filter-tab" onclick="setFilter('rej',this)">مرفوضة</button>
+</div>
+
+<div id="ordersList"></div>
+</div>
+
+<nav class="bottom-nav">
+<a href="index.html" class="nav-tab">🏠<div>الرئيسية</div></a>
+<a href="deposit.html" class="nav-tab">💳<div>إضافة رصيد</div></a>
+<a href="store.html" class="nav-tab">🛒<div>المتجر</div></a>
+<a href="orders.html" class="nav-tab active">📋<div>طلباتي</div></a>
+</nav>
+
+<script>
+let currentFilter = 'all';
+
+// قراءة الطلبات المحفوظة في هاتف الزبون + إضافة طلب نموذجي إذا كانت القائمة فارغة
+function getOrders() {
+let saved = JSON.parse(localStorage.getItem('vc_orders') || '[]');
+if (saved.length === 0) {
+saved = [
+{ id: "#10024", service: "شحن شدات ببجي (60 UC)", target: "5123456789", date: "2026/11/17", price: 1.00, status: "done", time: "3 ثوانٍ" },
+{ id: "#10023", service: "شحن رصيد سيريتل كاش", target: "0939877779", date: "2026/11/16", price: 2.50, status: "done", time: "5 ثوانٍ" }
+];
+}
+return saved;
+}
+
+function setFilter(f, btn) {
+currentFilter = f;
+document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+btn.classList.add('active');
+renderOrders();
+}
+
+function renderOrders() {
+const all = getOrders();
+const q = document.getElementById('orderSearch').value.toLowerCase();
+
+// تحديث الإحصائيات
+document.getElementById('totalBadge').innerText = all.length + " طلب";
+document.getElementById('stTotal').innerText = all.length;
+document.getElementById('stWait').innerText = all.filter(o => o.status === 'wait').length;
+document.getElementById('stDone').innerText = all.filter(o => o.status === 'done').length;
+const spent = all.reduce((sum, o) => sum + (parseFloat(o.price) || 0), 0);
+document.getElementById('stSpent').innerText = "$" + spent.toFixed(2);
+
+const list = document.getElementById('ordersList');
+list.innerHTML = "";
+
+const filtered = all.filter(o => {
+const matchTab = currentFilter === 'all' || o.status === currentFilter;
+const matchSearch = o.id.toLowerCase().includes(q) || o.target.toLowerCase().includes(q) || o.service.toLowerCase().includes(q);
+return matchTab && matchSearch;
+});
+
+if (filtered.length === 0) {
+list.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text-dim)">لا توجد طلبات مطابقة للبحث حالياً</div>`;
+return;
+}
+
+filtered.forEach(o => {
+let stClass = o.status === 'done' ? 'st-done' : (o.status === 'wait' ? 'st-wait' : 'st-rej');
+let stText = o.status === 'done' ? 'مكتمل' : (o.status === 'wait' ? 'قيد الانتظار' : 'مرفوض');
+list.innerHTML += `
+<div class="order-card">
+<div class="oc-top">
+<div>
+<div class="oc-title">${o.service} <span class="web-tag">WEB</span></div>
+<div class="oc-id">${o.id}</div>
+</div>
+<div style="font-size:0.75rem;color:var(--text-dim)">⏱️ ${o.time || 'فوري'}</div>
+</div>
+<div class="oc-grid">
+<div class="oc-item"><span>المعرف/الرقم:</span><strong>${o.target}</strong></div>
+<div class="oc-item"><span>التاريخ:</span><strong>${o.date}</strong></div>
+</div>
+<div class="oc-bottom">
+<div style="font-weight:800;font-size:0.95rem">الإجمالي: <span style="color:var(--secondary)">$${parseFloat(o.price).toFixed(2)}</span></div>
+<span class="status-badge ${stClass}">${stText}</span>
+</div>
+</div>`;
+});
+}
+
+window.onload = renderOrders;
+</script>
+</body>
+</html>
