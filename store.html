@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر VC Store 1 | شحن الألعاب والتطبيقات</title>
+    <style>
+        @import url('https://googleapis.com');
+
+        :root {
+            --bg-dark: #0a0b10;
+            --card-bg: #131622;
+            --primary-blue: #00d2ff;
+            --accent-gold: #ffd700;
+            --text-light: #ffffff;
+            --text-muted: #a0a8b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: #131622;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent-gold); }
+
+        .back-btn {
+            color: var(--text-light);
+            text-decoration: none;
+            background: rgba(255,255,255,0.08);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--accent-gold);
+            font-size: 1.6rem;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border: 2px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .game-card:hover, .game-card.active {
+            border-color: var(--primary-blue);
+            background: rgba(0, 210, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .game-icon {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+
+        .order-box {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #0a0b10;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .action-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .btn-wa { background: #25D366; color: #000; }
+        .btn-tg { background: #0088cc; }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        .payment-note {
+            margin-top: 20px;
+            padding: 12px;
+            background: rgba(255, 215, 0, 0.08);
+            border-right: 4px solid var(--accent-gold);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">VC Store <span>1</span></a>
+        <a href="index.html" class="back-btn">العودة للرئيسية</a>
+    </header>
+
+    <div class="container">
+        <h1 class="title">اختر اللعبة أو التطبيق للشحن الفوري</h1>
+
+        <div class="games-grid">
+            <div class="game-card active" onclick="selectGame('PUBG Mobile', this)">
+                <div class="game-icon">🔫</div>
+                <h3>ببجي موبايل</h3>
+            </div>
+            <div class="game-card" onclick="selectGame('Free Fire', this)">
+                <div class="game-icon">🔥</div>
+                <h3>فري فاير</h3>
+            </div>
+            <div class="game-card" onclick="selectGame('TikTok Coins', this)">
+                <div class="game-icon">🎵</div>
+                <h3>عملات تيك توك</h3>
+            </div>
+            <div class="game-card" onclick="selectGame('تطبيقات واشتراكات', this)">
+                <div class="game-icon">📱</div>
+                <h3>تطبيقات أخرى</h3>
+            </div>
+        </div>
+
+        <div class="order-box">
+            <div class="form-group">
+                <label>الخدمة المختارة:</label>
+                <input type="text" id="selectedGame" value="PUBG Mobile" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>اختر الباقة المطلوبة:</label>
+                <select id="packageSelect">
+                    <option value="60 شدة - 1$">60 شدة / جوهرة - 1$</option>
+                    <option value="325 شدة - 5$">325 شدة / جوهرة - 5$</option>
+                    <option value="660 شدة - 10$">660 شدة / جوهرة - 10$</option>
+                    <option value="1800 شدة - 25$">1800 شدة / جوهرة - 25$</option>
+                    <option value="باقة مخصصة (حسب الطلب)">باقة مخصصة (تحديد السعر بالمحادثة)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>أدخل معرف اللاعب (Player ID) أو الحساب:</label>
+                <input type="text" id="playerId" placeholder="مثال: 5123456789">
+            </div>
+
+            <div class="payment-note">
+                💳 <strong>طرق الدفع المتاحة:</strong> شام كاش (Sham Cash) - حوالات مالية - أو الدفع بالعملات الرقمية. يتم التنفيذ خلال دقائق.
+            </div>
+
+            <div class="action-btns">
+                <button class="btn btn-wa" onclick="sendOrder('wa')">اطلب عبر واتساب</button>
+                <button class="btn btn-tg" onclick="sendOrder('tg')">اطلب عبر تيليغرام</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectGame(gameName, element) {
+            document.getElementById('selectedGame').value = gameName;
+            let cards = document.querySelectorAll('.game-card');
+            cards.forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function sendOrder(platform) {
+            let game = document.getElementById('selectedGame').value;
+            let pkg = document.getElementById('packageSelect').value;
+            let id = document.getElementById('playerId').value.trim();
+
+            if (!id) {
+                alert('يرجى إدخال معرف اللاعب (ID) أو الحساب أولاً!');
+                return;
+            }
+
+            let message = `مرحباً VC Store 1، أرغب بطلب شحن:%0A` +
+                          `🎮 اللعبة/التطبيق: ${game}%0A` +
+                          `📦 الباقة: ${pkg}%0A` +
+                          `🆔 المعرف (ID): ${id}%0A` +
+                          `💳 طريقة الدفع: شام كاش`;
+
+            if (platform === 'wa') {
+                window.open(`https://wa.me{message}`, '_blank');
+            } else {
+                window.open(`https://t.me{message}`, '_blank');
+            }
+        }
+    </script>
+
+</body>
+</html>
