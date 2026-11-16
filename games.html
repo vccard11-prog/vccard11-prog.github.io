@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قسم الألعاب | VC Store 1</title>
+    <style>
+        @import url('https://googleapis.com');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: #0b0d14; color: #fff; padding-bottom: 40px; }
+
+        header {
+            background: #141824; padding: 14px 5%; display: flex;
+            justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #23293d; position: sticky; top: 0; z-index: 100;
+        }
+        .logo { font-size: 1.3rem; font-weight: 900; color: #fff; text-decoration: none; }
+        .logo span { color: #00d2ff; }
+        .back-btn { background: #6c47ff; color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; }
+
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+        .page-title { text-align: center; color: #ffd700; margin-bottom: 20px; font-size: 1.4rem; }
+
+        .games-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 25px; }
+        .game-item {
+            background: #141824; border: 2px solid #23293d; border-radius: 16px;
+            padding: 18px 10px; text-align: center; cursor: pointer; transition: 0.25s;
+        }
+        .game-item:hover, .game-item.selected {
+            border-color: #00d2ff; background: #1a2133; transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 210, 255, 0.2);
+        }
+        .game-emoji { font-size: 2.5rem; margin-bottom: 8px; }
+        .game-item h3 { font-size: 1rem; margin-bottom: 4px; color: #fff; }
+        .game-item span { font-size: 0.75rem; color: #00d2ff; background: rgba(0,210,255,0.1); padding: 2px 8px; border-radius: 6px; }
+
+        .checkout-card { background: #141824; border: 1px solid #2b324a; border-radius: 16px; padding: 20px; }
+        .checkout-card h3 { color: #00d2ff; margin-bottom: 15px; font-size: 1.1rem; }
+        .field { margin-bottom: 14px; }
+        .field label { display: block; font-size: 0.85rem; color: #a0a8b8; margin-bottom: 6px; }
+        .field input, .field select {
+            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #2b324a;
+            background: #0b0d14; color: #fff; font-size: 0.95rem;
+        }
+        .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+        .btn { padding: 13px; border: none; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+        .btn-wa { background: #25D366; color: #000; }
+        .btn-tg { background: #0088cc; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="store.html" class="logo">VC Store <span>1</span></a>
+        <a href="store.html" class="back-btn">⬅️ العودة للأقسام</a>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">🎮 قسم شحن الألعاب الفوري</h1>
+
+        <div class="games-list">
+            <div class="game-item selected" onclick="pickGame('PUBG Mobile (شدات ببجي)', this)">
+                <div class="game-emoji">🔫</div>
+                <h3>ببجي موبايل</h3>
+                <span>شحن بالـ ID فوراً</span>
+            </div>
+            <div class="game-item" onclick="pickGame('Free Fire (جواهر فري فاير)', this)">
+                <div class="game-emoji">🔥</div>
+                <h3>فري فاير</h3>
+                <span>شحن بالـ ID فوراً</span>
+            </div>
+            <div class="game-item" onclick="pickGame('Mobile Legends (موبايل ليجند)', this)">
+                <div class="game-emoji">⚔️</div>
+                <h3>موبايل ليجند</h3>
+                <span>شحن سريع</span>
+            </div>
+            <div class="game-item" onclick="pickGame('Roblox (روبلوكس)', this)">
+                <div class="game-emoji">🧱</div>
+                <h3>روبلوكس</h3>
+                <span>بطاقات وحسابات</span>
+            </div>
+        </div>
+
+        <div class="checkout-card" id="orderSection">
+            <h3>تأكيد طلب شحن اللعبة</h3>
+            <div class="field">
+                <label>اللعبة المختارة:</label>
+                <input type="text" id="gameName" value="PUBG Mobile (شدات ببجي)" readonly>
+            </div>
+            <div class="field">
+                <label>اختر الباقة:</label>
+                <select id="gamePkg">
+                    <option value="60 شدة / جوهرة - 1$">60 شدة / جوهرة - 1$</option>
+                    <option value="325 شدة / جوهرة - 5$">325 شدة / جوهرة - 5$</option>
+                    <option value="660 شدة / جوهرة - 10$">660 شدة / جوهرة - 10$</option>
+                    <option value="1800 شدة / جوهرة - 25$">1800 شدة / جوهرة - 25$</option>
+                    <option value="3850 شدة / جوهرة - 50$">3850 شدة / جوهرة - 50$</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>أدخل معرف اللاعب (Player ID):</label>
+                <input type="text" id="playerId" placeholder="مثال: 5198273645">
+            </div>
+            <div class="btns">
+                <button class="btn btn-wa" onclick="orderGame('wa')">اطلب عبر واتساب</button>
+                <button class="btn btn-tg" onclick="orderGame('tg')">اطلب عبر تيليغرام</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function pickGame(name, el) {
+            document.getElementById('gameName').value = name;
+            document.querySelectorAll('.game-item').forEach(i => i.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function orderGame(platform) {
+            let game = document.getElementById('gameName').value;
+            let pkg = document.getElementById('gamePkg').value;
+            let id = document.getElementById('playerId').value.trim();
+            if (!id) { alert('يرجى كتابة رقم الـ ID الخاص باللاعب أولاً!'); return; }
+            let text = `مرحباً VC Store 1، طلب شحن لعبة:%0A🎮 اللعبة: ${game}%0A💎 الباقة: ${pkg}%0A🆔 الـ ID: ${id}%0A💳 الدفع: شام كاش`;
+            if (platform === 'wa') window.open(`https://wa.me{text}`, '_blank');
+            else window.open(`https://t.me{text}`, '_blank');
+        }
+    </script>
+</body>
+</html>
