@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر VC Store 1 | شحن الألعاب والتطبيقات</title>
+    <title>VC Store 1 | متجر الخدمات الرقمية المتكامل</title>
     <style>
         @import url('https://googleapis.com');
 
         :root {
-            --bg-dark: #0a0b10;
-            --card-bg: #131622;
-            --primary-blue: #00d2ff;
-            --accent-gold: #ffd700;
-            --text-light: #ffffff;
-            --text-muted: #a0a8b8;
+            --bg-main: #0b0d17;
+            --bg-card: #151828;
+            --purple-grad: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --purple-accent: #7c4dff;
+            --cyan-accent: #00e5ff;
+            --text-white: #ffffff;
+            --text-gray: #9ea7c0;
         }
 
         * {
@@ -21,244 +22,362 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            padding-bottom: 50px;
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            padding-bottom: 85px;
         }
 
+        /* Header */
         header {
-            background: #131622;
-            padding: 15px 5%;
+            background: #111424;
+            padding: 14px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid rgba(124, 77, 255, 0.2);
         }
 
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 900;
-            color: var(--primary-blue);
-            text-decoration: none;
-        }
-
-        .logo span { color: var(--accent-gold); }
-
-        .back-btn {
-            color: var(--text-light);
-            text-decoration: none;
-            background: rgba(255,255,255,0.08);
-            padding: 6px 14px;
-            border-radius: 6px;
+        .wallet-badge {
+            background: #1c2036;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
             font-size: 0.9rem;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 0 15px;
-        }
-
-        .title {
-            text-align: center;
-            margin-bottom: 25px;
-            color: var(--accent-gold);
-            font-size: 1.6rem;
-        }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .game-card {
-            background: var(--card-bg);
-            border: 2px solid rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 20px 10px;
-            text-align: center;
+            border: 1px solid rgba(0, 229, 255, 0.3);
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        .game-card:hover, .game-card.active {
-            border-color: var(--primary-blue);
-            background: rgba(0, 210, 255, 0.1);
-            transform: translateY(-3px);
+        .wallet-plus {
+            background: var(--cyan-accent);
+            color: #000;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
         }
 
-        .game-icon {
-            font-size: 2.2rem;
-            margin-bottom: 8px;
+        .brand-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--text-white);
+            letter-spacing: 0.5px;
         }
 
-        .order-box {
-            background: var(--card-bg);
-            padding: 25px;
+        .brand-title span {
+            color: var(--cyan-accent);
+        }
+
+        .home-link {
+            background: var(--purple-accent);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* Top Pills */
+        .pills-bar {
+            display: flex;
+            gap: 10px;
+            padding: 12px 16px 4px;
+            overflow-x: auto;
+        }
+
+        .pill {
+            background: #161a2e;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            white-space: nowrap;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .pill span {
+            color: #00e676;
+            margin-left: 5px;
+        }
+
+        /* Hero Banner */
+        .banner-wrap {
+            padding: 12px 16px;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #2b1055, #4a148c, #1a237e);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(124, 77, 255, 0.4);
+            box-shadow: 0 8px 25px rgba(74, 20, 140, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner h2 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--cyan-accent);
+            margin-bottom: 6px;
+        }
+
+        .hero-banner p {
+            font-size: 0.9rem;
+            color: #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(0,0,0,0.4);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        /* Mobile Topup Bar */
+        .topup-card {
+            margin: 8px 16px 20px;
+            background: var(--purple-grad);
             border-radius: 14px;
-            border: 1px solid rgba(0, 210, 255, 0.2);
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 117, 252, 0.3);
         }
 
-        .form-group {
+        .topup-info h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .topup-info p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .topup-icon {
+            font-size: 1.8rem;
+            background: rgba(255,255,255,0.15);
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        /* Categories Section */
+        .sec-header {
+            padding: 0 16px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sec-header h2 {
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 0 16px;
+        }
+
+        .cat-item {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 14px 8px;
+            text-align: center;
+            border: 1px solid rgba(124, 77, 255, 0.18);
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .cat-item:active {
+            transform: scale(0.96);
+            border-color: var(--cyan-accent);
+        }
+
+        .cat-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(124, 77, 255, 0.25);
+            color: #b388ff;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 6px;
+        }
+
+        .cat-icon-box {
+            width: 54px;
+            height: 54px;
+            margin: 6px auto 10px;
+            background: linear-gradient(145deg, #1f243d, #131626);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .cat-item h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-white);
+            line-height: 1.3;
+        }
+
+        /* Order Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 999;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal-box {
+            background: #151828;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 22px 22px 0 0;
+            padding: 24px 20px;
+            border-top: 2px solid var(--purple-accent);
+            animation: slideUp 0.25s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 18px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--primary-blue);
-            font-weight: 700;
+        .modal-head h3 {
+            color: var(--cyan-accent);
+            font-size: 1.2rem;
         }
 
-        select, input {
+        .close-btn {
+            background: #252a44;
+            color: #fff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .input-group {
+            margin-bottom: 14px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 6px;
+        }
+
+        .input-group input, .input-group select {
             width: 100%;
             padding: 12px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: #0a0b10;
+            border-radius: 10px;
+            background: #0b0d17;
+            border: 1px solid rgba(124, 77, 255, 0.3);
             color: #fff;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
-        select:focus, input:focus {
-            outline: none;
-            border-color: var(--accent-gold);
-        }
-
-        .action-btns {
+        .send-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 25px;
+            gap: 10px;
+            margin-top: 18px;
         }
 
-        .btn {
-            padding: 14px;
+        .btn-order {
+            padding: 13px;
             border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.95rem;
             cursor: pointer;
-            text-align: center;
-            color: #fff;
-            transition: 0.3s;
         }
 
         .btn-wa { background: #25D366; color: #000; }
-        .btn-tg { background: #0088cc; }
-        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-tg { background: #0088cc; color: #fff; }
 
-        .payment-note {
-            margin-top: 20px;
-            padding: 12px;
-            background: rgba(255, 215, 0, 0.08);
-            border-right: 4px solid var(--accent-gold);
-            font-size: 0.9rem;
-            color: var(--text-muted);
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: #111424;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            z-index: 90;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--cyan-accent);
+            font-weight: 700;
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 2px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo">VC Store <span>1</span></a>
-        <a href="index.html" class="back-btn">العودة للرئيسية</a>
+        <div class="wallet-badge" onclick="openTopupWallet()">
+            <span class="wallet-plus">+</span>
+            <span>$0.00</span>
+        </div>
+        <div class="brand-title">VC Store <span>1</span></div>
+        <a href="index.html" class="home-link">الرئيسية</a>
     </header>
 
-    <div class="container">
-        <h1 class="title">اختر اللعبة أو التطبيق للشحن الفوري</h1>
-
-        <div class="games-grid">
-            <div class="game-card active" onclick="selectGame('PUBG Mobile', this)">
-                <div class="game-icon">🔫</div>
-                <h3>ببجي موبايل</h3>
-            </div>
-            <div class="game-card" onclick="selectGame('Free Fire', this)">
-                <div class="game-icon">🔥</div>
-                <h3>فري فاير</h3>
-            </div>
-            <div class="game-card" onclick="selectGame('TikTok Coins', this)">
-                <div class="game-icon">🎵</div>
-                <h3>عملات تيك توك</h3>
-            </div>
-            <div class="game-card" onclick="selectGame('تطبيقات واشتراكات', this)">
-                <div class="game-icon">📱</div>
-                <h3>تطبيقات أخرى</h3>
-            </div>
-        </div>
-
-        <div class="order-box">
-            <div class="form-group">
-                <label>الخدمة المختارة:</label>
-                <input type="text" id="selectedGame" value="PUBG Mobile" readonly>
-            </div>
-
-            <div class="form-group">
-                <label>اختر الباقة المطلوبة:</label>
-                <select id="packageSelect">
-                    <option value="60 شدة - 1$">60 شدة / جوهرة - 1$</option>
-                    <option value="325 شدة - 5$">325 شدة / جوهرة - 5$</option>
-                    <option value="660 شدة - 10$">660 شدة / جوهرة - 10$</option>
-                    <option value="1800 شدة - 25$">1800 شدة / جوهرة - 25$</option>
-                    <option value="باقة مخصصة (حسب الطلب)">باقة مخصصة (تحديد السعر بالمحادثة)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>أدخل معرف اللاعب (Player ID) أو الحساب:</label>
-                <input type="text" id="playerId" placeholder="مثال: 5123456789">
-            </div>
-
-            <div class="payment-note">
-                💳 <strong>طرق الدفع المتاحة:</strong> شام كاش (Sham Cash) - حوالات مالية - أو الدفع بالعملات الرقمية. يتم التنفيذ خلال دقائق.
-            </div>
-
-            <div class="action-btns">
-                <button class="btn btn-wa" onclick="sendOrder('wa')">اطلب عبر واتساب</button>
-                <button class="btn btn-tg" onclick="sendOrder('tg')">اطلب عبر تيليغرام</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function selectGame(gameName, element) {
-            document.getElementById('selectedGame').value = gameName;
-            let cards = document.querySelectorAll('.game-card');
-            cards.forEach(c => c.classList.remove('active'));
-            element.classList.add('active');
-        }
-
-        function sendOrder(platform) {
-            let game = document.getElementById('selectedGame').value;
-            let pkg = document.getElementById('packageSelect').value;
-            let id = document.getElementById('playerId').value.trim();
-
-            if (!id) {
-                alert('يرجى إدخال معرف اللاعب (ID) أو الحساب أولاً!');
-                return;
-            }
-
-            let message = `مرحباً VC Store 1، أرغب بطلب شحن:%0A` +
-                          `🎮 اللعبة/التطبيق: ${game}%0A` +
-                          `📦 الباقة: ${pkg}%0A` +
-                          `🆔 المعرف (ID): ${id}%0A` +
-                          `💳 طريقة الدفع: شام كاش`;
-
-            if (platform === 'wa') {
-                window.open(`https://wa.me{message}`, '_blank');
-            } else {
-                window.open(`https://t.me{message}`, '_blank');
-            }
-        }
-    </script>
-
-</body>
-</html>
