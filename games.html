@@ -52,3 +52,165 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:14px 5%
 </style>
 </head>
 <body>
+<header>
+<a href="store.html" class="brand">VC Store <span>1</span></a>
+<a href="store.html" class="back-btn">العودة للمتجر</a>
+</header>
+
+<div class="container">
+<div class="header-box">
+<h1>قسم شحن الألعاب الفوري</h1>
+<p>اختر لعبتك المفضلة لفتح قائمة الباقات المخصصة</p>
+</div>
+
+<div class="games-grid">
+<div class="game-card" onclick="openGameModal('pubg')">
+<div class="game-banner bg-pubg"><span class="tag-fast">شحن بالـ ID</span>🎯</div>
+<h3>ببجي موبايل</h3>
+<span>PUBG Mobile UC</span>
+</div>
+
+<div class="game-card" onclick="openGameModal('ff')">
+<div class="game-banner bg-ff"><span class="tag-fast">شحن بالـ ID</span>🔥</div>
+<h3>فري فاير</h3>
+<span>Free Fire Diamonds</span>
+</div>
+
+<div class="game-card" onclick="openGameModal('ml')">
+<div class="game-banner bg-ml"><span class="tag-fast">فوري</span>⚔️</div>
+<h3>موبايل ليجند</h3>
+<span>Mobile Legends</span>
+</div>
+
+<div class="game-card" onclick="openGameModal('rbx')">
+<div class="game-banner bg-rbx"><span class="tag-fast">بطاقات وحسابات</span>🧱</div>
+<h3>روبلوكس</h3>
+<span>Roblox Robux</span>
+</div>
+
+<div class="game-card" onclick="openGameModal('fc')">
+<div class="game-banner bg-fc"><span class="tag-fast">فوري</span>⚽</div>
+<h3>فيفا موبايل</h3>
+<span>FC Mobile Points</span>
+</div>
+
+<div class="game-card" onclick="openGameModal('cod')">
+<div class="game-banner bg-cod"><span class="tag-fast">فوري</span>🪖</div>
+<h3>كول أوف ديوتي</h3>
+<span>Call of Duty CP</span>
+</div>
+</div>
+</div>
+
+<div class="modal-overlay" id="gameModal" onclick="if(event.target===this)closeModal()">
+<div class="modal-box">
+<button class="close-modal" onclick="closeModal()">✕</button>
+<div class="modal-title" id="mTitle">اسم اللعبة</div>
+<div class="modal-sub">تنفيذ آلي وفوري • الخصم من رصيد المحفظة</div>
+<div class="field"><label>اختر الباقة المخصصة:</label><select id="mPackages"></select></div>
+<div class="field"><label id="mIdLabel">أدخل معرف اللاعب (Player ID):</label><input type="text" id="mPlayerId" placeholder="اكتب رقم الـ ID بدقة..."></div>
+<div class="modal-btns">
+<button class="btn-exec btn-confirm" onclick="submitDirectGameOrder()">🚀 تأكيد الشراء</button>
+<button class="btn-exec btn-cancel" onclick="closeModal()">إلغاء</button>
+</div>
+</div>
+</div>
+
+<nav class="bottom-nav">
+<a href="index.html" class="nav-tab">🏠<div>الرئيسية</div></a>
+<a href="deposit.html" class="nav-tab">💳<div>إضافة رصيد</div></a>
+<a href="store.html" class="nav-tab active">🛒<div>المتجر</div></a>
+<a href="orders.html" class="nav-tab">📋<div>طلباتي</div></a>
+</nav>
+
+<script>
+const gamesCatalog={
+pubg:{title:"شحن شدات ببجي موبايل (PUBG UC)",label:"أدخل معرف اللاعب في ببجي (Player ID):",placeholder:"مثال: 5123456789",packages:[
+{name:"ببجي - 60 شدة (UC)",price:1.00},
+{name:"ببجي - 325 شدة (UC)",price:5.00},
+{name:"ببجي - 660 شدة (UC)",price:10.00},
+{name:"ببجي - 1800 شدة (UC)",price:25.00},
+{name:"ببجي - 3850 شدة (UC)",price:50.00}
+]},
+ff:{title:"شحن جواهر فري فاير (Free Fire)",label:"أدخل معرف اللاعب في فري فاير (Player ID):",placeholder:"مثال: 198273645",packages:[
+{name:"فري فاير - 100 جوهرة + بونص",price:1.00},
+{name:"فري فاير - 310 جوهرة + بونص",price:3.00},
+{name:"فري فاير - 520 جوهرة + بونص",price:5.00},
+{name:"فري فاير - 1060 جوهرة + بونص",price:10.00},
+{name:"فري فاير - عضوية أسبوعية",price:2.00}
+]},
+ml:{title:"شحن جواهر موبايل ليجند",label:"أدخل الـ User ID مع رقم السيرفر (Zone ID):",placeholder:"مثال: 12345678 (1234)",packages:[
+{name:"موبايل ليجند - 86 جوهرة",price:2.00},
+{name:"موبايل ليجند - 172 جوهرة",price:4.00},
+{name:"موبايل ليجند - 257 جوهرة",price:5.00},
+{name:"موبايل ليجند - 706 جوهرة",price:14.00}
+]},
+rbx:{title:"شحن روبلوكس (Roblox Robux)",label:"أدخل اسم المستخدم في روبلوكس:",placeholder:"اسم الحساب...",packages:[
+{name:"روبلوكس - 400 روبوكس",price:5.00},
+{name:"روبلوكس - 800 روبوكس",price:10.00},
+{name:"روبلوكس - 1700 روبوكس",price:20.00}
+]},
+fc:{title:"شحن نقاط FC Mobile",label:"أدخل معرف الحساب (User ID):",placeholder:"اكتب رقم الـ ID هنا...",packages:[
+{name:"FC Mobile - 100 نقطة",price:1.00},
+{name:"FC Mobile - 520 نقطة",price:5.00},
+{name:"FC Mobile - 1070 نقطة",price:10.00}
+]},
+cod:{title:"شحن نقاط كول أوف ديوتي (COD CP)",label:"أدخل معرف اللاعب (Player ID):",placeholder:"اكتب رقم الـ ID هنا...",packages:[
+{name:"كول أوف ديوتي - 80 نقطة CP",price:1.00},
+{name:"كول أوف ديوتي - 420 نقطة CP",price:5.00},
+{name:"كول أوف ديوتي - 880 نقطة CP",price:10.00}
+]}
+};
+
+function openGameModal(key){
+const g=gamesCatalog[key];
+document.getElementById('mTitle').innerText=g.title;
+document.getElementById('mIdLabel').innerText=g.label;
+document.getElementById('mPlayerId').placeholder=g.placeholder;
+document.getElementById('mPlayerId').value="";
+const sel=document.getElementById('mPackages');
+sel.innerHTML="";
+g.packages.forEach(p=>{
+const opt=document.createElement('option');
+opt.value=p.name;
+opt.setAttribute('data-price',p.price);
+opt.textContent=`${p.name} - ($${p.price.toFixed(2)})`;
+sel.appendChild(opt);
+});
+document.getElementById('gameModal').classList.add('show');
+}
+
+function closeModal(){document.getElementById('gameModal').classList.remove('show')}
+
+function submitDirectGameOrder(){
+const sel=document.getElementById('mPackages');
+const pkgName=sel.value;
+const pkgPrice=parseFloat(sel.options[sel.selectedIndex].getAttribute('data-price'))||1.00;
+const pid=document.getElementById('mPlayerId').value.trim();
+
+if(!pid){
+alert("يرجى إدخال معرف اللاعب (ID) أولاً!");
+document.getElementById('mPlayerId').focus();
+return;
+}
+
+const orderId="#"+Math.floor(10000+Math.random()*90000);
+let orders=JSON.parse(localStorage.getItem('vc_orders')||'[]');
+orders.unshift({
+id:orderId,
+service:pkgName,
+target:pid,
+date:new Date().toLocaleDateString('en-CA'),
+price:pkgPrice,
+status:"wait",
+time:"قيد المعالجة"
+});
+localStorage.setItem('vc_orders',JSON.stringify(orders));
+
+closeModal();
+alert(`✅ تم إرسال طلب شحن اللعبة بنجاح!\nرقم الطلب: ${orderId}\nسيتم تحويلك الآن إلى صفحة (طلباتي) لمتابعة التنفيذ.`);
+window.location.href='orders.html';
+}
+</script>
+</body>
+</html>
