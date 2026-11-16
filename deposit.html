@@ -1,10 +1,58 @@
-ط<header>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إضافة رصيد | VC Store 1</title>
+<style>
+@import url('https://googleapis.com');
+:root{--bg-dark:#090b10;--bg-card:#121622;--bg-box:#181d2d;--primary:#7c3aed;--secondary:#06b6d4;--green:#10b981;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:40px}
+header{background:rgba(18,22,34,0.95);backdrop-filter:blur(12px);padding:14px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.brand{font-size:1.25rem;font-weight:900;color:#fff;text-decoration:none}
+.brand span{color:var(--secondary)}
+.back-btn{background:var(--bg-box);border:1px solid var(--border);color:#fff;text-decoration:none;padding:6px 14px;border-radius:10px;font-size:0.85rem;font-weight:700;cursor:pointer}
+.container{max-width:600px;margin:20px auto;padding:0 15px}
+.section-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:18px;margin-bottom:20px}
+.sec-title{font-size:1.1rem;font-weight:800;margin-bottom:16px;border-right:4px solid var(--primary);padding-right:10px}
+.methods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.method-item{background:var(--bg-box);border:1px solid var(--border);border-radius:16px;padding:12px 8px;text-align:center;cursor:pointer;transition:0.25s;position:relative}
+.method-item:hover{border-color:var(--secondary);transform:translateY(-3px)}
+.auto-tag{position:absolute;top:6px;right:6px;background:rgba(16,185,129,0.18);color:var(--green);border:1px solid rgba(16,185,129,0.4);font-size:0.65rem;font-weight:800;padding:1px 6px;border-radius:6px}
+.method-icon{width:54px;height:54px;border-radius:14px;margin:14px auto 10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;color:#fff}
+.ic-sham-usd{background:linear-gradient(135deg,#0284c7,#10b981)}
+.ic-sham-syp{background:linear-gradient(135deg,#0369a1,#06b6d4)}
+.ic-syr{background:linear-gradient(135deg,#dc2626,#991b1b)}
+.ic-usdt{background:linear-gradient(135deg,#059669,#047857)}
+.ic-bin{background:linear-gradient(135deg,#d97706,#f59e0b)}
+.ic-pay{background:linear-gradient(135deg,#4f46e5,#7c3aed)}
+.method-item h4{font-size:0.8rem;font-weight:800;color:#fff}
+#paymentDetails{display:none}
+.method-header{text-align:center;margin-bottom:20px}
+.verified-badge{display:inline-block;background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);padding:4px 12px;border-radius:50px;font-size:0.78rem;font-weight:800;margin-bottom:10px}
+.method-header h2{font-size:1.35rem;font-weight:900;display:flex;align-items:center;justify-content:center;gap:8px}
+.transfer-box{background:var(--bg-box);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px}
+.code-display{background:#090b10;border:1px solid #283047;border-radius:12px;padding:12px;margin:10px 0;text-align:left;direction:ltr}
+.code-label{font-size:0.72rem;color:var(--text-dim);display:block;margin-bottom:4px}
+.code-val{font-family:monospace;font-size:0.95rem;color:#fff;word-break:break-all;font-weight:700}
+.copy-btn{background:#23293d;border:1px solid var(--border);color:#fff;padding:6px 14px;border-radius:8px;font-size:0.8rem;font-weight:700;cursor:pointer;margin-top:8px;display:inline-flex;align-items:center;gap:6px}
+.min-note{background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.25);padding:10px 14px;border-radius:12px;font-size:0.82rem;color:var(--secondary);font-weight:700;margin-bottom:18px;text-align:center}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:0.85rem;font-weight:800;margin-bottom:7px;color:#fff}
+.field input{width:100%;padding:13px 14px;background:#090b10;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.95rem;font-weight:600}
+.field input:focus{outline:none;border-color:var(--primary)}
+.api-note{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);padding:12px;border-radius:12px;font-size:0.8rem;color:var(--green);font-weight:700;margin-bottom:18px;text-align:center}
+.submit-btn{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(90deg,#7c3aed,#6366f1);color:#fff;font-size:1rem;font-weight:900;cursor:pointer;box-shadow:0 6px 20px rgba(124,58,237,0.4)}
+</style>
+</head>
+<body>
+<header>
 <button class="back-btn" id="topBackBtn" onclick="goBack()">العودة للمتجر</button>
 <a href="store.html" class="brand">VC Store <span>1</span></a>
 </header>
 
 <div class="container">
-<!-- القسم 1: اختيار وسيلة الإيداع -->
 <div class="section-card" id="methodsList">
 <div class="sec-title">اختر وسيلة الإيداع</div>
 <div class="methods-grid">
@@ -44,7 +92,6 @@
 </div>
 </div>
 
-<!-- القسم 2: تفاصيل التحويل وتأكيد الإيداع -->
 <div class="section-card" id="paymentDetails">
 <div class="method-header">
 <span class="verified-badge">✔ طريقة معتمدة</span>
@@ -55,7 +102,7 @@
 <div style="font-weight:800;font-size:0.9rem;margin-bottom:6px">ℹ️ معلومات التحويل</div>
 <div class="code-display">
 <span class="code-label">Transfer code / العنوان</span>
-<div class="code-val" id="mAddress">ضع_كود_شام_كاش_الخاص_بك_هنا</div>
+<div class="code-val" id="mAddress">8b1e5f9c2a4d7e6b3f1a8c9d0e2f80fbf9</div>
 <button class="copy-btn" onclick="copyCode()">📋 نسخ الكود</button>
 </div>
 <div class="min-note" id="mMinNote">الحد الأدنى لإضافة الرصيد 1 دولار فقط</div>
@@ -78,7 +125,6 @@
 </div>
 
 <script>
-// ضع عناوينك وأكواد الدفع الحقيقية هنا مكان النصوص التجريبية
 const paymentData = {
 sham_usd: {
 title: "شام كاش دولار ($)",
