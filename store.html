@@ -26,11 +26,14 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 .pills-row::-webkit-scrollbar{display:none}
 .info-pill{background:var(--bg-card);border:1px solid var(--border);padding:6px 14px;border-radius:50px;font-size:0.78rem;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:6px;color:var(--text-dim)}
 .dot-green{width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981}
-.promo-banner{background:linear-gradient(135deg,#3b0764 0%,#581c87 45%,#1e1b4b 100%);border:1px solid rgba(168,85,247,0.4);border-radius:20px;padding:22px 18px;text-align:center;margin-bottom:16px;box-shadow:0 10px 25px rgba(88,28,135,0.35)}
-.promo-banner h2{color:var(--gold);font-size:1.35rem;font-weight:900;margin-bottom:6px}
-.promo-banner p{font-size:0.88rem;color:#f3e8ff;font-weight:600}
-.promo-tag{display:inline-block;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.2);padding:3px 12px;border-radius:50px;font-size:0.75rem;margin-top:10px;color:var(--secondary);font-weight:800}
-.telecom-strip{background:linear-gradient(90deg,#7c3aed,#6366f1);border-radius:16px;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;cursor:pointer;box-shadow:0 6px 20px rgba(124,58,237,0.3)}
+.slider-box{position:relative;overflow:hidden;border-radius:20px;margin-bottom:16px;border:1px solid rgba(168,85,247,0.4);box-shadow:0 10px 25px rgba(0,0,0,0.4);height:160px}
+.slides{display:flex;transition:transform 0.5s ease-in-out;height:100%}
+.slide{min-width:100%;height:100%}
+.slide img{width:100%;height:100%;object-fit:cover;display:block}
+.dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(0,0,0,0.5);padding:4px 10px;border-radius:20px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:0.3s}
+.dot.active{width:20px;border-radius:10px;background:#06b6d4}
+ .telecom-strip{background:linear-gradient(90deg,#7c3aed,#6366f1);border-radius:16px;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;cursor:pointer;box-shadow:0 6px 20px rgba(124,58,237,0.3)}
 .telecom-text h3{font-size:1.05rem;font-weight:800}
 .telecom-text p{font-size:0.78rem;color:#e0e7ff}
 .telecom-icon{background:rgba(255,255,255,0.2);width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
@@ -45,15 +48,7 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 .service-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:12px 8px 14px;text-align:center;cursor:pointer;transition:0.25s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center}
 .service-card:hover,.service-card.active{border-color:var(--primary);background:#171c2c;transform:translateY(-3px);box-shadow:0 8px 20px rgba(124,58,237,0.2)}
 .card-visual{width:100%;height:76px;border-radius:14px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.vis-games{background:linear-gradient(135deg,#1e3a8a,#3b82f6)}
-.vis-chat{background:linear-gradient(135deg,#701a75,#d946ef)}
-.vis-wallet{background:linear-gradient(135deg,#065f46,#10b981)}
-.vis-social{background:linear-gradient(135deg,#9a3412,#f97316)}
-.vis-cards{background:linear-gradient(135deg,#991b1b,#ef4444)}
-.vis-design{background:linear-gradient(135deg,#0e7490,#06b6d4)}
-.vis-subs{background:linear-gradient(135deg,#3730a3,#6366f1)}
-.vis-vpn{background:linear-gradient(135deg,#1e293b,#475569)}
-.vis-accounts{background:linear-gradient(135deg,#854d0e,#eab308)}
+.vis-games{background:linear-gradient(135deg,#1e3a8a,#3b82f6)}.vis-chat{background:linear-gradient(135deg,#701a75,#d946ef)}.vis-wallet{background:linear-gradient(135deg,#065f46,#10b981)}.vis-social{background:linear-gradient(135deg,#9a3412,#f97316)}.vis-cards{background:linear-gradient(135deg,#991b1b,#ef4444)}.vis-design{background:linear-gradient(135deg,#0e7490,#06b6d4)}.vis-subs{background:linear-gradient(135deg,#3730a3,#6366f1)}.vis-vpn{background:linear-gradient(135deg,#1e293b,#475569)}.vis-accounts{background:linear-gradient(135deg,#854d0e,#eab308)}
 .corner-icon{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.45);width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.8rem}
 .service-card h4{font-size:0.82rem;font-weight:800;line-height:1.3}
 .order-container{background:var(--bg-card);border:1px solid rgba(124,58,237,0.4);border-radius:20px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,0.4)}
@@ -67,15 +62,14 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 .form-input[readonly]{color:var(--gold);background:#151a28}
 .order-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
 .btn-exec{padding:13px;border:none;border-radius:12px;font-weight:800;font-size:0.9rem;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;gap:6px}
-.btn-wa{background:#16a34a}
-.btn-tg{background:#0284c7}
+.btn-wa{background:#16a34a}.btn-tg{background:#0284c7}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#121622;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 10px;z-index:900}
 .nav-tab{text-decoration:none;color:var(--text-dim);font-size:0.72rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
 .nav-tab.active{color:var(--secondary)}
 </style>
 </head>
 <body>
-<div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
+ <div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
 <div class="drawer" id="sideDrawer">
 <div>
 <div class="drawer-header"><span style="font-weight:900;font-size:1.1rem;color:var(--secondary)">VC Store 1</span><button onclick="toggleDrawer()" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">✕</button></div>
@@ -104,10 +98,13 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 <div class="info-pill">🏷️ أسعار واضحة</div>
 </div>
 
-<div class="promo-banner">
-<h2>خدمات VC Store 1 الاحترافية</h2>
-<p>شحن جميع التطبيقات والألعاب والعملات الرقمية بأعلى سرعة وأمان</p>
-<span class="promo-tag">@VCSTOR1 • الدفع عبر شام كاش</span>
+<div class="slider-box">
+<div class="slides" id="adSlides">
+<div class="slide"><img src="ad1.jpg" alt="إعلان 1"></div>
+<div class="slide"><img src="ad2.jpg" alt="إعلان 2"></div>
+<div class="slide"><img src="ad3.jpg" alt="إعلان 3"></div>
+</div>
+<div class="dots"><span class="dot active" onclick="goSlide(0)"></span><span class="dot" onclick="goSlide(1)"></span><span class="dot" onclick="goSlide(2)"></span></div>
 </div>
 
 <div class="telecom-strip" onclick="selectCat('telecom',this)">
@@ -150,118 +147,27 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 <a href="https://t.me" target="_blank" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>طلباتي</a>
 </nav>
 <script>
-const API_CONFIG = {
-    serverUrl: "",
-    userToken: "",
-    autoMode: false
+let curSlide=0;
+function goSlide(n){curSlide=n;document.getElementById('adSlides').style.transform=`translateX(${curSlide*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===curSlide))}
+setInterval(()=>{goSlide((curSlide+1)%3)},3500);
+
+const API_CONFIG={serverUrl:"",userToken:"",autoMode:false};
+const storeCatalog={
+telecom:{title:"شحن رصيد وباقات (سيريتل / MTN)",label:"أدخل رقم الهاتف المراد شحنه (09xxxxxxxx):",placeholder:"مثال: 0939877779",packages:["تحويل وحدات - 1,000 وحدة","تحويل وحدات - 2,500 وحدة","تحويل وحدات - 5,000 وحدة","تحويل وحدات - 10,000 وحدة","تفعيل باقة إنترنت أو مكالمات"]},
+chat:{title:"تطبيقات الدردشة والبث المباشر",label:"أدخل معرف الحساب (ID) في التطبيق:",placeholder:"اكتب رقم الـ ID بدقة...",packages:["عملات تيك توك - 70 عملة (1$)","عملات تيك توك - 350 عملة (5$)","عملات تيك توك - 700 عملة (10$)","ألماس بيغو لايف (Bigo Live) - 2$","ألماس بيغو لايف (Bigo Live) - 10$","عملات يلا لايف / تطبيقات أخرى"]},
+wallet:{title:"الرصيد والعملات الرقمية",label:"أدخل عنوان المحفظة أو رقم الحساب:",placeholder:"عنوان USDT TRC20 أو رقم محفظة Payeer...",packages:["شحن رصيد USDT (TRC20) - 5$","شحن رصيد USDT (TRC20) - 10$","شحن رصيد USDT (TRC20) - 25$","شحن رصيد Payeer - 10$","تبديل رصيد شام كاش / حوالات"]},
+social:{title:"خدمات السوشيال ميديا",label:"ضع رابط الحساب أو المنشور:",placeholder:"https://instagram.com",packages:["1,000 متابع انستغرام / تيك توك","5,000 متابع انستغرام / تيك توك","1,000 لايك أو 10,000 مشاهدة","1,000 عضو قناة تيليغرام"]},
+cards:{title:"البطاقات الرقمية العالمية",label:"أدخل رقم الواتساب أو الإيميل لاستلام الكود:",placeholder:"0939000000 أو name@gmail.com",packages:["بطاقة جوجل بلاي أمريكي - 5$","بطاقة جوجل بلاي أمريكي - 10$","بطاقة آيتونز أمريكي - 10$","بطاقة بلايستيشن PSN - 10$","بطاقة ريزر جولد - 5$"]},
+design:{title:"برامج التصميم والمونتاج",label:"أدخل البريد الإلكتروني لتفعيل الحساب:",placeholder:"name@gmail.com",packages:["تفعيل كانفا برو (Canva Pro) - سنة كاملة","اشتراك كاب كات برو (CapCut Pro) - شهر","حساب أدوبي كريتيف كلاود (Adobe) - شهر"]},
+subs:{title:"اشتراكات الشاشات والترفيه",label:"أدخل الإيميل أو رقم الواتساب للاستلام:",placeholder:"name@gmail.com",packages:["اشتراك نتفليكس (Netflix 4K) - شهر","اشتراك شاهد VIP - شهر","اشتراك يوتيوب بريميوم - شهر","اشتراك ديزني بلس - شهر"]},
+vpn:{title:"خدمات VPN والبروكسي",label:"أدخل الإيميل أو رقم الواتساب لاستلام البيانات:",placeholder:"0939000000",packages:["اشتراك NordVPN - شهر كامل","اشتراك ExpressVPN - شهر كامل","بروكسي خاص سريع لتيليغرام"]},
+accounts:{title:"حسابات جاهزة وتوثيق",label:"أدخل رقم الواتساب للتواصل والتسليم:",placeholder:"0939000000",packages:["حساب جيميل أمريكي مفعل وجاهز","رقم وهمي لتفعيل واتساب أو تيليغرام","اشتراك تيليغرام مميز (Telegram Premium)"]}
 };
-
-const storeCatalog = {
-    telecom: {
-        title: "شحن رصيد وباقات (سيريتل / MTN)",
-        label: "أدخل رقم الهاتف المراد شحنه (09xxxxxxxx):",
-        placeholder: "مثال: 0939877779",
-        packages: ["تحويل وحدات - 1,000 وحدة", "تحويل وحدات - 2,500 وحدة", "تحويل وحدات - 5,000 وحدة", "تحويل وحدات - 10,000 وحدة", "تفعيل باقة إنترنت أو مكالمات"]
-    },
-    chat: {
-        title: "تطبيقات الدردشة والبث المباشر",
-        label: "أدخل معرف الحساب (ID) في التطبيق:",
-        placeholder: "اكتب رقم الـ ID بدقة...",
-        packages: ["عملات تيك توك - 70 عملة (1$)", "عملات تيك توك - 350 عملة (5$)", "عملات تيك توك - 700 عملة (10$)", "ألماس بيغو لايف (Bigo Live) - 2$", "ألماس بيغو لايف (Bigo Live) - 10$", "عملات يلا لايف / تطبيقات أخرى"]
-    },
-    wallet: {
-        title: "الرصيد والعملات الرقمية",
-        label: "أدخل عنوان المحفظة أو رقم الحساب:",
-        placeholder: "عنوان USDT TRC20 أو رقم محفظة Payeer...",
-        packages: ["شحن رصيد USDT (TRC20) - 5$", "شحن رصيد USDT (TRC20) - 10$", "شحن رصيد USDT (TRC20) - 25$", "شحن رصيد Payeer - 10$", "تبديل رصيد شام كاش / حوالات"]
-    },
-    social: {
-        title: "خدمات السوشيال ميديا",
-        label: "ضع رابط الحساب أو المنشور:",
-        placeholder: "https://instagram.com",
-        packages: ["1,000 متابع انستغرام / تيك توك", "5,000 متابع انستغرام / تيك توك", "1,000 لايك أو 10,000 مشاهدة", "1,000 عضو قناة تيليغرام"]
-    },
-    cards: {
-        title: "البطاقات الرقمية العالمية",
-        label: "أدخل رقم الواتساب أو الإيميل لاستلام الكود:",
-        placeholder: "0939000000 أو name@gmail.com",
-        packages: ["بطاقة جوجل بلاي أمريكي - 5$", "بطاقة جوجل بلاي أمريكي - 10$", "بطاقة آيتونز أمريكي - 10$", "بطاقة بلايستيشن PSN - 10$", "بطاقة ريزر جولد - 5$"]
-    },
-    design: {
-        title: "برامج التصميم والمونتاج",
-        label: "أدخل البريد الإلكتروني لتفعيل الحساب:",
-        placeholder: "name@gmail.com",
-        packages: ["تفعيل كانفا برو (Canva Pro) - سنة كاملة", "اشتراك كاب كات برو (CapCut Pro) - شهر", "حساب أدوبي كريتيف كلاود (Adobe) - شهر"]
-    },
-    subs: {
-        title: "اشتراكات الشاشات والترفيه",
-        label: "أدخل الإيميل أو رقم الواتساب للاستلام:",
-        placeholder: "name@gmail.com",
-        packages: ["اشتراك نتفليكس (Netflix 4K) - شهر", "اشتراك شاهد VIP - شهر", "اشتراك يوتيوب بريميوم - شهر", "اشتراك ديزني بلس - شهر"]
-    },
-    vpn: {
-        title: "خدمات VPN والبروكسي",
-        label: "أدخل الإيميل أو رقم الواتساب لاستلام البيانات:",
-        placeholder: "0939000000",
-        packages: ["اشتراك NordVPN - شهر كامل", "اشتراك ExpressVPN - شهر كامل", "بروكسي خاص سريع لتيليغرام"]
-    },
-    accounts: {
-        title: "حسابات جاهزة وتوثيق",
-        label: "أدخل رقم الواتساب للتواصل والتسليم:",
-        placeholder: "0939000000",
-        packages: ["حساب جيميل أمريكي مفعل وجاهز", "رقم وهمي لتفعيل واتساب أو تيليغرام", "اشتراك تيليغرام مميز (Telegram Premium)"]
-    }
-};
-
-function toggleDrawer() {
-    const d = document.getElementById('sideDrawer');
-    const o = document.getElementById('overlay');
-    d.classList.toggle('open');
-    o.style.display = d.classList.contains('open') ? 'block' : 'none';
-}
-
-function selectCat(key, el) {
-    const data = storeCatalog[key];
-    document.getElementById('catField').value = data.title;
-    document.getElementById('idFieldLabel').innerText = data.label;
-    document.getElementById('idField').placeholder = data.placeholder;
-    const s = document.getElementById('pkgField');
-    s.innerHTML = "";
-    data.packages.forEach(item => {
-        const opt = document.createElement("option");
-        opt.value = item;
-        opt.textContent = item;
-        s.appendChild(opt);
-    });
-    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
-    if (el && el.classList.contains('service-card')) el.classList.add('active');
-    document.getElementById('orderBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function filterCards() {
-    const q = document.getElementById('searchInput').value.toLowerCase();
-    document.querySelectorAll('.service-card').forEach(c => {
-        c.style.display = c.getAttribute('data-name').toLowerCase().includes(q) ? 'flex' : 'none';
-    });
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    selectCat('chat', document.querySelector('.service-card.active'));
-});
-
-function processOrder(ch) {
-    const cat = document.getElementById('catField').value;
-    const pkg = document.getElementById('pkgField').value;
-    const target = document.getElementById('idField').value.trim();
-    if (!target) {
-        alert('يرجى إدخال المعرف (ID) أو الرقم المطلوب أولاً!');
-        document.getElementById('idField').focus();
-        return;
-    }
-    const text = `طلب جديد من VC Store 1:%0Aالقسم: ${cat}%0Aالباقة: ${pkg}%0Aالبيانات: ${target}%0Aالدفع: شام كاش`;
-    const link = ch === 'wa' ? `https://wa.me{text}` : `https://t.me{text}`;
-    window.open(link, '_blank');
-}
+function toggleDrawer(){const d=document.getElementById('sideDrawer'),o=document.getElementById('overlay');d.classList.toggle('open');o.style.display=d.classList.contains('open')?'block':'none'}
+function selectCat(key,el){const data=storeCatalog[key];document.getElementById('catField').value=data.title;document.getElementById('idFieldLabel').innerText=data.label;document.getElementById('idField').placeholder=data.placeholder;const s=document.getElementById('pkgField');s.innerHTML="";data.packages.forEach(item=>{const opt=document.createElement("option");opt.value=item;opt.textContent=item;s.appendChild(opt)});document.querySelectorAll('.service-card').forEach(c=>c.classList.remove('active'));if(el&&el.classList.contains('service-card'))el.classList.add('active');document.getElementById('orderBox').scrollIntoView({behavior:'smooth',block:'nearest'})}
+function filterCards(){const q=document.getElementById('searchInput').value.toLowerCase();document.querySelectorAll('.service-card').forEach(c=>{c.style.display=c.getAttribute('data-name').toLowerCase().includes(q)?'flex':'none'})}
+window.addEventListener('DOMContentLoaded',()=>{selectCat('chat',document.querySelector('.service-card.active'))});
+function processOrder(ch){const cat=document.getElementById('catField').value,pkg=document.getElementById('pkgField').value,target=document.getElementById('idField').value.trim();if(!target){alert('يرجى إدخال المعرف (ID) أو الرقم المطلوب أولاً!');document.getElementById('idField').focus();return}const text=`طلب جديد من VC Store 1:%0Aالقسم: ${cat}%0Aالباقة: ${pkg}%0Aالبيانات: ${target}%0Aالدفع: شام كاش`;window.open(ch==='wa'?`https://wa.me{text}`:`https://t.me{text}`,'_blank')}
 </script>
 </body>
 </html>
