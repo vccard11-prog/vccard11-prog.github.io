@@ -86,64 +86,51 @@ header{background:rgba(18,22,34,0.95);backdrop-filter:blur(12px);padding:12px 4%
 </nav>
 
 <script>
-let currentFilter = 'all';
-
-// قراءة الطلبات المحفوظة في هاتف الزبون + إضافة طلب نموذجي إذا كانت القائمة فارغة
-function getOrders() {
-let saved = JSON.parse(localStorage.getItem('vc_orders') || '[]');
-if (saved.length === 0) {
-saved = [
-{ id: "#10024", service: "شحن شدات ببجي (60 UC)", target: "5123456789", date: "2026/11/17", price: 1.00, status: "done", time: "3 ثوانٍ" },
-{ id: "#10023", service: "شحن رصيد سيريتل كاش", target: "0939877779", date: "2026/11/16", price: 2.50, status: "done", time: "5 ثوانٍ" }
+let currentFilter='all';
+function getOrders(){
+let saved=JSON.parse(localStorage.getItem('vc_orders')||'[]');
+if(saved.length===0){
+saved=[
+{id:"#10024",service:"شحن شدات ببجي (60 UC)",target:"5123456789",date:"2026/11/17",price:1.00,status:"done",time:"3 ثوانٍ"},
+{id:"#10023",service:"شحن رصيد سيريتل كاش",target:"0939877779",date:"2026/11/16",price:2.50,status:"done",time:"5 ثوانٍ"}
 ];
 }
 return saved;
 }
-
-function setFilter(f, btn) {
-currentFilter = f;
-document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+function setFilter(f,btn){
+currentFilter=f;
+document.querySelectorAll('.filter-tab').forEach(b=>b.classList.remove('active'));
 btn.classList.add('active');
 renderOrders();
 }
-
-function renderOrders() {
-const all = getOrders();
-const q = document.getElementById('orderSearch').value.toLowerCase();
-
-// تحديث الإحصائيات
-document.getElementById('totalBadge').innerText = all.length + " طلب";
-document.getElementById('stTotal').innerText = all.length;
-document.getElementById('stWait').innerText = all.filter(o => o.status === 'wait').length;
-document.getElementById('stDone').innerText = all.filter(o => o.status === 'done').length;
-const spent = all.reduce((sum, o) => sum + (parseFloat(o.price) || 0), 0);
-document.getElementById('stSpent').innerText = "$" + spent.toFixed(2);
-
-const list = document.getElementById('ordersList');
-list.innerHTML = "";
-
-const filtered = all.filter(o => {
-const matchTab = currentFilter === 'all' || o.status === currentFilter;
-const matchSearch = o.id.toLowerCase().includes(q) || o.target.toLowerCase().includes(q) || o.service.toLowerCase().includes(q);
-return matchTab && matchSearch;
+function renderOrders(){
+const all=getOrders();
+const q=document.getElementById('orderSearch').value.toLowerCase();
+document.getElementById('totalBadge').innerText=all.length+" طلب";
+document.getElementById('stTotal').innerText=all.length;
+document.getElementById('stWait').innerText=all.filter(o=>o.status==='wait').length;
+document.getElementById('stDone').innerText=all.filter(o=>o.status==='done').length;
+const spent=all.reduce((sum,o)=>sum+(parseFloat(o.price)||0),0);
+document.getElementById('stSpent').innerText="$"+spent.toFixed(2);
+const list=document.getElementById('ordersList');
+list.innerHTML="";
+const filtered=all.filter(o=>{
+const matchTab=currentFilter==='all'||o.status===currentFilter;
+const matchSearch=o.id.toLowerCase().includes(q)||o.target.toLowerCase().includes(q)||o.service.toLowerCase().includes(q);
+return matchTab&&matchSearch;
 });
-
-if (filtered.length === 0) {
-list.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text-dim)">لا توجد طلبات مطابقة للبحث حالياً</div>`;
+if(filtered.length===0){
+list.innerHTML=`<div style="text-align:center;padding:40px;color:var(--text-dim)">لا توجد طلبات مطابقة للبحث حالياً</div>`;
 return;
 }
-
-filtered.forEach(o => {
-let stClass = o.status === 'done' ? 'st-done' : (o.status === 'wait' ? 'st-wait' : 'st-rej');
-let stText = o.status === 'done' ? 'مكتمل' : (o.status === 'wait' ? 'قيد الانتظار' : 'مرفوض');
-list.innerHTML += `
+filtered.forEach(o=>{
+let stClass=o.status==='done'?'st-done':(o.status==='wait'?'st-wait':'st-rej');
+let stText=o.status==='done'?'مكتمل':(o.status==='wait'?'قيد الانتظار':'مرفوض');
+list.innerHTML+=`
 <div class="order-card">
 <div class="oc-top">
-<div>
-<div class="oc-title">${o.service} <span class="web-tag">WEB</span></div>
-<div class="oc-id">${o.id}</div>
-</div>
-<div style="font-size:0.75rem;color:var(--text-dim)">⏱️ ${o.time || 'فوري'}</div>
+<div><div class="oc-title">${o.service} <span class="web-tag">WEB</span></div><div class="oc-id">${o.id}</div></div>
+<div style="font-size:0.75rem;color:var(--text-dim)">⏱️ ${o.time||'فوري'}</div>
 </div>
 <div class="oc-grid">
 <div class="oc-item"><span>المعرف/الرقم:</span><strong>${o.target}</strong></div>
@@ -156,8 +143,7 @@ list.innerHTML += `
 </div>`;
 });
 }
-
-window.onload = renderOrders;
+window.onload=renderOrders;
 </script>
 </body>
 </html>
