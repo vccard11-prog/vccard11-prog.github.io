@@ -1,117 +1,84 @@
-<header>
-<a href="deposit.html" class="wallet-pill">$0.00 +</a>
-<a href="store.html" class="brand">VC Store <span>1</span></a>
-<a href="store.html" class="back-btn">العودة ➔</a>
-</header>
-
-<div class="container">
-<div class="page-head">
-<h1>طلباتي</h1>
-<span class="count-pill" id="totalBadge">0 طلب</span>
-</div>
-
-<div class="stats-grid">
-<div class="stat-card"><div class="stat-val" id="stTotal">0</div><div class="stat-lbl">إجمالي</div></div>
-<div class="stat-card"><div class="stat-val" style="color:var(--yellow)" id="stWait">0</div><div class="stat-lbl">قيد الانتظار</div></div>
-<div class="stat-card"><div class="stat-val" style="color:var(--green)" id="stDone">0</div><div class="stat-lbl">مكتملة</div></div>
-<div class="stat-card"><div class="stat-val" style="color:var(--secondary)" id="stSpent">$0.00</div><div class="stat-lbl">المصروفات</div></div>
-</div>
-
-<input type="text" id="orderSearch" class="search-input" placeholder="بحث برقم الطلب أو Player ID..." onkeyup="renderOrders()">
-
-<div class="tabs-row">
-<button class="filter-tab active" onclick="setFilter('all',this)">الكل</button>
-<button class="filter-tab" onclick="setFilter('wait',this)">قيد الانتظار</button>
-<button class="filter-tab" onclick="setFilter('done',this)">مكتملة</button>
-<button class="filter-tab" onclick="setFilter('rej',this)">مرفوضة</button>
-</div>
-
-<div id="ordersList"></div>
-</div>
-
-<nav class="bottom-nav">
-<a href="index.html" class="nav-tab">🏠<div>الرئيسية</div></a>
-<a href="deposit.html" class="nav-tab">💳<div>إضافة رصيد</div></a>
-<a href="store.html" class="nav-tab">🛒<div>المتجر</div></a>
-<a href="orders.html" class="nav-tab active">📋<div>طلباتي</div></a>
-</nav>
-
-<script>
-let currentFilter = 'all';
-
-// قراءة الطلبات المحفوظة في هاتف الزبون + إضافة طلب نموذجي إذا كانت القائمة فارغة
-function getOrders() {
-let saved = JSON.parse(localStorage.getItem('vc_orders') || '[]');
-if (saved.length === 0) {
-saved = [
-{ id: "#10024", service: "شحن شدات ببجي (60 UC)", target: "5123456789", date: "2026/11/17", price: 1.00, status: "done", time: "3 ثوانٍ" },
-{ id: "#10023", service: "شحن رصيد سيريتل كاش", target: "0939877779", date: "2026/11/16", price: 2.50, status: "done", time: "5 ثوانٍ" }
-];
-}
-return saved;
-}
-
-function setFilter(f, btn) {
-currentFilter = f;
-document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
-btn.classList.add('active');
-renderOrders();
-}
-
-function renderOrders() {
-const all = getOrders();
-const q = document.getElementById('orderSearch').value.toLowerCase();
-
-// تحديث الإحصائيات
-document.getElementById('totalBadge').innerText = all.length + " طلب";
-document.getElementById('stTotal').innerText = all.length;
-document.getElementById('stWait').innerText = all.filter(o => o.status === 'wait').length;
-document.getElementById('stDone').innerText = all.filter(o => o.status === 'done').length;
-const spent = all.reduce((sum, o) => sum + (parseFloat(o.price) || 0), 0);
-document.getElementById('stSpent').innerText = "$" + spent.toFixed(2);
-
-const list = document.getElementById('ordersList');
-list.innerHTML = "";
-
-const filtered = all.filter(o => {
-const matchTab = currentFilter === 'all' || o.status === currentFilter;
-const matchSearch = o.id.toLowerCase().includes(q) || o.target.toLowerCase().includes(q) || o.service.toLowerCase().includes(q);
-return matchTab && matchSearch;
-});
-
-if (filtered.length === 0) {
-list.innerHTML = `<div style="text-align:center;padding:40px;color:var(--text-dim)">لا توجد طلبات مطابقة للبحث حالياً</div>`;
-return;
-}
-
-filtered.forEach(o => {
-let stClass = o.status === 'done' ? 'st-done' : (o.status === 'wait' ? 'st-wait' : 'st-rej');
-let stText = o.status === 'done' ? 'مكتمل' : (o.status === 'wait' ? 'قيد الانتظار' : 'مرفوض');
-list.innerHTML += `
-<div class="order-card">
-<div class="oc-top">
-<div>
-<div class="oc-title">${o.service} <span class="web-tag">WEB</span></div>
-<div class="oc-id">${o.id}</div>
-</div>
-<div style="font-size:0.75rem;color:var(--text-dim)">⏱️ ${o.time || 'فوري'}</div>
-</div>
-<div class="oc-grid">
-<div class="oc-item"><span>المعرف/الرقم:</span><strong>${o.target}</strong></div>
-<div class="oc-item"><span>التاريخ:</span><strong>${o.date}</strong></div>
-</div>
-<div class="oc-bottom">
-<div style="font-weight:800;font-size:0.95rem">الإجمالي: <span style="color:var(--secondary)">$${parseFloat(o.price).toFixed(2)}</span></div>
-<span class="status-badge ${stClass}">${stText}</span>
-</div>
-</div>`;
-});
-}
-
-window.onload = renderOrders;
-</script>
-</body>
-</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VC Store 1 | المنصة الرقمية المتكاملة</title>
+<link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
+<link rel="apple-touch-icon" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7c3aed">
+<style>
+@import url('https://googleapis.com');
+:root{--bg-dark:#090b10;--bg-card:#121622;--bg-elevated:#191f30;--primary:#7c3aed;--primary-glow:rgba(124,58,237,0.4);--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:85px;overflow-x:hidden}
+header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:900}
+.wallet-box{background:#1a2035;border:1px solid rgba(6,182,212,0.4);padding:5px 12px;border-radius:50px;display:flex;align-items:center;gap:8px;font-weight:800;font-size:0.9rem;text-decoration:none;color:#fff}
+.plus-badge{background:var(--secondary);color:#000;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
+.brand-title{font-size:1.3rem;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
+.brand-title img{width:34px;height:34px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.15)}
+.brand-title span{color:var(--primary)}
+.menu-btn{background:var(--primary);border:none;color:#fff;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 12px var(--primary-glow)}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1100;display:none}
+.drawer{position:fixed;top:0;right:-280px;width:270px;height:100%;background:#101420;border-left:1px solid var(--border);z-index:1200;padding:20px;transition:0.3s ease;display:flex;flex-direction:column;justify-content:space-between}
+.drawer.open{right:0}
+.drawer-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:15px;border-bottom:1px solid var(--border);margin-bottom:15px}
+.drawer-links a{display:flex;align-items:center;gap:12px;padding:12px;color:var(--text-main);text-decoration:none;border-radius:10px;margin-bottom:6px;font-weight:700;font-size:0.9rem}
+.drawer-links a:hover{background:var(--bg-elevated);color:var(--secondary)}
+.container{max-width:800px;margin:14px auto;padding:0 14px}
+.pills-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;scrollbar-width:none}
+.pills-row::-webkit-scrollbar{display:none}
+.info-pill{background:var(--bg-card);border:1px solid var(--border);padding:6px 14px;border-radius:50px;font-size:0.78rem;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:6px;color:var(--text-dim)}
+.dot-green{width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981}
+.slider-box{position:relative;overflow:hidden;border-radius:20px;margin-bottom:16px;border:1px solid rgba(168,85,247,0.4);box-shadow:0 10px 25px rgba(0,0,0,0.4);height:165px}
+.slides{display:flex;transition:transform 0.5s ease-in-out;height:100%}
+.slide{min-width:100%;height:100%}
+.slide img{width:100%;height:100%;object-fit:cover;display:block}
+.dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(0,0,0,0.5);padding:4px 10px;border-radius:20px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:0.3s}
+.dot.active{width:20px;border-radius:10px;background:#06b6d4}
+.telecom-strip{background:linear-gradient(90deg,#7c3aed,#6366f1);border-radius:16px;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;cursor:pointer;box-shadow:0 6px 20px rgba(124,58,237,0.3);transition:0.2s}
+.telecom-strip:hover{transform:translateY(-2px)}
+.telecom-text h3{font-size:1.05rem;font-weight:800}
+.telecom-text p{font-size:0.78rem;color:#e0e7ff}
+.telecom-icon{background:rgba(255,255,255,0.2);width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.search-wrap{position:relative;margin-bottom:20px}
+.search-input{width:100%;background:var(--bg-card);border:1px solid var(--border);padding:12px 42px 12px 15px;border-radius:14px;color:#fff;font-size:0.9rem}
+.search-input:focus{outline:none;border-color:var(--primary)}
+.search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-dim)}
+.cat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.cat-header h3{font-size:1.1rem;font-weight:800;border-right:4px solid var(--primary);padding-right:10px}
+.all-badge{background:var(--bg-elevated);padding:4px 12px;border-radius:50px;font-size:0.78rem;color:var(--text-dim);font-weight:700}
+.grid-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.service-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:12px 8px 14px;text-align:center;cursor:pointer;transition:0.25s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center}
+.service-card:hover{border-color:var(--secondary);background:#171c2c;transform:translateY(-3px);box-shadow:0 8px 20px rgba(6,182,212,0.2)}
+.card-visual{width:100%;height:76px;border-radius:14px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.vis-games{background:linear-gradient(135deg,#1e3a8a,#3b82f6)}.vis-chat{background:linear-gradient(135deg,#701a75,#d946ef)}.vis-wallet{background:linear-gradient(135deg,#065f46,#10b981)}.vis-social{background:linear-gradient(135deg,#9a3412,#f97316)}.vis-cards{background:linear-gradient(135deg,#991b1b,#ef4444)}.vis-design{background:linear-gradient(135deg,#0e7490,#06b6d4)}.vis-subs{background:linear-gradient(135deg,#3730a3,#6366f1)}.vis-vpn{background:linear-gradient(135deg,#1e293b,#475569)}.vis-accounts{background:linear-gradient(135deg,#854d0e,#eab308)}
+.corner-icon{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.45);width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.8rem}
+.service-card h4{font-size:0.82rem;font-weight:800;line-height:1.3}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(6px);z-index:1300;display:none;align-items:center;justify-content:center;padding:15px}
+.modal-overlay.show{display:flex}
+.modal-box{background:#141926;border:1px solid rgba(124,58,237,0.5);border-radius:22px;width:100%;max-width:440px;padding:22px;position:relative;animation:popIn 0.25s ease}
+@keyframes popIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
+.close-modal{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer}
+.modal-title{font-size:1.15rem;font-weight:900;color:var(--gold);margin-bottom:4px;padding-left:35px}
+.modal-sub{font-size:0.78rem;color:var(--text-dim);margin-bottom:18px}
+.form-row{margin-bottom:14px}
+.form-row label{display:block;font-size:0.82rem;color:var(--text-dim);margin-bottom:6px;font-weight:700}
+.form-input{width:100%;padding:12px 14px;background:#090b10;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.92rem;font-weight:600}
+.form-input:focus{outline:none;border-color:var(--secondary)}
+.order-buttons{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-top:20px}
+.btn-exec{padding:13px;border:none;border-radius:12px;font-weight:800;font-size:0.92rem;cursor:pointer;color:#fff;transition:0.2s}
+.btn-confirm{background:linear-gradient(90deg,#7c3aed,#06b6d4);box-shadow:0 4px 15px rgba(124,58,237,0.35)}
+.btn-cancel{background:#23293d;color:var(--text-dim)}
+.btn-confirm:hover{filter:brightness(1.1)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#121622;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 10px;z-index:900}
+.nav-tab{text-decoration:none;color:var(--text-dim);font-size:0.72rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
+.nav-tab.active{color:var(--secondary)}
+</style>
+</head>
+<body>
 <div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
 <div class="drawer" id="sideDrawer">
 <div>
@@ -171,7 +138,7 @@ window.onload = renderOrders;
 </div>
 </div>
 
-<!-- النافذة المنبثقة المباشرة (تأكيد الشراء / إلغاء) -->
+<!-- النافذة المنبثقة المباشرة -->
 <div class="modal-overlay" id="catModal" onclick="if(event.target===this)closeCatModal()">
 <div class="modal-box">
 <button class="close-modal" onclick="closeCatModal()">✕</button>
@@ -187,12 +154,7 @@ window.onload = renderOrders;
 </div>
 
 <nav class="bottom-nav">
-<a href="index.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>الرئيسية</a>
-<a href="deposit.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>إضافة رصيد</a>
-<a href="store.html" class="nav-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect></svg>المتجر</a>
-<a href="orders.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>طلباتي</a>
-</nav>
-<script>
+<a href="index.html" class="nav-tab"><svg widt<script>
 let curSlide=0;
 function goSlide(n){curSlide=n;document.getElementById('adSlides').style.transform=`translateX(${curSlide*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===curSlide))}
 setInterval(()=>{goSlide((curSlide+1)%2)},3500);
@@ -304,3 +266,8 @@ window.location.href='orders.html';
 </script>
 </body>
 </html>
+h="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>الرئيسية</a>
+<a href="deposit.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>إضافة رصيد</a>
+<a href="store.html" class="nav-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect></svg>المتجر</a>
+<a href="orders.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>طلباتي</a>
+</nav>
