@@ -1,0 +1,163 @@
+ط<header>
+<button class="back-btn" id="topBackBtn" onclick="goBack()">العودة للمتجر</button>
+<a href="store.html" class="brand">VC Store <span>1</span></a>
+</header>
+
+<div class="container">
+<!-- القسم 1: اختيار وسيلة الإيداع -->
+<div class="section-card" id="methodsList">
+<div class="sec-title">اختر وسيلة الإيداع</div>
+<div class="methods-grid">
+<div class="method-item" onclick="openMethod('sham_usd')">
+<span class="auto-tag">⚡ تلقائي</span>
+<div class="method-icon ic-sham-usd">$</div>
+<h4>شام كاش دولار</h4>
+</div>
+
+<div class="method-item" onclick="openMethod('sham_syp')">
+<span class="auto-tag">⚡ تلقائي</span>
+<div class="method-icon ic-sham-syp">ل.س</div>
+<h4>شام كاش ليرة</h4>
+</div>
+
+<div class="method-item" onclick="openMethod('syriatel')">
+<span class="auto-tag">⚡ تلقائي</span>
+<div class="method-icon ic-syr">S</div>
+<h4>سيريتل كاش</h4>
+</div>
+
+<div class="method-item" onclick="openMethod('usdt_trc20')">
+<span class="auto-tag">⚡ تلقائي</span>
+<div class="method-icon ic-usdt">₮</div>
+<h4>USDT (TRC20)</h4>
+</div>
+
+<div class="method-item" onclick="openMethod('binance')">
+<div class="method-icon ic-bin">B</div>
+<h4>Binance Pay</h4>
+</div>
+
+<div class="method-item" onclick="openMethod('payeer')">
+<div class="method-icon ic-pay">P</div>
+<h4>Payeer / حوالات</h4>
+</div>
+</div>
+</div>
+
+<!-- القسم 2: تفاصيل التحويل وتأكيد الإيداع -->
+<div class="section-card" id="paymentDetails">
+<div class="method-header">
+<span class="verified-badge">✔ طريقة معتمدة</span>
+<h2 id="mTitle">شام كاش دولار</h2>
+</div>
+
+<div class="transfer-box">
+<div style="font-weight:800;font-size:0.9rem;margin-bottom:6px">ℹ️ معلومات التحويل</div>
+<div class="code-display">
+<span class="code-label">Transfer code / العنوان</span>
+<div class="code-val" id="mAddress">ضع_كود_شام_كاش_الخاص_بك_هنا</div>
+<button class="copy-btn" onclick="copyCode()">📋 نسخ الكود</button>
+</div>
+<div class="min-note" id="mMinNote">الحد الأدنى لإضافة الرصيد 1 دولار فقط</div>
+</div>
+
+<div class="field">
+<label># رقم العملية / TXID</label>
+<input type="text" id="txidInput" placeholder="أدخل رقم العملية أو معرف التحويل">
+</div>
+
+<div class="field">
+<label>$ المبلغ المحول (بالدولار)</label>
+<input type="number" id="amountInput" placeholder="أدخل المبلغ بالدولار (مثال: 5)">
+</div>
+
+<div class="api-note">⚡ سيتم إضافة الرصيد تلقائياً بعد مطابقة الحوالة عبر النظام</div>
+
+<button class="submit-btn" onclick="confirmDeposit()">🚀 تأكيد الإيداع</button>
+</div>
+</div>
+
+<script>
+// ضع عناوينك وأكواد الدفع الحقيقية هنا مكان النصوص التجريبية
+const paymentData = {
+sham_usd: {
+title: "شام كاش دولار ($)",
+address: "8b1e5f9c2a4d7e6b3f1a8c9d0e2f80fbf9",
+min: "الحد الأدنى لإضافة الرصيد 1 دولار فقط"
+},
+sham_syp: {
+title: "شام كاش ليرة سورية",
+address: "8b1e5f9c2a4d7e6b3f1a8c9d0e2f80fbf9",
+min: "الحد الأدنى لإضافة الرصيد ما يعادل 1 دولار"
+},
+syriatel: {
+title: "سيريتل كاش (تحويل يدوي / كود تاجر)",
+address: "0939877779",
+min: "يرجى التحويل كود تاجر أو تحويل رصيد وإدخال رقم العملية"
+},
+usdt_trc20: {
+title: "USDT (شبكة TRC20)",
+address: "TYourUSDTWalletAddressHere123456789",
+min: "الحد الأدنى للإيداع 5 USDT على شبكة TRC20"
+},
+binance: {
+title: "Binance Pay ID",
+address: "123456789",
+min: "الحد الأدنى للإيداع 1 دولار عبر معرف باينانس"
+},
+payeer: {
+title: "محفظة Payeer",
+address: "P100000000",
+min: "الحد الأدنى للإيداع 1 دولار"
+}
+};
+
+let currentMethodName = "";
+
+function openMethod(key) {
+const data = paymentData[key];
+currentMethodName = data.title;
+document.getElementById('mTitle').innerText = data.title;
+document.getElementById('mAddress').innerText = data.address;
+document.getElementById('mMinNote').innerText = data.min;
+
+document.getElementById('methodsList').style.display = 'none';
+document.getElementById('paymentDetails').style.display = 'block';
+document.getElementById('topBackBtn').innerText = '← العودة للطرق';
+}
+
+function goBack() {
+if (document.getElementById('paymentDetails').style.display === 'block') {
+document.getElementById('paymentDetails').style.display = 'none';
+document.getElementById('methodsList').style.display = 'block';
+document.getElementById('topBackBtn').innerText = 'العودة للمتجر';
+} else {
+window.location.href = 'store.html';
+}
+}
+
+function copyCode() {
+const codeText = document.getElementById('mAddress').innerText;
+navigator.clipboard.writeText(codeText);
+alert('تم نسخ كود التحويل بنجاح: ' + codeText);
+}
+
+function confirmDeposit() {
+const txid = document.getElementById('txidInput').value.trim();
+const amount = document.getElementById('amountInput').value.trim();
+
+if (!txid || !amount) {
+alert('يرجى إدخال رقم العملية (TXID) والمبلغ المحول أولاً!');
+return;
+}
+
+const msg = `طلب تأكيد إيداع رصيد في VC Store 1:%0A` +
+`💳 الوسيلة: ${currentMethodName}%0A` +
+`#️⃣ رقم العملية: ${txid}%0A` +
+`💵 المبلغ: ${amount}$`;
+
+window.open(`https://t.me{msg}`, '_blank');
+}
+</script>
+</body>
+</html>
