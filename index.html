@@ -3,224 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VC Store 1 | Value Card - حلول الشحن والبرمجة</title>
+    <title>VC Store 1 | متجر الشحن والخدمات الرقمية</title>
     <style>
         @import url('https://googleapis.com');
-
-        :root {
-            --bg-dark: #0a0b10;
-            --card-bg: #131622;
-            --primary-blue: #00d2ff;
-            --accent-gold: #ffd700;
-            --text-light: #ffffff;
-            --text-muted: #a0a8b8;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background-color: #0b0d14; color: #fff; padding-bottom: 85px; }
+        
+        /* الشريط العلوي */
         header {
-            background: rgba(19, 22, 34, 0.9);
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: #141824; padding: 14px 5%; display: flex;
+            justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #23293d; position: sticky; top: 0; z-index: 100;
         }
+        .wallet {
+            background: #1e2436; border: 1px solid #00d2ff; padding: 5px 14px;
+            border-radius: 20px; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 6px;
+        }
+        .wallet span { background: #00d2ff; color: #000; border-radius: 50%; width: 18px; height: 18px; display: inline-flex; justify-content: center; align-items: center; font-weight: 900; }
+        .logo { font-size: 1.3rem; font-weight: 900; color: #fff; text-decoration: none; }
+        .logo span { color: #00d2ff; }
+        .home-btn { background: #6c47ff; color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; }
 
-        .logo {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: var(--primary-blue);
-            letter-spacing: 1px;
-        }
+        .container { max-width: 800px; margin: 18px auto; padding: 0 15px; }
 
-        .logo span {
-            color: var(--accent-gold);
+        /* البنر الإعلاني */
+        .banner {
+            background: linear-gradient(135deg, #4b2a99, #1f1647);
+            border: 1px solid #7c52ff; border-radius: 16px; padding: 22px 15px;
+            text-align: center; margin-bottom: 18px; box-shadow: 0 6px 20px rgba(108, 71, 255, 0.25);
         }
+        .banner h2 { color: #ffd700; font-size: 1.3rem; margin-bottom: 6px; }
+        .banner p { color: #e0e0e0; font-size: 0.9rem; }
 
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-            background: radial-gradient(circle at top, rgba(0, 210, 255, 0.15), transparent 70%);
+        /* شريط شحن الرصيد السريع */
+        .quick-topup {
+            background: linear-gradient(90deg, #6c47ff, #4c2db8);
+            border-radius: 14px; padding: 15px 18px; display: flex;
+            justify-content: space-between; align-items: center; margin-bottom: 22px; cursor: pointer;
         }
+        .quick-topup h3 { font-size: 1.05rem; margin-bottom: 3px; }
+        .quick-topup p { font-size: 0.8rem; color: #dcd6ff; }
+        .quick-icon { font-size: 1.8rem; background: rgba(255,255,255,0.15); padding: 8px 12px; border-radius: 10px; }
 
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 15px;
+        /* التصنيفات */
+        .sec-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .sec-head h3 { font-size: 1.15rem; border-right: 4px solid #6c47ff; padding-right: 10px; }
+        .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 25px; }
+        .cat-card {
+            background: #141824; border: 1px solid #23293d; border-radius: 14px;
+            padding: 16px 8px; text-align: center; cursor: pointer; transition: 0.2s; height: 100%;
         }
+        .cat-card:hover, .cat-card.active { border-color: #6c47ff; background: #1c2236; transform: translateY(-2px); }
+        .cat-icon { font-size: 2rem; margin-bottom: 8px; }
+        .cat-card h4 { font-size: 0.85rem; color: #f0f0f0; }
 
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 650px;
-            margin: 0 auto 30px;
+        /* صندوق الطلب */
+        .order-box { background: #141824; border: 1px solid #2b324a; border-radius: 16px; padding: 20px; }
+        .order-box h3 { color: #00d2ff; margin-bottom: 15px; font-size: 1.1rem; }
+        .field { margin-bottom: 14px; }
+        .field label { display: block; font-size: 0.85rem; color: #a0a8b8; margin-bottom: 6px; }
+        .field input, .field select {
+            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #2b324a;
+            background: #0b0d14; color: #fff; font-size: 0.95rem;
         }
+        .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+        .btn { padding: 12px; border: none; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+        .btn-wa { background: #25D366; color: #000; }
+        .btn-tg { background: #0088cc; color: #fff; }
 
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
+        /* القائمة السفلية */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; background: #141824;
+            border-top: 1px solid #23293d; display: flex; justify-content: space-around; padding: 10px 0; z-index: 100;
         }
-
-        .btn {
-            padding: 12px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: 0.3s;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: linear-gradient(45deg, #00d2ff, #0072ff);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--accent-gold);
-            color: var(--accent-gold);
-        }
-
-        .btn-secondary:hover {
-            background: var(--accent-gold);
-            color: #000;
-        }
-
-        .section {
-            padding: 60px 5%;
-            max-width: 1100px;
-            margin: auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 40px;
-            color: var(--primary-blue);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
-            height: 100%;
-        }
-
-        .card:hover {
-            border-color: var(--primary-blue);
-            transform: translateY(-5px);
-        }
-
-        .card h3 {
-            color: var(--accent-gold);
-            margin-bottom: 10px;
-            font-size: 1.3rem;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(0, 210, 255, 0.1);
-            color: var(--primary-blue);
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            margin-top: 15px;
-            font-weight: 600;
-        }
-
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            background: var(--card-bg);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 50px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
+        .nav-item { text-align: center; color: #8c95aa; text-decoration: none; font-size: 0.75rem; }
+        .nav-item.active { color: #00d2ff; font-weight: 700; }
+        .nav-item div { font-size: 1.2rem; margin-bottom: 2px; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">VC Store <span>1</span></div>
-        <div style="color: var(--text-muted); font-size: 0.9rem;">Value Card Solutions</div>
+        <div class="wallet">$0.00 <span>+</span></div>
+        <a href="index.html" class="logo">VC Store <span>1</span></a>
+        <a href="index.html" class="home-btn">الرئيسية</a>
     </header>
 
-    <section class="hero">
-        <h1>منصة <span style="color: var(--primary-blue);">Value Card</span> للحلول الرقمية والبرمجية</h1>
-        <p>مطور أنظمة أتمتة وبوتات بلغة بايثون ومؤسس منصة شحن الألعاب والتطبيقات الفورية بأعلى معايير الأمان والسرعة.</p>
-        <div class="btn-group">
-            <a href="store.html" class="btn btn-primary">دخول متجر الشحن 🛒</a>
-            <a href="https://t.me" class="btn btn-secondary" target="_blank">تواصل عبر تيليغرام</a>
-            <a href="https://wa.me" class="btn btn-secondary" target="_blank">اطلب عبر واتساب</a>
+    <div class="container">
+        <div class="banner">
+            <h2>خدمات VC Store 1 الرقمية</h2>
+            <p>شحن جميع الألعاب، التطبيقات، والرصيد بأسرع تنفيذ وأفضل الأسعار</p>
         </div>
-    </section>
 
-    <section class="section">
-        <h2 class="section-title">معرض الأعمال والخدمات الاحترافية</h2>
-        <div class="grid">
-            <a href="store.html" style="text-decoration: none; color: inherit;">
-                <div class="card" style="border-color: var(--primary-blue); cursor: pointer;">
-                    <h3>نظام شحن الألعاب والتطبيقات 🛒</h3>
-                    <p>توفير كافة بطاقات الشحن، شدات ببجي، جواهر فري فاير، واشتراكات التطبيقات العالمية بتنفيذ فوري وموثوق.</p>
-                    <span class="badge" style="background: var(--primary-blue); color: #000;">اضغط هنا للدخول للمتجر ⬅️</span>
+        <div class="quick-topup" onclick="chooseCat('شحن رصيد سيريتل و MTN')">
+            <div>
+                <h3>شحن رصيد وباقات</h3>
+                <p>سيريتل و MTN • أدخل رقمك واختر الفئة</p>
+            </div>
+            <div class="quick-icon">📱</div>
+        </div>
+
+        <div class="sec-head">
+            <h3>جميع التصنيفات</h3>
+        </div>
+
+        <div class="cat-grid">
+            <a href="games.html" style="text-decoration: none; color: inherit;">
+                <div class="cat-card active" style="border-color: #00d2ff;">
+                    <div class="cat-icon">🎮</div>
+                    <h4>الألعاب</h4>
                 </div>
             </a>
-
-            <div class="card">
-                <h3>برمجة بوتات تيليغرام الذكية</h3>
-                <p>تطوير بوتات إدارة المتاجر، أنظمة الرد الآلي، ولوحات التحكم المتقدمة بلغة بايثون لتسهيل المبيعات على مدار الساعة.</p>
-                <span class="badge">Python Automation</span>
+            <div class="cat-card" onclick="chooseCat('تطبيقات الدردشة والبث', this)">
+                <div class="cat-icon">💬</div>
+                <h4>تطبيقات الدردشة</h4>
             </div>
-
-            <div class="card">
-                <h3>ربط بوابات الدفع والـ API</h3>
-                <p>دمج أنظمة الوساطة المالية وواجهات برمجة التطبيقات لتنفيذ الطلبات الرقمية تلقائياً دون تدخل بشري.</p>
-                <span class="badge">API Integration</span>
+            <div class="cat-card" onclick="chooseCat('الرصيد والعملات الرقمية', this)">
+                <div class="cat-icon">💳</div>
+                <h4>الرصيد والعملات</h4>
+            </div>
+            <div class="cat-card" onclick="chooseCat('خدمات السوشيال ميديا', this)">
+                <div class="cat-icon">📈</div>
+                <h4>سوشيال ميديا</h4>
+            </div>
+            <div class="cat-card" onclick="chooseCat('البطاقات الرقمية', this)">
+                <div class="cat-icon">🎫</div>
+                <h4>البطاقات</h4>
+            </div>
+            <div class="cat-card" onclick="chooseCat('اشتراكات وتطبيقات', this)">
+                <div class="cat-icon">🎬</div>
+                <h4>اشتراكات</h4>
             </div>
         </div>
-    </section>
 
-    <footer>
-        <p>جميع الحقوق محفوظة &copy; 2026 - <strong>VC Store 1 (Value Card)</strong></p>
-        <p style="margin-top: 5px; font-size: 0.8rem;">تم التطوير والبرمجة بواسطة فريق Value Card التقني</p>
-    </footer>
+        <div class="order-box" id="orderForm">
+            <h3>إتمام طلب الشحن الفوري</h3>
+            <div class="field">
+                <label>القسم المختار:</label>
+                <input type="text" id="catInput" value="تطبيقات الدردشة والبث" readonly>
+            </div>
+            <div class="field">
+                <label>اختر الباقة أو الفئة:</label>
+                <select id="pkgInput">
+                    <option value="فئة 1$">فئة 1$</option>
+                    <option value="فئة 5$">فئة 5$</option>
+                    <option value="فئة 10$">فئة 10$</option>
+                    <option value="فئة 25$">فئة 25$</option>
+                    <option value="مبلغ مخصص حسب الطلب">مبلغ مخصص (تحديد بالمحادثة)</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>أدخل معرف الحساب (ID) أو رقم الهاتف:</label>
+                <input type="text" id="idInput" placeholder="اكتب الـ ID أو الرقم هنا...">
+            </div>
+            <div class="btns">
+                <button class="btn btn-wa" onclick="sendReq('wa')">اطلب عبر واتساب</button>
+                <button class="btn btn-tg" onclick="sendReq('tg')">اطلب عبر تيليغرام</button>
+            </div>
+        </div>
+    </div>
 
+    <div class="bottom-nav">
+        <a href="index.html" class="nav-item"><div>🏠</div>الرئيسية</a>
+        <a href="#orderForm" class="nav-item active"><div>🛒</div>الطلب السريع</a>
+        <a href="https://wa.me" class="nav-item"><div>💰</div>إضافة رصيد</a>
+        <a href="https://t.me" class="nav-item"><div>🎧</div>الدعم الفني</a>
+    </div>
+
+    <script>
+        function chooseCat(name, el) {
+            document.getElementById('catInput').value = name;
+            if (el) {
+                document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
+                el.classList.add('active');
+            }
+            document.getElementById('orderForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function sendReq(type) {
+            let cat = document.getElementById('catInput').value;
+            let pkg = document.getElementById('pkgInput').value;
+            let id = document.getElementById('idInput').value.trim();
+            if (!id) { alert('يرجى إدخال معرف الحساب (ID) أو رقم الهاتف أولاً'); return; }
+            let msg = `مرحباً VC Store 1، طلب جديد:%0A🔹 القسم: ${cat}%0A📦 الفئة: ${pkg}%0A🆔 المعرف/الرقم: ${id}%0A💳 الدفع: شام كاش`;
+            if (type === 'wa') window.open(`https://wa.me?text=${msg}`, '_blank');
+            else window.open(`https://t.me?text=${msg}`, '_blank');
+        }
+    </script>
 </body>
 </html>
