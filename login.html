@@ -7,154 +7,96 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif}
 body{background:linear-gradient(145deg,#06080d 0%,#101526 50%,#080b12 100%);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
-.glass-card{background:rgba(18,24,40,0.85);backdrop-filter:blur(16px);border:1px solid rgba(6,182,212,0.3);border-radius:28px;width:100%;max-width:400px;padding:30px 22px;box-shadow:0 20px 50px rgba(0,0,0,0.7),0 0 30px rgba(124,58,237,0.15)}
-.top-badge{display:inline-block;background:rgba(124,58,237,0.2);color:#a78bfa;border:1px solid rgba(124,58,237,0.4);padding:4px 12px;border-radius:50px;font-size:0.75rem;font-weight:800;margin-bottom:12px}
-.header{text-align:center;margin-bottom:22px}
-.header h1{font-size:1.6rem;font-weight:900;letter-spacing:0.5px}
+.glass-card{background:rgba(18,24,40,0.92);border:1px solid rgba(6,182,212,0.3);border-radius:26px;width:100%;max-width:400px;padding:28px 22px;box-shadow:0 20px 50px rgba(0,0,0,0.7)}
+.header{text-align:center;margin-bottom:20px}
+.header h1{font-size:1.6rem;font-weight:900}
 .header h1 span{color:#06b6d4}
 .header p{font-size:0.82rem;color:#94a3b8;margin-top:4px}
-.switch-bar{display:flex;background:#090d16;padding:5px;border-radius:14px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.06)}
-.sw-btn{flex:1;padding:10px;border:none;background:none;color:#94a3b8;font-weight:800;font-size:0.88rem;border-radius:10px;cursor:pointer;transition:0.25s}
-.sw-btn.active{background:linear-gradient(90deg,#7c3aed,#6366f1);color:#fff;box-shadow:0 4px 15px rgba(124,58,237,0.4)}
-.input-group{position:relative;margin-bottom:14px}
-.input-group span{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1.1rem}
-.input-group input{width:100%;padding:13px 42px 13px 14px;background:#090d16;border:1px solid #232c45;border-radius:14px;color:#fff;font-size:0.95rem;transition:0.2s}
-.input-group input:focus{outline:none;border-color:#06b6d4;box-shadow:0 0 12px rgba(6,182,212,0.25)}
-.action-btn{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(90deg,#06b6d4,#7c3aed);color:#fff;font-weight:900;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px;box-shadow:0 8px 25px rgba(6,182,212,0.3)}
-.action-btn:disabled{opacity:0.65;cursor:not-allowed}
+.google-btn{width:100%;padding:13px;background:#fff;color:#111827;border:none;border-radius:14px;font-weight:800;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;box-shadow:0 4px 15px rgba(255,255,255,0.1)}
+.divider{display:flex;align-items:center;text-align:center;color:#64748b;font-size:0.78rem;margin-bottom:16px}
+.divider::before,.divider::after{content:'';flex:1;border-bottom:1px solid rgba(255,255,255,0.08)}
+.divider:not(:empty)::before{margin-left:10px}
+.divider:not(:empty)::after{margin-right:10px}
+.switch-bar{display:flex;background:#090d16;padding:5px;border-radius:14px;margin-bottom:16px}
+.sw-btn{flex:1;padding:9px;border:none;background:none;color:#94a3b8;font-weight:800;font-size:0.86rem;border-radius:10px;cursor:pointer}
+.sw-btn.active{background:linear-gradient(90deg,#7c3aed,#6366f1);color:#fff}
+.input-group{position:relative;margin-bottom:12px}
+.input-group span{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1.05rem}
+.input-group input{width:100%;padding:12px 42px 12px 14px;background:#090d16;border:1px solid #232c45;border-radius:13px;color:#fff;font-size:0.92rem}
+.action-btn{width:100%;padding:14px;border:none;border-radius:14px;background:linear-gradient(90deg,#06b6d4,#7c3aed);color:#fff;font-weight:900;font-size:0.96rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
 .spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:rot 0.7s linear infinite;display:none}
 @keyframes rot{to{transform:rotate(360deg)}}
-.alert-box{margin-top:14px;padding:11px;border-radius:12px;font-size:0.82rem;font-weight:700;text-align:center;display:none}
-.alert-err{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3);display:block}
-.alert-ok{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3);display:block}
-.footer-link{display:block;text-align:center;margin-top:18px;color:#94a3b8;text-decoration:none;font-size:0.84rem;font-weight:700}
+.alert-box{margin-top:12px;padding:10px;border-radius:11px;font-size:0.8rem;font-weight:700;text-align:center;display:none}
+.alert-err{background:rgba(239,68,68,0.15);color:#f87171;display:block}
+.alert-ok{background:rgba(16,185,129,0.15);color:#34d399;display:block}
+.footer-link{display:block;text-align:center;margin-top:16px;color:#94a3b8;text-decoration:none;font-size:0.82rem;font-weight:700}
 </style>
 </head>
 <body>
-
 <div class="glass-card">
   <div class="header">
-    <div class="top-badge">⚡ نظام المحفظة السحابي السريع</div>
     <h1>VC Store <span>1</span></h1>
-    <p>سجّل دخولك أو أنشئ محفظتك في ثوانٍ</p>
+    <p>سجّل دخولك بضغطة زر وابدأ الشحن الفوري</p>
   </div>
-
+  <button type="button" class="google-btn" onclick="loginWithGoogle()">
+    <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+    المتابعة باستخدام Google
+  </button>
+  <div class="divider">أو عبر البريد الإلكتروني</div>
   <div class="switch-bar">
     <button type="button" class="sw-btn active" id="tabIn" onclick="setTab('in')">تسجيل الدخول</button>
     <button type="button" class="sw-btn" id="tabUp" onclick="setTab('up')">حساب جديد</button>
   </div>
-
-  <div class="input-group" id="nameWrap" style="display:none">
-    <span>👤</span>
-    <input type="text" id="inName" placeholder="الاسم الكامل">
-  </div>
-
-  <div class="input-group">
-    <span>📧</span>
-    <input type="email" id="inEmail" placeholder="البريد الإلكتروني">
-  </div>
-
-  <div class="input-group">
-    <span>🔑</span>
-    <input type="password" id="inPass" placeholder="كلمة المرور (6 خانات فأكثر)">
-  </div>
-
-  <button type="button" class="action-btn" id="mainBtn" onclick="processAuth()">
-    <div class="spinner" id="btnLoader"></div>
-    <span id="btnLabel">دخول إلى المتجر</span>
-  </button>
-
+  <div class="input-group" id="nameWrap" style="display:none"><span>👤</span><input type="text" id="inName" placeholder="الاسم الكامل"></div>
+  <div class="input-group"><span>📧</span><input type="email" id="inEmail" placeholder="البريد الإلكتروني"></div>
+  <div class="input-group"><span>🔑</span><input type="password" id="inPass" placeholder="كلمة المرور (6 خانات فأكثر)"></div>
+  <button type="button" class="action-btn" id="mainBtn" onclick="processAuth()"><div class="spinner" id="btnLoader"></div><span id="btnLabel">دخول إلى المتجر</span></button>
   <div class="alert-box" id="alertBox"></div>
   <a href="store.html" class="footer-link">← العودة لتصفح الخدمات</a>
 </div>
-
 <script>
 const SB_URL = "https://supabase.co";
 const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
 let currentMode = 'in';
-
 function setTab(m){
   currentMode = m;
   document.getElementById('tabIn').classList.toggle('active', m === 'in');
   document.getElementById('tabUp').classList.toggle('active', m === 'up');
   document.getElementById('nameWrap').style.display = m === 'up' ? 'block' : 'none';
   document.getElementById('btnLabel').innerText = m === 'in' ? 'دخول إلى المتجر' : 'إنشاء محفظة جديدة';
-  document.getElementById('alertBox').style.display = 'none';
 }
-
 function showAlert(msg, type){
-  const b = document.getElementById('alertBox');
-  b.innerText = msg;
-  b.className = 'alert-box ' + type;
+  const b = document.getElementById('alertBox'); b.innerText = msg; b.className = 'alert-box ' + type;
 }
-
 function toggleBtn(loading, label){
   document.getElementById('mainBtn').disabled = loading;
   document.getElementById('btnLoader').style.display = loading ? 'block' : 'none';
   document.getElementById('btnLabel').innerText = label;
 }
-
+function loginWithGoogle(){
+  const redirectUrl = encodeURIComponent("https://github.io");
+  window.location.href = `${SB_URL}/auth/v1/authorize?provider=google&redirect_to=${redirectUrl}`;
+}
 async function processAuth(){
   const email = document.getElementById('inEmail').value.trim();
   const password = document.getElementById('inPass').value.trim();
   const rawName = document.getElementById('inName').value.trim();
-  const fullName = rawName || email.split('@');
-
-  if(!email || password.length < 6){
-    showAlert("⚠️ يرجى إدخال بريد إلكتروني صحيح وكلمة مرور من 6 خانات على الأقل.", "alert-err");
-    return;
-  }
-
-  toggleBtn(true, "جاري الاتصال المباشر...");
-
+  const fullName = rawName ? rawName : email.split('@')[0];
+  if(!email || password.length < 6){ showAlert("⚠️ أدخل بريداً صحيحاً وكلمة مرور (6 خانات فأكثر).", "alert-err"); return; }
+  toggleBtn(true, "جاري الاتصال...");
   const endpoint = currentMode === 'up' ? '/auth/v1/signup' : '/auth/v1/token?grant_type=password';
-
   try {
-    const res = await fetch(SB_URL + endpoint, {
-      method: 'POST',
-      headers: {
-        'apikey': SB_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
-    });
-
+    const res = await fetch(SB_URL + endpoint, { method: 'POST', headers: { 'apikey': SB_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
     const data = await res.json();
-
-    if(!res.ok){
-      const errMsg = data.msg || data.error_description || data.message || "بيانات الدخول غير صحيحة";
-      showAlert("❌ " + errMsg, "alert-err");
-      toggleBtn(false, currentMode === 'in' ? 'دخول إلى المتجر' : 'إنشاء محفظة جديدة');
-      return;
-    }
-
-    const user = data.user || data;
-    const token = data.access_token || SB_KEY;
-
+    if(!res.ok){ showAlert("❌ " + (data.msg || data.error_description || "خطأ في البيانات"), "alert-err"); toggleBtn(false, currentMode === 'in' ? 'دخول إلى المتجر' : 'إنشاء محفظة جديدة'); return; }
+    const user = data.user || data; const token = data.access_token || SB_KEY;
     if(user && user.id){
       localStorage.setItem('vc_user', JSON.stringify({ id: user.id, email: email, name: fullName, token: token }));
-
-      await fetch(SB_URL + '/rest/v1/profiles', {
-        method: 'POST',
-        headers: {
-          'apikey': SB_KEY,
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json',
-          'Prefer': 'resolution=ignore-duplicates'
-        },
-        body: JSON.stringify({ id: user.id, email: email, full_name: fullName, balance: 0 })
-      });
-
-      showAlert("✅ تمت العملية بنجاح! جاري نقلك للمتجر...", "alert-ok");
-      setTimeout(() => { window.location.href = 'store.html'; }, 800);
-    } else {
-      showAlert("⚠️ يرجى التأكد من إيقاف Confirm Email في Supabase.", "alert-err");
-      toggleBtn(false, currentMode === 'in' ? 'دخول إلى المتجر' : 'إنشاء محفظة جديدة');
+      await fetch(SB_URL + '/rest/v1/profiles', { method: 'POST', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Prefer': 'resolution=ignore-duplicates' }, body: JSON.stringify({ id: user.id, email: email, full_name: fullName, balance: 0 }) });
+      showAlert("✅ تم بنجاح! جاري نقلك للمتجر...", "alert-ok");
+      setTimeout(() => { window.location.href = 'store.html'; }, 700);
     }
-  } catch (err) {
-    showAlert("⚠️ تعذر الوصول للخادم، تأكد من اتصال الإنترنت.", "alert-err");
-    toggleBtn(false, currentMode === 'in' ? 'دخول إلى المتجر' : 'إنشاء محفظة جديدة');
-  }
+  } catch (err) { showAlert("⚠️ تعذر الاتصال بالشبكة.", "alert-err"); toggleBtn(false, currentMode === 'in' ? 'دخول إلى المتجر' : 'إنشاء محفظة جديدة'); }
 }
 </script>
 </body>
