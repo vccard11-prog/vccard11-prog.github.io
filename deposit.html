@@ -3,67 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>شحن المحفظة | VC Store 1</title>
-<script src="https://jsdelivr.net"></script>
+<title>إضافة رصيد | VC Store 1</title>
+<link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
+<script src="https://jsdelivr.net" defer></script>
 <style>
 @import url('https://googleapis.com');
-:root{--bg:#090b10;--card:#121622;--primary:#7c3aed;--sec:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08)}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
-body{background:var(--bg);color:#fff;padding-bottom:80px}
-header{background:var(--card);padding:14px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
-.brand{font-weight:900;font-size:1.2rem;color:#fff;text-decoration:none}
+:root{--bg-dark:#07090e;--bg-card:#111623;--bg-elevated:#181f30;--primary:#7c3aed;--primary-glow:rgba(124,58,237,0.4);--secondary:#06b6d4;--gold:#fbbf24;--green:#10b981;--border:rgba(255,255,255,0.08);--text-dim:#94a3b8}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:radial-gradient(circle at top,#14192c 0%,#07090e 75%);color:#fff;padding-bottom:90px;min-height:100vh}
+header{background:rgba(17,22,35,0.92);backdrop-filter:blur(12px);padding:13px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.brand{font-size:1.25rem;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
+.brand img{width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,0.15)}
 .brand span{color:var(--primary)}
-.back{background:var(--primary);color:#fff;padding:6px 12px;border-radius:10px;text-decoration:none;font-size:0.8rem;font-weight:700}
-.container{max-width:500px;margin:20px auto;padding:0 15px}
-.methods{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
-.m-btn{background:var(--card);border:1px solid var(--border);padding:12px 6px;border-radius:14px;text-align:center;cursor:pointer;font-weight:800;font-size:0.8rem;color:#94a3b8}
-.m-btn.active{border-color:var(--sec);color:#fff;background:#171d2e}
-.box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:15px}
-.addr{background:#090b10;padding:12px;border-radius:10px;border:1px dashed var(--sec);text-align:center;font-weight:800;color:var(--gold);margin:10px 0;word-break:break-all;font-size:0.9rem}
-.copy-btn{width:100%;padding:8px;background:rgba(6,182,212,0.15);color:var(--sec);border:1px solid var(--sec);border-radius:10px;font-weight:800;cursor:pointer;margin-bottom:14px}
-label{display:block;font-size:0.82rem;color:#94a3b8;margin-bottom:6px;font-weight:700}
-input{width:100%;padding:12px;background:#090b10;border:1px solid #283047;border-radius:12px;color:#fff;margin-bottom:14px;font-weight:700}
-.submit{width:100%;padding:14px;background:linear-gradient(90deg,var(--primary),var(--sec));border:none;border-radius:12px;color:#fff;font-weight:900;font-size:0.95rem;cursor:pointer}
+.bal-pill{background:#1a2035;border:1px solid rgba(6,182,212,0.4);padding:5px 12px;border-radius:50px;font-weight:900;font-size:0.88rem;color:var(--secondary)}
+.container{max-width:540px;margin:18px auto;padding:0 15px}
+.hero-banner{background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.15));border:1px solid rgba(124,58,237,0.35);border-radius:20px;padding:16px;text-align:center;margin-bottom:18px}
+.hero-banner h2{font-size:1.15rem;font-weight:900;color:var(--gold);margin-bottom:4px}
+.hero-banner p{font-size:0.78rem;color:var(--text-dim)}
+.methods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.method-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:14px 8px;text-align:center;cursor:pointer;transition:0.25s;position:relative;overflow:hidden}
+.method-card.active{border-color:var(--secondary);background:var(--bg-elevated);box-shadow:0 6px 20px rgba(6,182,212,0.25);transform:translateY(-2px)}
+.m-icon{font-size:1.6rem;margin-bottom:6px;display:block}
+.method-card h4{font-size:0.8rem;font-weight:800;color:#fff}
+.method-card span{font-size:0.68rem;color:var(--text-dim);display:block;margin-top:2px}
+.form-card{background:var(--bg-card);border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,0.4)}
+.wallet-box{background:#090b10;border:1px dashed rgba(6,182,212,0.5);border-radius:14px;padding:12px;margin:10px 0 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.wallet-code{font-weight:800;color:var(--gold);font-size:0.84rem;word-break:break-all;text-align:left;direction:ltr}
+.btn-copy{background:rgba(6,182,212,0.15);color:var(--secondary);border:1px solid var(--secondary);padding:7px 12px;border-radius:10px;font-weight:800;font-size:0.78rem;cursor:pointer;white-space:nowrap}
+.syp-box{background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:12px;padding:10px 14px;margin-bottom:15px;font-size:0.82rem;color:var(--gold);display:none}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:0.82rem;color:var(--text-dim);margin-bottom:6px;font-weight:700}
+.field input{width:100%;padding:13px 14px;background:#090b10;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.95rem;font-weight:700;transition:0.2s}
+.field input:focus{outline:none;border-color:var(--secondary);box-shadow:0 0 12px rgba(6,182,212,0.2)}
+.btn-submit{width:100%;padding:15px;background:linear-gradient(90deg,#7c3aed,#06b6d4);border:none;border-radius:14px;color:#fff;font-weight:900;font-size:1rem;cursor:pointer;box-shadow:0 6px 20px var(--primary-glow);transition:0.2s}
+.btn-submit:active{transform:scale(0.98)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#111623;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 10px;z-index:900}
+.nav-tab{text-decoration:none;color:var(--text-dim);font-size:0.72rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
+.nav-tab.active{color:var(--secondary)}
 </style>
 </head>
 <body>
 <header>
-<a href="store.html" class="brand">VC Store <span>1</span></a>
-<a href="store.html" class="back">العودة للمتجر</a>
+<a href="store.html" class="brand"><img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="Logo"><div>VC Store <span>1</span></div></a>
+<div class="bal-pill" id="userBalDisplay">$0.00</div>
 </header>
 
 <div class="container">
-<h3 style="margin-bottom:12px;color:var(--gold);text-align:center">اختر وسيلة شحن المحفظة</h3>
-
-<div class="methods">
-<div class="m-btn active" id="btn_sham_usd" onclick="selectMethod('sham_usd')">💵 شام كاش ($)</div>
-<div class="m-btn" id="btn_sham_syp" onclick="selectMethod('sham_syp')">🇸🇾 شام كاش (ل.س)</div>
-<div class="m-btn" id="btn_usdt" onclick="selectMethod('usdt')">💲 USDT</div>
+<div class="hero-banner">
+<h2>💳 شحن رصيد المحفظة</h2>
+<p>اختر وسيلة الدفع المناسبة لك وأرسل إشعار التحويل للتفعيل الفوري</p>
 </div>
 
-<div class="box">
-<div id="methodTitle" style="font-weight:800;font-size:0.9rem;color:var(--sec)">كود محفظة شام كاش (دولار أمريكي $):</div>
-<div class="addr" id="walletAddr">f73392cbc5a68ee4e84be15ace4729d4</div>
-<button class="copy-btn" onclick="copyAddr()">📋 نسخ كود المحفظة</button>
+<div class="methods-grid">
+<div class="method-card active" id="btn_sham_usd" onclick="selectMethod('sham_usd')">
+<span class="m-icon">💵</span>
+<h4>شام كاش ($)</h4>
+<span>دولار أمريكي</span>
+</div>
 
-<div id="sypCalcBox" style="display:none;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);padding:10px;border-radius:10px;margin-bottom:14px;font-size:0.82rem;color:var(--gold)">
+<div class="method-card" id="btn_sham_syp" onclick="selectMethod('sham_syp')">
+<span class="m-icon">🇸🇾</span>
+<h4>شام كاش (ل.س)</h4>
+<span>ليرة سورية</span>
+</div>
+
+<div class="method-card" id="btn_usdt" onclick="selectMethod('usdt')">
+<span class="m-icon">💲</span>
+<h4>USDT TRC20</h4>
+<span>عملات رقمية</span>
+</div>
+</div>
+
+<div class="form-card">
+<div id="methodTitle" style="font-size:0.85rem;font-weight:800;color:var(--secondary)">كود محفظة شام كاش (دولار أمريكي $):</div>
+<div class="wallet-box">
+<div class="wallet-code" id="walletAddr">f73392cbc5a68ee4e84be15ace4729d4</div>
+<button class="btn-copy" onclick="copyAddr()">📋 نسخ</button>
+</div>
+
+<div class="syp-box" id="sypCalcBox">
 سعر الصرف المعتمد: <b>1$ = 12,000 ل.س</b><br>
 المبلغ المطلوب تحويله بالليرة: <b id="sypTotal">0 ل.س</b>
 </div>
 
+<div class="field">
 <label>المبلغ المراد شحنه في محفظتك بالدولار ($):</label>
 <input type="number" step="0.1" id="depAmount" placeholder="مثال: 5.00" onkeyup="calcSyp()">
+</div>
 
+<div class="field">
 <label>رقم العملية أو اسم المرسل للتأكيد:</label>
 <input type="text" id="depTx" placeholder="اكتب رقم العملية أو اسمك الثلاثي...">
+</div>
 
-<button class="submit" id="sendBtn" onclick="sendDeposit()">🚀 إرسال إشعار الإيداع</button>
+<button class="btn-submit" id="sendBtn" onclick="sendDeposit()">🚀 إرسال إشعار الإيداع</button>
 </div>
 </div>
+
+<nav class="bottom-nav">
+<a href="index.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>الرئيسية</a>
+<a href="deposit.html" class="nav-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>إضافة رصيد</a>
+<a href="store.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect></svg>المتجر</a>
+<a href="orders.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>طلباتي</a>
+</nav>
 <script>
 const SUPABASE_URL = "https://supabase.co";
 const SUPABASE_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const EXCHANGE_RATE = 12000;
 const SHAM_CASH_CODE = "f73392cbc5a68ee4e84be15ace4729d4";
@@ -74,19 +119,29 @@ const paymentDetails = {
   usdt: { title: "عنوان محفظة USDT (شبكة TRC20):", addr: "TYourWalletAddressHere123456789", name: "USDT TRC20" }
 };
 
+let sb = null;
 let selectedKey = 'sham_usd';
 let currentUser = null;
 
 window.addEventListener('DOMContentLoaded', async () => {
-  const { data: { session } } = await sb.auth.getSession();
-  if (session && session.user) {
-    currentUser = session.user;
+  if (window.supabase) {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session && session.user) {
+        currentUser = session.user;
+        const { data } = await sb.from('profiles').select('balance').eq('id', currentUser.id).single();
+        if (data) {
+          document.getElementById('userBalDisplay').innerText = '$' + parseFloat(data.balance || 0).toFixed(2);
+        }
+      }
+    } catch (e) { console.log(e); }
   }
 });
 
 function selectMethod(key) {
   selectedKey = key;
-  document.querySelectorAll('.m-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.method-card').forEach(b => b.classList.remove('active'));
   document.getElementById('btn_' + key).classList.add('active');
   document.getElementById('methodTitle').innerText = paymentDetails[key].title;
   document.getElementById('walletAddr').innerText = paymentDetails[key].addr;
