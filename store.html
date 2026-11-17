@@ -14,6 +14,15 @@
 :root{--bg-dark:#090b10;--bg-card:#121622;--bg-elevated:#191f30;--primary:#7c3aed;--primary-glow:rgba(124,58,237,0.4);--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
 body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:85px;overflow-x:hidden}
+#vcPreloader{position:fixed;inset:0;background:#090b10;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity 0.4s ease,visibility 0.4s ease}
+#vcPreloader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.neon-spinner{position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+.neon-ring-outer{position:absolute;inset:0;border-radius:50%;border:3px solid rgba(124,58,237,0.15);border-top-color:#7c3aed;border-right-color:#06b6d4;animation:spinCw 0.85s linear infinite;box-shadow:0 0 22px rgba(124,58,237,0.4)}
+.neon-ring-inner{width:42px;height:42px;border-radius:50%;border:3px solid rgba(6,182,212,0.15);border-bottom-color:#fbbf24;border-left-color:#06b6d4;animation:spinCcw 0.65s linear infinite}
+@keyframes spinCw{to{transform:rotate(360deg)}}
+@keyframes spinCcw{to{transform:rotate(-360deg)}}
+.load-txt{font-size:0.88rem;font-weight:900;color:#fff;letter-spacing:1px}
+.load-txt span{color:#06b6d4}
 header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:900}
 .wallet-box{background:#1a2035;border:1px solid rgba(6,182,212,0.4);padding:5px 12px;border-radius:50px;display:flex;align-items:center;gap:8px;font-weight:800;font-size:0.9rem;text-decoration:none;color:#fff}
 .plus-badge{background:var(--secondary);color:#000;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
@@ -30,7 +39,7 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 .container{max-width:800px;margin:14px auto;padding:0 14px}
 .pills-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px;scrollbar-width:none}
 .pills-row::-webkit-scrollbar{display:none}
-.info-pill{background:var(--bg-card);border:1px solid var(--border);padding:6px 14px;border-radius:50px;font-size:0.78rem;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:6px;color:var(--text-dim)}
+.info-pill{background:var(--bg-card);border:1px solid var(--border);padding:6px 14px;border-radius:50px;font-size:0.78rem;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:6px;color:var(--text-dim);text-decoration:none}
 .dot-green{width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981}
 .slider-box{position:relative;overflow:hidden;border-radius:20px;margin-bottom:16px;border:1px solid rgba(168,85,247,0.4);box-shadow:0 10px 25px rgba(0,0,0,0.4);height:165px}
 .slides{display:flex;transition:transform 0.5s ease-in-out;height:100%}
@@ -79,6 +88,14 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 </style>
 </head>
 <body>
+<div id="vcPreloader">
+  <div class="neon-spinner">
+    <div class="neon-ring-outer"></div>
+    <div class="neon-ring-inner"></div>
+  </div>
+  <div class="load-txt">VC Store <span>1</span></div>
+</div>
+
 <div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
 <div class="drawer" id="sideDrawer">
 <div>
@@ -92,7 +109,7 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 <a href="javascript:void(0)" id="logoutLink" style="display:none;color:#ef4444" onclick="logoutUser()">🚪 تسجيل الخروج</a>
 </div>
 </div>
-<div style="font-size:0.75rem;color:var(--text-dim);text-align:center;border-top:1px solid var(--border);padding-top:12px">Value Card System v4.1<br>Fast Load Mode</div>
+<div style="font-size:0.75rem;color:var(--text-dim);text-align:center;border-top:1px solid var(--border);padding-top:12px">Value Card System v4.5<br>Neon UI Engine</div>
 </div>
 
 <header>
@@ -103,9 +120,9 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 
 <div class="container">
 <div class="pills-row">
-<div class="info-pill"><span class="dot-green"></span> كل خدماتك الرقمية بمكان واحد</div>
-<div class="info-pill">⚡ تنفيذ فوري وآلي</div>
-<div class="info-pill" id="accountPill" onclick="window.location.href='login.html'" style="cursor:pointer;border-color:var(--secondary);color:#fff">👤 تسجيل الدخول</div>
+<a href="login.html" class="info-pill" id="accountPill" style="border-color:var(--secondary);color:#fff;background:rgba(6,182,212,0.12)">👤 تسجيل الدخول / حساب جديد</a>
+<div class="info-pill"><span class="dot-green"></span> تنفيذ فوري وآلي</div>
+<div class="info-pill">🏷️ أسعار الجملة</div>
 </div>
 
 <div class="slider-box">
@@ -159,7 +176,14 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 <a href="orders.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>طلباتي</a>
 </nav>
 <script>
-const SERVER_URL = "https://onrender.com";
+function hideLoader() {
+  const p = document.getElementById('vcPreloader');
+  if (p) p.classList.add('hide');
+}
+window.addEventListener('load', hideLoader);
+setTimeout(hideLoader, 1200);
+
+const SERVER_URL = "https://vc-store-api.onrender.com";
 const SUPABASE_URL = "https://supabase.co";
 const SUPABASE_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
 
@@ -181,8 +205,9 @@ window.addEventListener('DOMContentLoaded', async () => {
           userBalance = parseFloat(data.balance || 0);
           document.getElementById('headerBalance').innerText = '$' + userBalance.toFixed(2);
           document.getElementById('userGreet').innerText = 'أهلاً، ' + (data.full_name || 'عميلنا');
-          document.getElementById('accountPill').innerText = '✅ ' + (data.full_name || data.email);
-          document.getElementById('accountPill').onclick = null;
+          const pill = document.getElementById('accountPill');
+          pill.innerText = '✅ ' + (data.full_name || data.email);
+          pill.href = 'javascript:void(0)';
         }
       }
     } catch (e) { console.log(e); }
