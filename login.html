@@ -4,12 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>تسجيل الدخول | VC Store 1</title>
-<script src="https://jsdelivr.net"></script>
 <style>
-@import url('https://googleapis.com');
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif}
 body{background:#07090e;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.box{background:#111623;border:1px solid #7c3aed;border-radius:22px;width:100%;max-width:400px;padding:26px 20px;box-shadow:0 10px 35px rgba(124,58,237,0.3);position:relative;z-index:10}
+.box{background:#111623;border:1px solid #7c3aed;border-radius:22px;width:100%;max-width:400px;padding:26px 20px;box-shadow:0 10px 35px rgba(124,58,237,0.3)}
 .head{text-align:center;margin-bottom:18px}
 .head img{width:64px;height:64px;border-radius:16px;border:2px solid #7c3aed;margin-bottom:8px}
 .head h1{font-size:1.4rem;font-weight:900}
@@ -19,7 +17,9 @@ body{background:#07090e;color:#fff;min-height:100vh;display:flex;align-items:cen
 .t-btn.active{background:#7c3aed;color:#fff}
 label{display:block;font-size:0.82rem;color:#94a3b8;margin-bottom:5px;font-weight:700}
 input{width:100%;padding:12px;background:#07090e;border:1px solid #283047;border-radius:12px;color:#fff;margin-bottom:14px;font-size:0.95rem}
-.btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;font-weight:900;font-size:0.95rem;cursor:pointer}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;font-weight:900;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-spin{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:sp 0.7s linear infinite;display:none}
+@keyframes sp{to{transform:rotate(360deg)}}
 .msg{margin-top:12px;padding:10px;border-radius:10px;font-size:0.82rem;text-align:center;display:none}
 .err{background:rgba(239,68,68,0.2);color:#ef4444;display:block}
 .ok{background:rgba(16,185,129,0.2);color:#10b981;display:block}
@@ -45,10 +45,15 @@ input{width:100%;padding:12px;background:#07090e;border:1px solid #283047;border
 <input type="email" id="uEmail" placeholder="example@gmail.com">
 <label>كلمة المرور:</label>
 <input type="password" id="uPass" placeholder="••••••">
-<button type="button" class="btn" id="goBtn" onclick="doAuth()">🚀 دخول إلى حسابي</button>
+<button type="button" class="btn" id="goBtn" onclick="doAuth()">
+  <span class="btn-spin" id="btnSpin"></span>
+  <span id="btnTxt">🚀 دخول إلى حسابي</span>
+</button>
 <div class="msg" id="mBox"></div>
 <a href="store.html" class="back">← العودة لتصفح المتجر</a>
 </div>
+
+<script src="https://jsdelivr.net" async></script>
 <script>
 const URL_SB = "https://supabase.co";
 const KEY_SB = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
@@ -59,15 +64,19 @@ function setM(m){
   document.getElementById('b1').classList.toggle('active', m==='login');
   document.getElementById('b2').classList.toggle('active', m==='reg');
   document.getElementById('nBox').style.display = m==='reg' ? 'block' : 'none';
-  document.getElementById('goBtn').innerText = m==='login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب جديد';
+  document.getElementById('btnTxt').innerText = m==='login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب جديد';
   document.getElementById('mBox').style.display = 'none';
 }
 
 function showM(t, c){
   const el = document.getElementById('mBox');
-  el.innerText = t;
-  el.className = 'msg ' + c;
-  el.style.display = 'block';
+  el.innerText = t; el.className = 'msg ' + c; el.style.display = 'block';
+}
+
+function setLoading(isLoad, text){
+  document.getElementById('goBtn').disabled = isLoad;
+  document.getElementById('btnSpin').style.display = isLoad ? 'inline-block' : 'none';
+  document.getElementById('btnTxt').innerText = text;
 }
 
 async function doAuth(){
@@ -81,44 +90,45 @@ async function doAuth(){
     return;
   }
 
+  setLoading(true, "جاري الاتصال بالخادم...");
+
   if(!window.supabase){
-    showM("⏳ الاتصال بطيء، انتظر ثوانٍ قليلة ثم اضغط الزر مجدداً...", "err");
-    return;
+    await new Promise(r => setTimeout(r, 1500));
+    if(!window.supabase){
+      setLoading(false, mode==='login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب جديد');
+      showM("⚠️ الشبكة بطيئة، يرجى الضغط على الزر مرة أخرى الآن.", "err");
+      return;
+    }
   }
 
   const sb = window.supabase.createClient(URL_SB, KEY_SB);
-  const btn = document.getElementById('goBtn');
-  btn.disabled = true;
-  btn.innerText = "⏳ جاري الاتصال بالسحابة...";
-  showM("⏳ جاري معالجة طلبك، يرجى الانتظار...", "ok");
 
   try {
     if(mode === 'reg'){
       const { data, error } = await sb.auth.signUp({ email, password });
       if(error){
-        showM("❌ خطأ: " + error.message, "err");
+        showM("❌ " + error.message, "err");
       } else if(data && data.user){
         await sb.from('profiles').upsert([{ id: data.user.id, email: email, full_name: full_name, balance: 0 }]);
-        showM("✅ تم إنشاء حسابك بنجاح! جاري تحويلك للمتجر...", "ok");
-        setTimeout(()=> window.location.href = 'store.html', 1000);
-      } else {
-        showM("⚠️ تعذر إنشاء الحساب، تأكد من إعدادات Supabase.", "err");
+        showM("✅ تم إنشاء حسابك بنجاح! جاري التحويل...", "ok");
+        setTimeout(()=> window.location.href = 'store.html', 900);
+        return;
       }
     } else {
       const { data, error } = await sb.auth.signInWithPassword({ email, password });
       if(error){
-        showM("❌ البريد الإلكتروني أو كلمة المرور غير صحيحة", "err");
+        showM("❌ البريد أو كلمة المرور غير صحيحة", "err");
       } else {
         showM("✅ تم الدخول بنجاح! جاري التحويل...", "ok");
         setTimeout(()=> window.location.href = 'store.html', 800);
+        return;
       }
     }
   } catch(e) {
-    showM("⚠️ خطأ في الاتصال بالشبكة: " + e.message, "err");
+    showM("⚠️ تعذر الاتصال بالشبكة: " + e.message, "err");
   }
 
-  btn.disabled = false;
-  btn.innerText = mode==='login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب جديد';
+  setLoading(false, mode==='login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب جديد');
 }
 </script>
 </body>
