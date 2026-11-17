@@ -3,79 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تطبيق الإدارة | VC Admin</title>
+<title>تطبيق الإدارة المتكامل | VC Admin</title>
 <link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
+<link rel="apple-touch-icon" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
 <script src="https://jsdelivr.net"></script>
 <style>
 @import url('https://googleapis.com');
 :root{--bg-dark:#07090e;--bg-card:#111623;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--green:#10b981;--red:#ef4444;--border:rgba(255,255,255,0.08)}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg-dark);color:#fff;padding-bottom:40px}
-.lock-screen{position:fixed;inset:0;background:var(--bg-dark);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px}
-.lock-box{background:var(--bg-card);border:1px solid var(--primary);border-radius:22px;padding:28px;width:100%;max-width:380px;text-align:center}
-.lock-box h2{color:var(--gold);margin-bottom:8px}
-.lock-box input{width:100%;padding:12px;background:#07090e;border:1px solid #2b344d;border-radius:12px;color:#fff;text-align:center;font-size:1rem;margin:14px 0}
-.lock-box button{width:100%;padding:12px;background:var(--primary);border:none;border-radius:12px;color:#fff;font-weight:800;font-size:1rem;cursor:pointer}
-header{background:var(--bg-card);padding:15px 5%;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
-.title{font-weight:900;font-size:1.15rem;color:var(--gold)}
-.refresh-btn{background:rgba(6,182,212,0.15);color:var(--secondary);border:1px solid var(--secondary);padding:6px 12px;border-radius:10px;font-weight:700;font-size:0.8rem;cursor:pointer}
-.container{max-width:750px;margin:20px auto;padding:0 15px}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-.stat-card{background:var(--bg-card);border:1px solid var(--border);padding:16px;border-radius:16px;text-align:center}
-.stat-card span{font-size:0.8rem;color:#94a3b8}
-.stat-card h3{font-size:1.5rem;font-weight:900;color:var(--secondary);margin-top:4px}
-.search-bar{width:100%;padding:12px 15px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;color:#fff;margin-bottom:16px;font-size:0.9rem}
-.user-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:12px}
-.user-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.user-info h4{font-size:1rem;font-weight:800}
-.user-info p{font-size:0.78rem;color:#94a3b8}
-.user-bal{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);padding:6px 12px;border-radius:10px;font-weight:900;font-size:1.05rem}
-.actions-row{display:flex;gap:8px}
+.lock-screen{position:fixed;inset:0;background:radial-gradient(circle at center,#131829 0%,#07090e 100%);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px}
+.lock-box{background:var(--bg-card);border:1px solid var(--primary);border-radius:24px;padding:30px 22px;width:100%;max-width:380px;text-align:center;box-shadow:0 15px 40px rgba(124,58,237,0.3)}
+.lock-box img{width:64px;height:64px;border-radius:16px;border:2px solid var(--primary);margin-bottom:10px}
+.lock-box h2{color:var(--gold);margin-bottom:6px;font-size:1.3rem}
+.lock-box input{width:100%;padding:13px;background:#07090e;border:1px solid #2b344d;border-radius:12px;color:#fff;text-align:center;font-size:1rem;margin:14px 0;font-weight:800}
+.lock-box button{width:100%;padding:13px;background:linear-gradient(90deg,#7c3aed,#06b6d4);border:none;border-radius:12px;color:#fff;font-weight:900;font-size:1rem;cursor:pointer}
+header{background:rgba(17,22,35,0.95);backdrop-filter:blur(10px);padding:14px 5%;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.title{font-weight:900;font-size:1.1rem;color:var(--gold);display:flex;align-items:center;gap:8px}
+.refresh-btn{background:rgba(6,182,212,0.15);color:var(--secondary);border:1px solid var(--secondary);padding:7px 14px;border-radius:10px;font-weight:800;font-size:0.8rem;cursor:pointer}
+.container{max-width:750px;margin:18px auto;padding:0 15px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);padding:14px 8px;border-radius:16px;text-align:center}
+.stat-card span{font-size:0.74rem;color:#94a3b8;font-weight:700}
+.stat-card h3{font-size:1.3rem;font-weight:900;color:var(--secondary);margin-top:4px}
+.nav-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:var(--bg-card);padding:6px;border-radius:14px;margin-bottom:16px;border:1px solid var(--border)}
+.t-btn{padding:11px 6px;border:none;background:none;color:#94a3b8;font-weight:800;font-size:0.82rem;border-radius:10px;cursor:pointer;transition:0.2s}
+.t-btn.active{background:var(--primary);color:#fff;box-shadow:0 4px 12px rgba(124,58,237,0.4)}
+.search-bar{width:100%;padding:12px 15px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;color:#fff;margin-bottom:14px;font-size:0.88rem}
+.search-bar:focus{outline:none;border-color:var(--secondary)}
+.card-item{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:12px}
+.item-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:10px}
+.item-info h4{font-size:0.95rem;font-weight:800;margin-bottom:3px;color:#fff}
+.item-info p{font-size:0.78rem;color:#94a3b8;line-height:1.5}
+.badge-amt{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);padding:5px 10px;border-radius:10px;font-weight:900;font-size:0.95rem;white-space:nowrap}
+.badge-wait{background:rgba(251,191,36,0.15);color:var(--gold);border:1px solid rgba(251,191,36,0.3);padding:4px 10px;border-radius:8px;font-size:0.75rem;font-weight:800;display:inline-block}
+.badge-done{background:rgba(16,185,129,0.15);color:var(--green);padding:4px 10px;border-radius:8px;font-size:0.75rem;font-weight:800;display:inline-block}
+.badge-rej{background:rgba(239,68,68,0.15);color:var(--red);padding:4px 10px;border-radius:8px;font-size:0.75rem;font-weight:800;display:inline-block}
+.actions-row{display:flex;gap:8px;margin-top:12px}
 .amt-input{flex:1;padding:10px;background:#07090e;border:1px solid #2b344d;border-radius:10px;color:#fff;font-weight:800;text-align:center}
-.btn-add{background:var(--green);color:#000;border:none;padding:10px 14px;border-radius:10px;font-weight:900;cursor:pointer}
-.btn-sub{background:var(--red);color:#fff;border:none;padding:10px 14px;border-radius:10px;font-weight:900;cursor:pointer}
+.btn-add{background:var(--green);color:#000;border:none;padding:10px 14px;border-radius:10px;font-weight:900;cursor:pointer;font-size:0.82rem}
+.btn-sub{background:var(--red);color:#fff;border:none;padding:10px 14px;border-radius:10px;font-weight:900;cursor:pointer;font-size:0.82rem}
 </style>
 </head>
 <body>
-
 <div class="lock-screen" id="lockScreen">
 <div class="lock-box">
+<img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="Admin">
 <h2>🔐 إدارة VC Store 1</h2>
-<p style="font-size:0.82rem;color:#94a3b8">أدخل رمز الإدارة السري للدخول</p>
+<p style="font-size:0.82rem;color:#94a3b8">أدخل رمز الإدارة السري للتحكم بالمنصة</p>
 <input type="password" id="adminPassInput" placeholder="رمز المرور...">
-<button onclick="unlockAdmin()">دخول لوحة الإدارة</button>
+<button onclick="unlockAdmin()">🚀 دخول لوحة الإدارة</button>
 </div>
 </div>
 
 <header>
-<div class="title">👑 إدارة المحافظ والعملاء</div>
-<button class="refresh-btn" onclick="loadUsers()">🔄 تحديث القائمة</button>
+<div class="title">👑 مركز إدارة VC Store 1</div>
+<button class="refresh-btn" onclick="loadAllData()">🔄 تحديث الكل</button>
 </header>
 
 <div class="container">
 <div class="stats-grid">
-<div class="stat-card"><span>إجمالي العملاء المسجلين</span><h3 id="totalUsers">0</h3></div>
-<div class="stat-card"><span>إجمالي أرصدة المحافظ</span><h3 id="totalBalances">$0.00</h3></div>
+<div class="stat-card"><span>العملاء</span><h3 id="totalUsers">0</h3></div>
+<div class="stat-card"><span>إيداعات معلقة</span><h3 id="pendingDeposits" style="color:var(--gold)">0</h3></div>
+<div class="stat-card"><span>إجمالي الأرصدة</span><h3 id="totalBalances">$0.00</h3></div>
 </div>
 
-<input type="text" id="searchUser" class="search-bar" placeholder="ابحث باسم العميل أو بريده الإلكتروني..." onkeyup="filterUsers()">
-<div id="usersList"></div>
+<div class="nav-tabs">
+<button class="t-btn active" id="btnUsers" onclick="switchTab('users')">👥 المحافظ</button>
+<button class="t-btn" id="btnDeposits" onclick="switchTab('deposits')">💳 الإيداعات</button>
+<button class="t-btn" id="btnOrders" onclick="switchTab('orders')">🛒 الطلبات</button>
+</div>
+
+<input type="text" id="searchBox" class="search-bar" placeholder="ابحث بالبريد الإلكتروني، رقم العملية، أو الخدمة..." onkeyup="renderCurrentTab()">
+<div id="contentArea"></div>
 </div>
 
 <script>
 const ADMIN_PASS = "VC2026ADMIN";
-const SUPABASE_URL = "https://qfumtnofsifygdxfxdyq.supabase.co";
+const SUPABASE_URL = "https://supabase.co";
 const SUPABASE_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+let currentTab = 'users';
 let allUsers = [];
+let allHistory = [];
 
 function unlockAdmin() {
-  const val = document.getElementById('adminPassInput').value.trim();
-  if (val === ADMIN_PASS) {
+  if (document.getElementById('adminPassInput').value.trim() === ADMIN_PASS) {
     document.getElementById('lockScreen').style.display = 'none';
     sessionStorage.setItem('vc_admin_auth', '1');
-    loadUsers();
+    loadAllData();
   } else {
     alert("❌ رمز الإدارة غير صحيح!");
   }
@@ -83,75 +100,126 @@ function unlockAdmin() {
 
 if (sessionStorage.getItem('vc_admin_auth') === '1') {
   document.getElementById('lockScreen').style.display = 'none';
-  loadUsers();
+  loadAllData();
 }
 
-async function loadUsers() {
-  const list = document.getElementById('usersList');
-  list.innerHTML = '<p style="text-align:center;color:#94a3b8">⏳ جاري تحميل بيانات العملاء...</p>';
-  
-  const { data, error } = await sb.from('profiles').select('*').order('created_at', { ascending: false });
-  if (error) {
-    list.innerHTML = `<p style="color:#ef4444;text-align:center">خطأ في التحميل: ${error.message}</p>`;
-    return;
-  }
+function switchTab(t) {
+  currentTab = t;
+  document.getElementById('btnUsers').classList.toggle('active', t === 'users');
+  document.getElementById('btnDeposits').classList.toggle('active', t === 'deposits');
+  document.getElementById('btnOrders').classList.toggle('active', t === 'orders');
+  renderCurrentTab();
+}
 
-  allUsers = data || [];
+async function loadAllData() {
+  document.getElementById('contentArea').innerHTML = '<p style="text-align:center;color:#94a3b8">⏳ جاري مزامنة الجداول السحابية...</p>';
+  const [uRes, hRes] = await Promise.all([
+    sb.from('profiles').select('*').order('created_at', { ascending: false }),
+    sb.from('orders_history').select('*').order('created_at', { ascending: false })
+  ]);
+
+  allUsers = uRes.data || [];
+  allHistory = hRes.data || [];
+
   document.getElementById('totalUsers').innerText = allUsers.length;
   const sum = allUsers.reduce((acc, u) => acc + parseFloat(u.balance || 0), 0);
   document.getElementById('totalBalances').innerText = '$' + sum.toFixed(2);
-  renderUsers(allUsers);
+  const pend = allHistory.filter(x => x.order_type === 'deposit' && x.status === 'pending').length;
+  document.getElementById('pendingDeposits').innerText = pend;
+
+  renderCurrentTab();
 }
 
-function renderUsers(users) {
-  const list = document.getElementById('usersList');
-  if (users.length === 0) {
-    list.innerHTML = '<p style="text-align:center;color:#94a3b8">لا يوجد عملاء مسجلون بعد.</p>';
-    return;
-  }
-  list.innerHTML = '';
-  users.forEach(u => {
-    const bal = parseFloat(u.balance || 0);
-    list.innerHTML += `
-      <div class="user-card">
-        <div class="user-top">
-          <div class="user-info">
-            <h4>${u.full_name || 'عميل'}</h4>
-            <p>${u.email}</p>
+function renderCurrentTab() {
+  const area = document.getElementById('contentArea');
+  const q = document.getElementById('searchBox').value.toLowerCase();
+  area.innerHTML = '';
+
+  if (currentTab === 'users') {
+    const list = allUsers.filter(u => (u.email || '').toLowerCase().includes(q) || (u.full_name || '').toLowerCase().includes(q));
+    if (!list.length) { area.innerHTML = '<p style="text-align:center;color:#94a3b8">لا يوجد عملاء مسجلون بعد.</p>'; return; }
+    list.forEach(u => {
+      const bal = parseFloat(u.balance || 0);
+      area.innerHTML += `
+        <div class="card-item">
+          <div class="item-top">
+            <div class="item-info"><h4>${u.full_name || 'عميل'}</h4><p>${u.email}</p></div>
+            <div class="badge-amt">$${bal.toFixed(2)}</div>
           </div>
-          <div class="user-bal">$${bal.toFixed(2)}</div>
-        </div>
+          <div class="actions-row">
+            <input type="number" step="0.1" id="amt_${u.id}" class="amt-input" placeholder="المبلغ ($)">
+            <button class="btn-add" onclick="updateBalance('${u.id}', ${bal}, 1)">+ شحن رصيد</button>
+            <button class="btn-sub" onclick="updateBalance('${u.id}', ${bal}, -1)">- خصم</button>
+          </div>
+        </div>`;
+    });
+  } else if (currentTab === 'deposits') {
+    const list = allHistory.filter(x => x.order_type === 'deposit' && ((x.user_email || '').toLowerCase().includes(q) || (x.target_info || '').toLowerCase().includes(q)));
+    if (!list.length) { area.innerHTML = '<p style="text-align:center;color:#94a3b8">لا توجد طلبات إيداع مسجلة.</p>'; return; }
+    list.forEach(d => {
+      const stBadge = d.status === 'done' ? '<span class="badge-done">✅ مقبول</span>' : (d.status === 'rej' ? '<span class="badge-rej">❌ مرفوض</span>' : '<span class="badge-wait">⏳ بانتظار التأكيد</span>');
+      const btns = d.status === 'pending' ? `
         <div class="actions-row">
-          <input type="number" step="0.1" id="amt_${u.id}" class="amt-input" placeholder="المبلغ ($)">
-          <button class="btn-add" onclick="updateBalance('${u.id}', ${bal}, 1)">+ إضافة</button>
-          <button class="btn-sub" onclick="updateBalance('${u.id}', ${bal}, -1)">- خصم</button>
-        </div>
-      </div>
-    `;
-  });
-}
-
-function filterUsers() {
-  const q = document.getElementById('searchUser').value.toLowerCase();
-  const filtered = allUsers.filter(u => (u.email || '').toLowerCase().includes(q) || (u.full_name || '').toLowerCase().includes(q));
-  renderUsers(filtered);
+          <button class="btn-add" style="flex:1" onclick="approveDeposit(${d.id}, '${d.user_email}', ${d.amount})">✅ قبول وإضافة $${parseFloat(d.amount).toFixed(2)}</button>
+          <button class="btn-sub" onclick="rejectItem(${d.id})">❌ رفض</button>
+        </div>` : '';
+      area.innerHTML += `
+        <div class="card-item">
+          <div class="item-top">
+            <div class="item-info"><h4>${d.service_name} (${d.order_code || ''})</h4><p>العميل: ${d.user_email}<br>رقم العملية/الملاحظة: <b>${d.target_info}</b></p></div>
+            <div style="text-align:left"><div class="badge-amt" style="margin-bottom:6px">$${parseFloat(d.amount).toFixed(2)}</div>${stBadge}</div>
+          </div>${btns}
+        </div>`;
+    });
+  } else {
+    const list = allHistory.filter(x => x.order_type === 'order' && ((x.user_email || '').toLowerCase().includes(q) || (x.service_name || '').toLowerCase().includes(q)));
+    if (!list.length) { area.innerHTML = '<p style="text-align:center;color:#94a3b8">لا توجد طلبات شراء مسجلة بعد.</p>'; return; }
+    list.forEach(o => {
+      const stBadge = o.status === 'done' ? '<span class="badge-done">✅ مكتمل</span>' : (o.status === 'rej' ? '<span class="badge-rej">❌ مرفوض</span>' : '<span class="badge-wait">⏳ قيد المعالجة</span>');
+      const btns = o.status === 'pending' ? `
+        <div class="actions-row">
+          <button class="btn-add" style="flex:1" onclick="markOrderDone(${o.id})">✅ تأكيد التنفيذ اليدوي</button>
+          <button class="btn-sub" onclick="rejectItem(${o.id})">❌ إلغاء</button>
+        </div>` : '';
+      area.innerHTML += `
+        <div class="card-item">
+          <div class="item-top">
+            <div class="item-info"><h4>${o.service_name}</h4><p>العميل: ${o.user_email}<br>المعرف/الهدف: <b>${o.target_info}</b></p></div>
+            <div style="text-align:left"><div class="badge-amt" style="margin-bottom:6px">$${parseFloat(o.amount).toFixed(2)}</div>${stBadge}</div>
+          </div>${btns}
+        </div>`;
+    });
+  }
 }
 
 async function updateBalance(userId, currentBal, sign) {
-  const input = document.getElementById('amt_' + userId);
-  const amount = parseFloat(input.value);
-  if (!amount || amount <= 0) {
-    alert("أدخل مبلغاً صحيحاً أولاً!");
-    return;
-  }
+  const amount = parseFloat(document.getElementById('amt_' + userId).value);
+  if (!amount || amount <= 0) { alert("أدخل مبلغاً صحيحاً!"); return; }
   const newBal = Math.max(0, currentBal + (amount * sign));
-  const { error } = await sb.from('profiles').update({ balance: newBal }).eq('id', userId);
-  if (error) {
-    alert("حدث خطأ: " + error.message);
-  } else {
-    alert(`✅ تم تحديث الرصيد بنجاح! الرصيد الجديد: $${newBal.toFixed(2)}`);
-    loadUsers();
+  await sb.from('profiles').update({ balance: newBal }).eq('id', userId);
+  alert(`✅ تم تحديث الرصيد بنجاح إلى $${newBal.toFixed(2)}`);
+  loadAllData();
+}
+
+async function approveDeposit(id, email, amount) {
+  const user = allUsers.find(u => u.email === email);
+  if (user) {
+    const newBal = parseFloat(user.balance || 0) + parseFloat(amount || 0);
+    await sb.from('profiles').update({ balance: newBal }).eq('id', user.id);
   }
+  await sb.from('orders_history').update({ status: 'done' }).eq('id', id);
+  alert("✅ تم قبول الإيداع وشحن رصيد العميل تلقائياً!");
+  loadAllData();
+}
+
+async function markOrderDone(id) {
+  await sb.from('orders_history').update({ status: 'done' }).eq('id', id);
+  loadAllData();
+}
+
+async function rejectItem(id) {
+  await sb.from('orders_history').update({ status: 'rej' }).eq('id', id);
+  loadAllData();
 }
 </script>
 </body>
