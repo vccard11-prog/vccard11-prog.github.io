@@ -3,132 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تسجيل الدخول | VC Store 1</title>
+<title>بوابة الدخول | VC Store 1</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif}
-body{background:#07090e;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.box{background:#111623;border:1px solid #7c3aed;border-radius:22px;width:100%;max-width:400px;padding:26px 20px;box-shadow:0 10px 35px rgba(124,58,237,0.3)}
-.head{text-align:center;margin-bottom:18px}
-.head img{width:64px;height:64px;border-radius:16px;border:2px solid #7c3aed;margin-bottom:8px}
-.head h1{font-size:1.4rem;font-weight:900}
-.head h1 span{color:#06b6d4}
-.tabs{display:grid;grid-template-columns:1fr 1fr;background:#07090e;padding:4px;border-radius:12px;margin-bottom:18px}
-.t-btn{padding:10px;border:none;background:none;color:#94a3b8;font-weight:800;border-radius:9px;cursor:pointer}
-.t-btn.active{background:#7c3aed;color:#fff}
-label{display:block;font-size:0.82rem;color:#94a3b8;margin-bottom:5px;font-weight:700}
-input{width:100%;padding:12px;background:#07090e;border:1px solid #283047;border-radius:12px;color:#fff;margin-bottom:14px;font-size:0.95rem}
-.btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;font-weight:900;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-spin{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:sp 0.7s linear infinite;display:none}
-@keyframes sp{to{transform:rotate(360deg)}}
-.msg{margin-top:12px;padding:10px;border-radius:10px;font-size:0.82rem;text-align:center;display:none}
-.err{background:rgba(239,68,68,0.2);color:#ef4444;display:block}
-.ok{background:rgba(16,185,129,0.2);color:#10b981;display:block}
-.back{display:block;text-align:center;margin-top:16px;color:#94a3b8;text-decoration:none;font-size:0.82rem}
+body{background:linear-gradient(145deg,#06080d 0%,#101526 50%,#080b12 100%);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+.glass-card{background:rgba(18,24,40,0.85);backdrop-filter:blur(16px);border:1px solid rgba(6,182,212,0.3);border-radius:28px;width:100%;max-width:400px;padding:30px 22px;box-shadow:0 20px 50px rgba(0,0,0,0.7),0 0 30px rgba(124,58,237,0.15)}
+.top-badge{display:inline-block;background:rgba(124,58,237,0.2);color:#a78bfa;border:1px solid rgba(124,58,237,0.4);padding:4px 12px;border-radius:50px;font-size:0.75rem;font-weight:800;margin-bottom:12px}
+.header{text-align:center;margin-bottom:22px}
+.header h1{font-size:1.6rem;font-weight:900;letter-spacing:0.5px}
+.header h1 span{color:#06b6d4}
+.header p{font-size:0.82rem;color:#94a3b8;margin-top:4px}
+.switch-bar{display:flex;background:#090d16;padding:5px;border-radius:14px;margin-bottom:20px;border:1px solid rgba(255,255,255,0.06)}
+.sw-btn{flex:1;padding:10px;border:none;background:none;color:#94a3b8;font-weight:800;font-size:0.88rem;border-radius:10px;cursor:pointer;transition:0.25s}
+.sw-btn.active{background:linear-gradient(90deg,#7c3aed,#6366f1);color:#fff;box-shadow:0 4px 15px rgba(124,58,237,0.4)}
+.input-group{position:relative;margin-bottom:14px}
+.input-group span{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:1.1rem}
+.input-group input{width:100%;padding:13px 42px 13px 14px;background:#090d16;border:1px solid #232c45;border-radius:14px;color:#fff;font-size:0.95rem;transition:0.2s}
+.input-group input:focus{outline:none;border-color:#06b6d4;box-shadow:0 0 12px rgba(6,182,212,0.25)}
+.action-btn{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(90deg,#06b6d4,#7c3aed);color:#fff;font-weight:900;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px;box-shadow:0 8px 25px rgba(6,182,212,0.3)}
+.action-btn:disabled{opacity:0.65;cursor:not-allowed}
+.spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:rot 0.7s linear infinite;display:none}
+@keyframes rot{to{transform:rotate(360deg)}}
+.alert-box{margin-top:14px;padding:11px;border-radius:12px;font-size:0.82rem;font-weight:700;text-align:center;display:none}
+.alert-err{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3);display:block}
+.alert-ok{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.3);display:block}
+.footer-link{display:block;text-align:center;margin-top:18px;color:#94a3b8;text-decoration:none;font-size:0.84rem;font-weight:700}
 </style>
 </head>
 <body>
-<div class="box">
-<div class="head">
-<img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="Logo">
-<h1>VC Store <span>1</span></h1>
-<p style="font-size:0.8rem;color:#94a3b8">بوابة العملاء والمحفظة الإلكترونية</p>
-</div>
-<div class="tabs">
-<button type="button" class="t-btn active" id="b1" onclick="setM('login')">تسجيل الدخول</button>
-<button type="button" class="t-btn" id="b2" onclick="setM('reg')">إنشاء حساب جديد</button>
-</div>
-<div id="nBox" style="display:none">
-<label>الاسم الكامل:</label>
-<input type="text" id="uName" placeholder="اكتب اسمك هنا...">
-</div>
-<label>البريد الإلكتروني:</label>
-<input type="email" id="uEmail" placeholder="example@gmail.com">
-<label>كلمة المرور:</label>
-<input type="password" id="uPass" placeholder="••••••">
-<button type="button" class="btn" id="goBtn" onclick="doAuth()">
-  <span class="btn-spin" id="btnSpin"></span>
-  <span id="btnTxt">🚀 دخول إلى حسابي</span>
-</button>
-<div class="msg" id="mBox"></div>
-<a href="store.html" class="back">← العودة لتصفح المتجر</a>
+
+<div class="glass-card">
+  <div class="header">
+    <div class="top-badge">⚡ نظام المحفظة السحابي السريع</div>
+    <h1>VC Store <span>1</span></h1>
+    <p>سجّل دخولك أو أنشئ محفظتك في ثوانٍ</p>
+  </div>
+
+  <div class="switch-bar">
+    <button type="button" class="sw-btn active" id="tabIn" onclick="setTab('in')">تسجيل الدخول</button>
+    <button type="button" class="sw-btn" id="tabUp" onclick="setTab('up')">حساب جديد</button>
+  </div>
+
+  <div class="input-group" id="nameWrap" style="display:none">
+    <span>👤</span>
+    <input type="text" id="inName" placeholder="الاسم الكامل">
+  </div>
+
+  <div class="input-group">
+    <span>📧</span>
+    <input type="email" id="inEmail" placeholder="البريد الإلكتروني">
+  </div>
+
+  <div class="input-group">
+    <span>🔑</span>
+    <input type="password" id="inPass" placeholder="كلمة المرور (6 خانات فأكثر)">
+  </div>
+
+  <button type="button" class="action-btn" id="mainBtn" onclick="processAuth()">
+    <div class="spinner" id="btnLoader"></div>
+    <span id="btnLabel">دخول إلى المتجر</span>
+  </button>
+
+  <div class="alert-box" id="alertBox"></div>
+  <a href="store.html" class="footer-link">← العودة لتصفح الخدمات</a>
 </div>
 
-<script src="https://jsdelivr.net" async></script>
 <script>
-const URL_SB = "https://supabase.co";
-const KEY_SB = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
-let mode = 'login';
+const SB_URL = "https://supabase.co";
+const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
+let currentMode = 'in';
 
-function setM(m){
-  mode = m;
-  document.getElementById('b1').classList.toggle('active', m==='login');
-  document.getElementById('b2').classList.toggle('active', m==='reg');
-  document.getElementById('nBox').style.display = m==='reg' ? 'block' : 'none';
-  document.getElementById('btnTxt').innerText = m==='login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب جديد';
-  document.getElementById('mBox').style.display = 'none';
+function setTab(m){
+  currentMode = m;
+  document.getElementById('tabIn').classList.toggle('active', m === 'in');
+  document.getElementById('tabUp').classList.toggle('active', m === 'up');
+  document.getElementById('nameWrap').style.display = m === 'up' ? 'block' : 'none';
+  document.getElementById('btnLabel').innerText = m === 'in' ? 'دخول إلى المتجر' : 'إنشاء محفظة جديدة';
+  document.getElementById('alertBox').style.display = 'none';
 }
 
-function showM(t, c){
-  const el = document.getElementById('mBox');
-  el.innerText = t; el.className = 'msg ' + c; el.style.display = 'block';
+function showAlert(msg, type){
+  const b = document.getElementById('alertBox');
+  b.innerText = msg;
+  b.className = 'alert-box ' + type;
 }
 
-function setLoading(isLoad, text){
-  document.getElementById('goBtn').disabled = isLoad;
-  document.getElementById('btnSpin').style.display = isLoad ? 'inline-block' : 'none';
-  document.getElementById('btnTxt').innerText = text;
+function toggleBtn(loading, label){
+  document.getElementById('mainBtn').disabled = loading;
+  document.getElementById('btnLoader').style.display = loading ? 'block' : 'none';
+  document.getElementById('btnLabel').innerText = label;
 }
 
-async function doAuth(){
-  const email = document.getElementById('uEmail').value.trim();
-  const password = document.getElementById('uPass').value.trim();
-  const nameInput = document.getElementById('uName').value.trim();
-  const full_name = nameInput ? nameInput : email.split('@')[0];
+async function processAuth(){
+  const email = document.getElementById('inEmail').value.trim();
+  const password = document.getElementById('inPass').value.trim();
+  const rawName = document.getElementById('inName').value.trim();
+  const fullName = rawName || email.split('@');
 
   if(!email || password.length < 6){
-    showM("⚠️ أدخل البريد الإلكتروني وكلمة مرور (6 خانات على الأقل)", "err");
+    showAlert("⚠️ يرجى إدخال بريد إلكتروني صحيح وكلمة مرور من 6 خانات على الأقل.", "alert-err");
     return;
   }
 
-  setLoading(true, "جاري الاتصال بالخادم...");
+  toggleBtn(true, "جاري الاتصال المباشر...");
 
-  if(!window.supabase){
-    await new Promise(r => setTimeout(r, 1500));
-    if(!window.supabase){
-      setLoading(false, mode==='login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب جديد');
-      showM("⚠️ الشبكة بطيئة، يرجى الضغط على الزر مرة أخرى الآن.", "err");
-      return;
-    }
-  }
-
-  const sb = window.supabase.createClient(URL_SB, KEY_SB);
+  const endpoint = currentMode === 'up' ? '/auth/v1/signup' : '/auth/v1/token?grant_type=password';
 
   try {
-    if(mode === 'reg'){
-      const { data, error } = await sb.auth.signUp({ email, password });
-      if(error){
-        showM("❌ " + error.message, "err");
-      } else if(data && data.user){
-        await sb.from('profiles').upsert([{ id: data.user.id, email: email, full_name: full_name, balance: 0 }]);
-        showM("✅ تم إنشاء حسابك بنجاح! جاري التحويل...", "ok");
-        setTimeout(()=> window.location.href = 'store.html', 900);
-        return;
-      }
-    } else {
-      const { data, error } = await sb.auth.signInWithPassword({ email, password });
-      if(error){
-        showM("❌ البريد أو كلمة المرور غير صحيحة", "err");
-      } else {
-        showM("✅ تم الدخول بنجاح! جاري التحويل...", "ok");
-        setTimeout(()=> window.location.href = 'store.html', 800);
-        return;
-      }
-    }
-  } catch(e) {
-    showM("⚠️ تعذر الاتصال بالشبكة: " + e.message, "err");
-  }
+    const res = await fetch(SB_URL + endpoint, {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
 
-  setLoading(false, mode==='login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب جديد');
+    const data = await res.json();
+
+    if(!res.ok){
+      const errMsg = data.msg || data.error_description || data.message || "بيانات الدخول غير صحيحة";
+      showAlert("❌ " + errMsg, "alert-err");
+      toggleBtn(false, currentMode === 'in' ? 'دخول إلى المتجر' : 'إنشاء محفظة جديدة');
+      return;
+    }
+
+    const user = data.user || data;
+    const token = data.access_token || SB_KEY;
+
+    if(user && user.id){
+      localStorage.setItem('vc_user', JSON.stringify({ id: user.id, email: email, name: fullName, token: token }));
+
+      await fetch(SB_URL + '/rest/v1/profiles', {
+        method: 'POST',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json',
+          'Prefer': 'resolution=ignore-duplicates'
+        },
+        body: JSON.stringify({ id: user.id, email: email, full_name: fullName, balance: 0 })
+      });
+
+      showAlert("✅ تمت العملية بنجاح! جاري نقلك للمتجر...", "alert-ok");
+      setTimeout(() => { window.location.href = 'store.html'; }, 800);
+    } else {
+      showAlert("⚠️ يرجى التأكد من إيقاف Confirm Email في Supabase.", "alert-err");
+      toggleBtn(false, currentMode === 'in' ? 'دخول إلى المتجر' : 'إنشاء محفظة جديدة');
+    }
+  } catch (err) {
+    showAlert("⚠️ تعذر الوصول للخادم، تأكد من اتصال الإنترنت.", "alert-err");
+    toggleBtn(false, currentMode === 'in' ? 'دخول إلى المتجر' : 'إنشاء محفظة جديدة');
+  }
 }
 </script>
 </body>
