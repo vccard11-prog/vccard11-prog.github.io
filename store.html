@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#7c3aed">
-<script src="https://jsdelivr.net"></script>
+<script src="https://jsdelivr.net" defer></script>
 <style>
 @import url('https://googleapis.com');
 :root{--bg-dark:#090b10;--bg-card:#121622;--bg-elevated:#191f30;--primary:#7c3aed;--primary-glow:rgba(124,58,237,0.4);--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
@@ -92,7 +92,7 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 <a href="javascript:void(0)" id="logoutLink" style="display:none;color:#ef4444" onclick="logoutUser()">🚪 تسجيل الخروج</a>
 </div>
 </div>
-<div style="font-size:0.75rem;color:var(--text-dim);text-align:center;border-top:1px solid var(--border);padding-top:12px">Value Card System v4.0<br>Supabase Wallet Active</div>
+<div style="font-size:0.75rem;color:var(--text-dim);text-align:center;border-top:1px solid var(--border);padding-top:12px">Value Card System v4.1<br>Fast Load Mode</div>
 </div>
 
 <header>
@@ -142,7 +142,7 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 <div class="modal-box">
 <button class="close-modal" onclick="closeCatModal()">✕</button>
 <div class="modal-title" id="cTitle">اسم القسم</div>
-<div class="modal-sub">تنفيذ آلي وفوري • الخصم من رصيد المحفظة</div>
+<div class="modal-sub">تصفح الباقات والأسعار • الخصم من رصيد المحفظة</div>
 <div class="form-row"><label>اختر الباقة أو الخدمة المطلوبة:</label><select id="pkgField" class="form-input"></select></div>
 <div class="form-row"><label id="idFieldLabel">أدخل معرف الحساب (ID):</label><input type="text" id="idField" class="form-input" placeholder="اكتب البيانات هنا..."></div>
 <div class="order-buttons">
@@ -162,185 +162,203 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:12px 4%
 const SERVER_URL = "https://onrender.com";
 const SUPABASE_URL = "https://supabase.co";
 const SUPABASE_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+let sb = null;
 let currentUser = null;
 let userBalance = 0.00;
 
-async function initStoreWallet() {
-  const { data: { session } } = await sb.auth.getSession();
-  if (session && session.user) {
-    currentUser = session.user;
-    document.getElementById('authDrawerLink').style.display = 'none';
-    document.getElementById('logoutLink').style.display = 'flex';
-    const { data } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
-    if (data) {
-      userBalance = parseFloat(data.balance || 0);
-      document.getElementById('headerBalance').innerText = '$' + userBalance.toFixed(2);
-      document.getElementById('userGreet').innerText = 'أهلاً، ' + (data.full_name || 'عميلنا');
-      document.getElementById('accountPill').innerText = '✅ ' + (data.full_name || data.email);
-      document.getElementById('accountPill').onclick = null;
-    }
+window.addEventListener('DOMContentLoaded', async () => {
+  if (window.supabase) {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session && session.user) {
+        currentUser = session.user;
+        document.getElementById('authDrawerLink').style.display = 'none';
+        document.getElementById('logoutLink').style.display = 'flex';
+        const { data } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+        if (data) {
+          userBalance = parseFloat(data.balance || 0);
+          document.getElementById('headerBalance').innerText = '$' + userBalance.toFixed(2);
+          document.getElementById('userGreet').innerText = 'أهلاً، ' + (data.full_name || 'عميلنا');
+          document.getElementById('accountPill').innerText = '✅ ' + (data.full_name || data.email);
+          document.getElementById('accountPill').onclick = null;
+        }
+      }
+    } catch (e) { console.log(e); }
   }
-}
-initStoreWallet();
+});
 
 async function logoutUser() {
-  await sb.auth.signOut();
+  if (sb) await sb.auth.signOut();
   window.location.reload();
 }
 
-let curSlide=0;
-function goSlide(n){curSlide=n;document.getElementById('adSlides').style.transform=`translateX(${curSlide*100}%)`;document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===curSlide))}
-setInterval(()=>{goSlide((curSlide+1)%2)},3500);
+let curSlide = 0;
+function goSlide(n) {
+  curSlide = n;
+  const s = document.getElementById('adSlides');
+  if (s) s.style.transform = `translateX(${curSlide * 100}%)`;
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === curSlide));
+}
+setInterval(() => { goSlide((curSlide + 1) % 2); }, 3500);
 
-const storeCatalog={
-telecom:{title:"شحن رصيد وباقات (سيريتل / MTN)",label:"أدخل رقم الهاتف المراد شحنه (09xxxxxxxx):",placeholder:"مثال: 0939877779",packages:[
-{id:"0",name:"تحويل وحدات - 1,000 وحدة",price:1.00},
-{id:"0",name:"تحويل وحدات - 2,500 وحدة",price:2.50},
-{id:"0",name:"تحويل وحدات - 5,000 وحدة",price:5.00},
-{id:"0",name:"تحويل وحدات - 10,000 وحدة",price:10.00}
-]},
-chat:{title:"تطبيقات الدردشة والبث المباشر",label:"أدخل معرف الحساب (ID) في التطبيق:",placeholder:"اكتب رقم الـ ID بدقة...",packages:[
-{id:"0",name:"عملات تيك توك - 70 عملة",price:1.00},
-{id:"0",name:"عملات تيك توك - 350 عملة",price:5.00},
-{id:"0",name:"عملات تيك توك - 700 عملة",price:10.00},
-{id:"0",name:"ألماس بيغو لايف (Bigo Live)",price:2.00}
-]},
-wallet:{title:"الرصيد والعملات الرقمية",label:"أدخل عنوان المحفظة أو رقم الحساب:",placeholder:"عنوان USDT TRC20 أو رقم محفظة Payeer...",packages:[
-{id:"0",name:"شحن رصيد USDT (TRC20) - 5$",price:5.20},
-{id:"0",name:"شحن رصيد USDT (TRC20) - 10$",price:10.30},
-{id:"0",name:"شحن رصيد Payeer - 10$",price:10.30}
-]},
-social:{title:"خدمات السوشيال ميديا",label:"ضع رابط الحساب أو المنشور:",placeholder:"https://instagram.com",packages:[
-{id:"0",name:"1,000 متابع انستغرام / تيك توك",price:2.00},
-{id:"0",name:"5,000 متابع انستغرام / تيك توك",price:8.50},
-{id:"0",name:"1,000 عضو قناة تيليغرام",price:2.50}
-]},
-cards:{title:"البطاقات الرقمية العالمية",label:"أدخل رقم الواتساب أو الإيميل لاستلام الكود:",placeholder:"0939000000 أو name@gmail.com",packages:[
-{id:"0",name:"بطاقة جوجل بلاي أمريكي - 5$",price:5.25},
-{id:"0",name:"بطاقة جوجل بلاي أمريكي - 10$",price:10.50},
-{id:"0",name:"بطاقة آيتونز أمريكي - 10$",price:10.50},
-{id:"0",name:"بطاقة بلايستيشن PSN - 10$",price:10.50}
-]},
-design:{title:"برامج التصميم والمونتاج",label:"أدخل البريد الإلكتروني لتفعيل الحساب:",placeholder:"name@gmail.com",packages:[
-{id:"0",name:"تفعيل كانفا برو (Canva Pro) - سنة",price:4.00},
-{id:"0",name:"اشتراك كاب كات برو (CapCut Pro) - شهر",price:6.00}
-]},
-subs:{title:"اشتراكات الشاشات والترفيه",label:"أدخل الإيميل أو رقم الواتساب للاستلام:",placeholder:"name@gmail.com",packages:[
-{id:"0",name:"اشتراك نتفليكس (Netflix 4K) - شهر",price:4.50},
-{id:"0",name:"اشتراك شاهد VIP - شهر",price:3.50},
-{id:"0",name:"اشتراك يوتيوب بريميوم - شهر",price:3.00}
-]},
-vpn:{title:"خدمات VPN والبروكسي",label:"أدخل الإيميل أو رقم الواتساب لاستلام البيانات:",placeholder:"0939000000",packages:[
-{id:"0",name:"اشتراك NordVPN - شهر كامل",price:3.50},
-{id:"0",name:"اشتراك ExpressVPN - شهر كامل",price:4.00}
-]},
-accounts:{title:"حسابات جاهزة وتوثيق",label:"أدخل رقم الواتساب للتواصل والتسليم:",placeholder:"0939000000",packages:[
-{id:"0",name:"حساب جيميل أمريكي مفعل وجاهز",price:1.50},
-{id:"0",name:"اشتراك تيليغرام مميز (Telegram Premium)",price:4.50}
-]}
+const storeCatalog = {
+  telecom: { title: "شحن رصيد وباقات (سيريتل / MTN)", label: "أدخل رقم الهاتف المراد شحنه (09xxxxxxxx):", placeholder: "مثال: 0939877779", packages: [
+    { id: "0", name: "تحويل وحدات - 1,000 وحدة", price: 1.00 },
+    { id: "0", name: "تحويل وحدات - 2,500 وحدة", price: 2.50 },
+    { id: "0", name: "تحويل وحدات - 5,000 وحدة", price: 5.00 },
+    { id: "0", name: "تحويل وحدات - 10,000 وحدة", price: 10.00 }
+  ]},
+  chat: { title: "تطبيقات الدردشة والبث المباشر", label: "أدخل معرف الحساب (ID) في التطبيق:", placeholder: "اكتب رقم الـ ID بدقة...", packages: [
+    { id: "0", name: "عملات تيك توك - 70 عملة", price: 1.00 },
+    { id: "0", name: "عملات تيك توك - 350 عملة", price: 5.00 },
+    { id: "0", name: "عملات تيك توك - 700 عملة", price: 10.00 },
+    { id: "0", name: "ألماس بيغو لايف (Bigo Live)", price: 2.00 }
+  ]},
+  wallet: { title: "الرصيد والعملات الرقمية", label: "أدخل عنوان المحفظة أو رقم الحساب:", placeholder: "عنوان USDT TRC20 أو رقم محفظة Payeer...", packages: [
+    { id: "0", name: "شحن رصيد USDT (TRC20) - 5$", price: 5.20 },
+    { id: "0", name: "شحن رصيد USDT (TRC20) - 10$", price: 10.30 },
+    { id: "0", name: "شحن رصيد Payeer - 10$", price: 10.30 }
+  ]},
+  social: { title: "خدمات السوشيال ميديا", label: "ضع رابط الحساب أو المنشور:", placeholder: "https://instagram.com", packages: [
+    { id: "0", name: "1,000 متابع انستغرام / تيك توك", price: 2.00 },
+    { id: "0", name: "5,000 متابع انستغرام / تيك توك", price: 8.50 },
+    { id: "0", name: "1,000 عضو قناة تيليغرام", price: 2.50 }
+  ]},
+  cards: { title: "البطاقات الرقمية العالمية", label: "أدخل رقم الواتساب أو الإيميل لاستلام الكود:", placeholder: "0939000000 أو name@gmail.com", packages: [
+    { id: "0", name: "بطاقة جوجل بلاي أمريكي - 5$", price: 5.25 },
+    { id: "0", name: "بطاقة جوجل بلاي أمريكي - 10$", price: 10.50 },
+    { id: "0", name: "بطاقة آيتونز أمريكي - 10$", price: 10.50 },
+    { id: "0", name: "بطاقة بلايستيشن PSN - 10$", price: 10.50 }
+  ]},
+  design: { title: "برامج التصميم والمونتاج", label: "أدخل البريد الإلكتروني لتفعيل الحساب:", placeholder: "name@gmail.com", packages: [
+    { id: "0", name: "تفعيل كانفا برو (Canva Pro) - سنة", price: 4.00 },
+    { id: "0", name: "اشتراك كاب كات برو (CapCut Pro) - شهر", price: 6.00 }
+  ]},
+  subs: { title: "اشتراكات الشاشات والترفيه", label: "أدخل الإيميل أو رقم الواتساب للاستلام:", placeholder: "name@gmail.com", packages: [
+    { id: "0", name: "اشتراك نتفليكس (Netflix 4K) - شهر", price: 4.50 },
+    { id: "0", name: "اشتراك شاهد VIP - شهر", price: 3.50 },
+    { id: "0", name: "اشتراك يوتيوب بريميوم - شهر", price: 3.00 }
+  ]},
+  vpn: { title: "خدمات VPN والبروكسي", label: "أدخل الإيميل أو رقم الواتساب لاستلام البيانات:", placeholder: "0939000000", packages: [
+    { id: "0", name: "اشتراك NordVPN - شهر كامل", price: 3.50 },
+    { id: "0", name: "اشتراك ExpressVPN - شهر كامل", price: 4.00 }
+  ]},
+  accounts: { title: "حسابات جاهزة وتوثيق", label: "أدخل رقم الواتساب للتواصل والتسليم:", placeholder: "0939000000", packages: [
+    { id: "0", name: "حساب جيميل أمريكي مفعل وجاهز", price: 1.50 },
+    { id: "0", name: "اشتراك تيليغرام مميز (Telegram Premium)", price: 4.50 }
+  ]}
 };
 
-function toggleDrawer(){const d=document.getElementById('sideDrawer'),o=document.getElementById('overlay');d.classList.toggle('open');o.style.display=d.classList.contains('open')?'block':'none'}
-
-function openCatModal(key){
-if(!currentUser){
-  alert("🔐 يرجى تسجيل الدخول أو إنشاء حساب أولاً لتتمكن من الشراء!");
-  window.location.href = 'login.html';
-  return;
-}
-const data=storeCatalog[key];
-document.getElementById('cTitle').innerText=data.title;
-document.getElementById('idFieldLabel').innerText=data.label;
-document.getElementById('idField').placeholder=data.placeholder;
-document.getElementById('idField').value="";
-const s=document.getElementById('pkgField');
-s.innerHTML="";
-data.packages.forEach(item=>{
-const opt=document.createElement("option");
-opt.value=item.name;
-opt.setAttribute('data-id',item.id);
-opt.setAttribute('data-price',item.price);
-opt.textContent=`${item.name} - ($${item.price.toFixed(2)})`;
-s.appendChild(opt);
-});
-document.getElementById('catModal').classList.add('show');
+function toggleDrawer() {
+  const d = document.getElementById('sideDrawer'), o = document.getElementById('overlay');
+  d.classList.toggle('open');
+  o.style.display = d.classList.contains('open') ? 'block' : 'none';
 }
 
-function closeCatModal(){document.getElementById('catModal').classList.remove('show')}
-function filterCards(){const q=document.getElementById('searchInput').value.toLowerCase();document.querySelectorAll('.service-card').forEach(c=>{c.style.display=c.getAttribute('data-name').toLowerCase().includes(q)?'flex':'none'})}
-
-async function submitDirectOrder(){
-if(!currentUser){
-  window.location.href = 'login.html';
-  return;
-}
-const sel=document.getElementById('pkgField');
-const opt=sel.options[sel.selectedIndex];
-const serviceId=opt.getAttribute('data-id')||"0";
-const pkgName=sel.value;
-const pkgPrice=parseFloat(opt.getAttribute('data-price'))||1.00;
-const target=document.getElementById('idField').value.trim();
-
-if(!target){
-alert('يرجى إدخال المعرف (ID) أو الرقم المطلوب لإتمام الشراء!');
-document.getElementById('idField').focus();
-return;
-}
-
-if(userBalance < pkgPrice){
-alert(`⚠️ رصيدك الحالي ($${userBalance.toFixed(2)}) غير كافٍ لشراء هذه الباقة ($${pkgPrice.toFixed(2)}).\nيرجى شحن محفظتك أولاً!`);
-window.location.href = 'deposit.html';
-return;
+function openCatModal(key) {
+  const data = storeCatalog[key];
+  if (!data) return;
+  document.getElementById('cTitle').innerText = data.title;
+  document.getElementById('idFieldLabel').innerText = data.label;
+  document.getElementById('idField').placeholder = data.placeholder;
+  document.getElementById('idField').value = "";
+  const s = document.getElementById('pkgField');
+  s.innerHTML = "";
+  data.packages.forEach(item => {
+    const opt = document.createElement("option");
+    opt.value = item.name;
+    opt.setAttribute('data-id', item.id);
+    opt.setAttribute('data-price', item.price);
+    opt.textContent = `${item.name} - ($${item.price.toFixed(2)})`;
+    s.appendChild(opt);
+  });
+  document.getElementById('catModal').classList.add('show');
 }
 
-const btn=document.querySelector('.btn-confirm');
-btn.innerText="⏳ جاري التنفيذ الآلي...";
-btn.disabled=true;
-
-let orderStatus="wait";
-let orderTime="قيد المعالجة";
-
-if(serviceId !== "0"){
-try{
-const res=await fetch(`${SERVER_URL}/api/create-order`,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({service_id:serviceId,target_id:target,quantity:1})
-});
-const data=await res.json();
-if(data.success){
-orderStatus="done";
-orderTime="فوري (API)";
-userBalance = Math.max(0, userBalance - pkgPrice);
-await sb.from('profiles').update({ balance: userBalance }).eq('id', currentUser.id);
-}
-}catch(e){console.log(e);}
-} else {
-userBalance = Math.max(0, userBalance - pkgPrice);
-await sb.from('profiles').update({ balance: userBalance }).eq('id', currentUser.id);
+function closeCatModal() {
+  document.getElementById('catModal').classList.remove('show');
 }
 
-document.getElementById('headerBalance').innerText = '$' + userBalance.toFixed(2);
-const orderId="#"+Math.floor(10000+Math.random()*90000);
-let orders=JSON.parse(localStorage.getItem('vc_orders')||'[]');
-orders.unshift({
-id:orderId,
-service:pkgName,
-target:target,
-date:new Date().toLocaleDateString('en-CA'),
-price:pkgPrice,
-status:orderStatus,
-time:orderTime
-});
-localStorage.setItem('vc_orders',JSON.stringify(orders));
+function filterCards() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('.service-card').forEach(c => {
+    c.style.display = c.getAttribute('data-name').toLowerCase().includes(q) ? 'flex' : 'none';
+  });
+}
 
-btn.innerText="🚀 تأكيد الشراء";
-btn.disabled=false;
-closeCatModal();
-alert(`✅ تم إرسال طلبك بنجاح!\nرقم الطلب: ${orderId}\nرصيدك المتبقي: $${userBalance.toFixed(2)}`);
-window.location.href='orders.html';
+async function submitDirectOrder() {
+  if (!currentUser) {
+    alert("🔐 يرجى تسجيل الدخول أو إنشاء حساب أولاً لتتمكن من إتمام الشراء!");
+    window.location.href = 'login.html';
+    return;
+  }
+  const sel = document.getElementById('pkgField');
+  const opt = sel.options[sel.selectedIndex];
+  const serviceId = opt.getAttribute('data-id') || "0";
+  const pkgName = sel.value;
+  const pkgPrice = parseFloat(opt.getAttribute('data-price')) || 1.00;
+  const target = document.getElementById('idField').value.trim();
+
+  if (!target) {
+    alert('يرجى إدخال المعرف (ID) أو الرقم المطلوب لإتمام الشراء!');
+    document.getElementById('idField').focus();
+    return;
+  }
+
+  if (userBalance < pkgPrice) {
+    alert(`⚠️ رصيدك الحالي ($${userBalance.toFixed(2)}) غير كافٍ لشراء هذه الباقة ($${pkgPrice.toFixed(2)}).\nيرجى شحن محفظتك أولاً!`);
+    window.location.href = 'deposit.html';
+    return;
+  }
+
+  const btn = document.querySelector('.btn-confirm');
+  btn.innerText = "⏳ جاري التنفيذ الآلي...";
+  btn.disabled = true;
+
+  let orderStatus = "wait";
+  let orderTime = "قيد المعالجة";
+
+  if (serviceId !== "0") {
+    try {
+      const res = await fetch(`${SERVER_URL}/api/create-order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ service_id: serviceId, target_id: target, quantity: 1 })
+      });
+      const data = await res.json();
+      if (data.success) {
+        orderStatus = "done";
+        orderTime = "فوري (API)";
+        userBalance = Math.max(0, userBalance - pkgPrice);
+        if (sb) await sb.from('profiles').update({ balance: userBalance }).eq('id', currentUser.id);
+      }
+    } catch (e) { console.log(e); }
+  } else {
+    userBalance = Math.max(0, userBalance - pkgPrice);
+    if (sb) await sb.from('profiles').update({ balance: userBalance }).eq('id', currentUser.id);
+  }
+
+  document.getElementById('headerBalance').innerText = '$' + userBalance.toFixed(2);
+  const orderId = "#" + Math.floor(10000 + Math.random() * 90000);
+  let orders = JSON.parse(localStorage.getItem('vc_orders') || '[]');
+  orders.unshift({
+    id: orderId,
+    service: pkgName,
+    target: target,
+    date: new Date().toLocaleDateString('en-CA'),
+    price: pkgPrice,
+    status: orderStatus,
+    time: orderTime
+  });
+  localStorage.setItem('vc_orders', JSON.stringify(orders));
+
+  btn.innerText = "🚀 تأكيد الشراء";
+  btn.disabled = false;
+  closeCatModal();
+  alert(`✅ تم إرسال طلبك بنجاح!\nرقم الطلب: ${orderId}\nرصيدك المتبقي: $${userBalance.toFixed(2)}`);
+  window.location.href = 'orders.html';
 }
 </script>
 </body>
