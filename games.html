@@ -5,11 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>قسم الألعاب | VC Store 1</title>
 <link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
+<script src="https://jsdelivr.net" defer></script>
 <style>
 @import url('https://googleapis.com');
 :root{--bg-dark:#090b10;--bg-card:#121622;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
 body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:85px}
+#vcPreloader{position:fixed;inset:0;background:#090b10;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity 0.4s ease,visibility 0.4s ease}
+#vcPreloader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.neon-spinner{position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+.neon-ring-outer{position:absolute;inset:0;border-radius:50%;border:3px solid rgba(124,58,237,0.15);border-top-color:#7c3aed;border-right-color:#06b6d4;animation:spinCw 0.85s linear infinite;box-shadow:0 0 22px rgba(124,58,237,0.4)}
+.neon-ring-inner{width:42px;height:42px;border-radius:50%;border:3px solid rgba(6,182,212,0.15);border-bottom-color:#fbbf24;border-left-color:#06b6d4;animation:spinCcw 0.65s linear infinite}
+@keyframes spinCw{to{transform:rotate(360deg)}}
+@keyframes spinCcw{to{transform:rotate(-360deg)}}
+.load-txt{font-size:0.88rem;font-weight:900;color:#fff;letter-spacing:1px}
+.load-txt span{color:#06b6d4}
 header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:14px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .brand{font-size:1.3rem;font-weight:900;color:#fff;text-decoration:none}
 .brand span{color:var(--primary)}
@@ -52,6 +62,14 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:14px 5%
 </style>
 </head>
 <body>
+<div id="vcPreloader">
+  <div class="neon-spinner">
+    <div class="neon-ring-outer"></div>
+    <div class="neon-ring-inner"></div>
+  </div>
+  <div class="load-txt">VC Store <span>1</span></div>
+</div>
+
 <header>
 <a href="store.html" class="brand">VC Store <span>1</span></a>
 <a href="store.html" class="back-btn">العودة للمتجر</a>
@@ -124,7 +142,34 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:14px 5%
 </nav>
 
 <script>
-const SERVER_URL = "https://onrender.com";
+function hideLoader() {
+  const p = document.getElementById('vcPreloader');
+  if (p) p.classList.add('hide');
+}
+window.addEventListener('load', hideLoader);
+setTimeout(hideLoader, 1200);
+
+const SERVER_URL = "https://vc-store-api.onrender.com";
+const SUPABASE_URL = "https://supabase.co";
+const SUPABASE_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
+
+let sb = null;
+let currentUser = null;
+let userBalance = 0.00;
+
+window.addEventListener('DOMContentLoaded', async () => {
+  if (window.supabase) {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session && session.user) {
+        currentUser = session.user;
+        const { data } = await sb.from('profiles').select('balance').eq('id', currentUser.id).single();
+        if (data) userBalance = parseFloat(data.balance || 0);
+      }
+    } catch (e) { console.log(e); }
+  }
+});
 
 const gamesCatalog={
 pubg:{title:"شحن شدات ببجي موبايل (PUBG UC)",label:"أدخل معرف اللاعب في ببجي (Player ID):",placeholder:"مثال: 5123456789",packages:[
@@ -182,6 +227,11 @@ document.getElementById('gameModal').classList.add('show');
 function closeModal(){document.getElementById('gameModal').classList.remove('show')}
 
 async function submitDirectGameOrder(){
+if(!currentUser){
+  alert("🔐 يرجى تسجيل الدخول أو إنشاء حساب أولاً لتتمكن من الشراء!");
+  window.location.href = 'login.html';
+  return;
+}
 const sel=document.getElementById('mPackages');
 const opt=sel.options[sel.selectedIndex];
 const serviceId=opt.getAttribute('data-id');
@@ -192,6 +242,12 @@ const pid=document.getElementById('mPlayerId').value.trim();
 if(!pid){
 alert("يرجى إدخال معرف اللاعب (ID) أولاً!");
 document.getElementById('mPlayerId').focus();
+return;
+}
+
+if(userBalance < pkgPrice){
+alert(`⚠️ رصيدك الحالي ($${userBalance.toFixed(2)}) غير كافٍ لشراء هذه الباقة ($${pkgPrice.toFixed(2)}).\nيرجى شحن محفظتك أولاً!`);
+window.location.href = 'deposit.html';
 return;
 }
 
@@ -214,14 +270,19 @@ const data=await res.json();
 if(data.success){
 orderStatus="done";
 orderTime="فوري (API)";
+userBalance = Math.max(0, userBalance - pkgPrice);
+if(sb) await sb.from('profiles').update({ balance: userBalance }).eq('id', currentUser.id);
 } else {
 orderStatus="rej";
 orderTime="مرفوض من المزود";
 serverReply=`\n❌ سبب الرفض: ${data.error || 'تعذر تنفيذ الطلب'}`;
 }
 }catch(e){
-serverReply="\n⚠️ تعذر الاتصال بالسيرفر (قد يكون في وضع السكون لثوانٍ).";
+serverReply="\n⚠️ تعذر الاتصال بالسيرفر حالياً.";
 }
+} else {
+userBalance = Math.max(0, userBalance - pkgPrice);
+if(sb) await sb.from('profiles').update({ balance: userBalance }).eq('id', currentUser.id);
 }
 
 const orderId="#"+Math.floor(10000+Math.random()*90000);
@@ -240,7 +301,7 @@ localStorage.setItem('vc_orders',JSON.stringify(orders));
 btn.innerText="🚀 تأكيد الشراء";
 btn.disabled=false;
 closeModal();
-alert(`✅ تم تسجيل طلبك!\nرقم الطلب: ${orderId}\nالحالة: ${orderStatus==='done'?'مكتمل فوراً عبر API':(orderStatus==='rej'?'مرفوض':'قيد المعالجة')}${serverReply}`);
+alert(`✅ تم تسجيل طلبك!\nرقم الطلب: ${orderId}\nرصيدك المتبقي: $${userBalance.toFixed(2)}${serverReply}`);
 window.location.href='orders.html';
 }
 </script>
