@@ -27,6 +27,7 @@ input{width:100%;padding:12px;background:#090b10;border:1px solid #283047;border
 </style>
 </head>
 <body>
+
 <header>
 <a href="store.html" class="brand">VC Store <span>1</span></a>
 <a href="store.html" class="back">العودة للمتجر</a>
@@ -36,18 +37,23 @@ input{width:100%;padding:12px;background:#090b10;border:1px solid #283047;border
 <h3 style="margin-bottom:12px;color:var(--gold);text-align:center">اختر وسيلة شحن المحفظة</h3>
 
 <div class="methods">
-<div class="m-btn active" id="btn_sham" onclick="selectMethod('sham')">💳 شام كاش</div>
-<div class="m-btn" id="btn_syriatel" onclick="selectMethod('syriatel')">📱 سيريتل كاش</div>
+<div class="m-btn active" id="btn_sham_usd" onclick="selectMethod('sham_usd')">💵 شام كاش ($)</div>
+<div class="m-btn" id="btn_sham_syp" onclick="selectMethod('sham_syp')">🇸🇾 شام كاش (ل.س)</div>
 <div class="m-btn" id="btn_usdt" onclick="selectMethod('usdt')">💲 USDT</div>
 </div>
 
 <div class="box">
-<div id="methodTitle" style="font-weight:800;font-size:0.9rem;color:var(--sec)">عنوان التحويل عبر شام كاش:</div>
-<div class="addr" id="walletAddr">0939877779</div>
-<button class="copy-btn" onclick="copyAddr()">📋 نسخ العنوان / الرقم</button>
+<div id="methodTitle" style="font-weight:800;font-size:0.9rem;color:var(--sec)">كود محفظة شام كاش (دولار أمريكي $):</div>
+<div class="addr" id="walletAddr">f73392cbc5a68ee4e84be15ace4729d4</div>
+<button class="copy-btn" onclick="copyAddr()">📋 نسخ كود المحفظة</button>
 
-<label>المبلغ المرسل بالدولار ($):</label>
-<input type="number" step="0.1" id="depAmount" placeholder="مثال: 5.00">
+<div id="sypCalcBox" style="display:none;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);padding:10px;border-radius:10px;margin-bottom:14px;font-size:0.82rem;color:var(--gold)">
+سعر الصرف المعتمد: <b>1$ = 12,000 ل.س</b><br>
+المبلغ المطلوب تحويله بالليرة: <b id="sypTotal">0 ل.س</b>
+</div>
+
+<label>المبلغ المراد شحنه في محفظتك بالدولار ($):</label>
+<input type="number" step="0.1" id="depAmount" placeholder="مثال: 5.00" onkeyup="calcSyp()">
 
 <label>رقم العملية أو اسم المرسل للتأكيد:</label>
 <input type="text" id="depTx" placeholder="اكتب رقم العملية أو اسمك الثلاثي...">
@@ -55,6 +61,7 @@ input{width:100%;padding:12px;background:#090b10;border:1px solid #283047;border
 <button class="submit" id="sendBtn" onclick="sendDeposit()">🚀 إرسال إشعار الإيداع</button>
 </div>
 </div>
+
 <script>
 const SUPABASE_URL = "https://supabase.co";
 const SUPABASE_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
