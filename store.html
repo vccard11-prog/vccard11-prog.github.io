@@ -424,5 +424,35 @@ async function submitDirectOrder() {
   }
 })();
 </script>
+<script>
+(async function syncStoreUser() {
+  const saved = localStorage.getItem('vc_user');
+  if (saved) {
+    try {
+      const u = JSON.parse(saved);
+      const SB_URL = "https://supabase.co";
+      const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
+
+      const authBar = document.querySelector('.auth-bar, #authArea, .user-bar');
+      const loginBtns = document.querySelectorAll('a[href="login.html"]');
+      loginBtns.forEach(btn => {
+        btn.innerHTML = `👋 أهلاً، ${u.name}`;
+        btn.style.borderColor = '#10b981';
+        btn.style.color = '#10b981';
+      });
+
+      const res = await fetch(`${SB_URL}/rest/v1/profiles?id=eq.${u.id}&select=balance`, {
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (u.token || SB_KEY) }
+      });
+      const rows = await res.json();
+      if (rows && rows.length > 0) {
+        const bal = parseFloat(rows.balance || 0).toFixed(2);
+        const balEl = document.getElementById('userBalance') || document.querySelector('.bal-val');
+        if (balEl) balEl.innerText = '$' + bal;
+      }
+    } catch (e) { console.log(e); }
+  }
+})();
+</script>
 
 </html>
