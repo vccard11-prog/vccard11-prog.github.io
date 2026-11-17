@@ -387,4 +387,42 @@ async function submitDirectOrder() {
 }
 </script>
 </body>
+  <script>
+(async function handleGoogleReturn() {
+  const hash = window.location.hash;
+  if (hash && hash.includes('access_token=')) {
+    const params = new URLSearchParams(hash.substring(1));
+    const token = params.get('access_token');
+    if (token) {
+      const SB_URL = "https://supabase.co";
+      const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
+      try {
+        const userRes = await fetch(SB_URL + '/auth/v1/user', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
+        });
+        const user = await userRes.json();
+        if (user && user.id) {
+          const fullName = (user.user_metadata && user.user_metadata.full_name) ? user.user_metadata.full_name : user.email.split('@')[0];
+          localStorage.setItem('vc_user', JSON.stringify({ id: user.id, email: user.email, name: fullName, token: token }));
+
+          await fetch(SB_URL + '/rest/v1/profiles', {
+            method: 'POST',
+            headers: {
+              'apikey': SB_KEY,
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json',
+              'Prefer': 'resolution=ignore-duplicates'
+            },
+            body: JSON.stringify({ id: user.id, email: user.email, full_name: fullName, balance: 0 })
+          });
+
+          window.history.replaceState(null, null, window.location.pathname);
+          location.reload();
+        }
+      } catch (e) { console.error(e); }
+    }
+  }
+})();
+</script>
+
 </html>
