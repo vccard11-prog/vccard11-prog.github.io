@@ -4,186 +4,90 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>تسجيل الدخول | VC Store 1</title>
-<link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
 <script src="https://jsdelivr.net"></script>
 <style>
 @import url('https://googleapis.com');
-:root{--bg-dark:#07090e;--bg-card:#111623;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
-body{background:radial-gradient(circle at top,#161b2e 0%,#07090e 75%);color:var(--text-main);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-#vcPreloader{position:fixed;inset:0;background:radial-gradient(circle at center,#131829 0%,#07090e 100%);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity 0.4s ease,visibility 0.4s ease}
-#vcPreloader.hide{opacity:0;visibility:hidden;pointer-events:none}
-.neon-spinner{position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center}
-.ring-1{position:absolute;inset:0;border-radius:50%;border:3px solid transparent;border-top-color:#7c3aed;border-bottom-color:#7c3aed;animation:spinCw 1s linear infinite;box-shadow:0 0 22px rgba(124,58,237,0.45)}
-.ring-2{position:absolute;inset:10px;border-radius:50%;border:3px solid transparent;border-left-color:#06b6d4;border-right-color:#06b6d4;animation:spinCcw 0.75s linear infinite}
-.ring-3{position:absolute;inset:20px;border-radius:50%;border:2px dashed rgba(251,191,36,0.8);animation:spinCw 2s linear infinite}
-@keyframes spinCw{to{transform:rotate(360deg)}}
-@keyframes spinCcw{to{transform:rotate(-360deg)}}
-.load-txt{font-size:1rem;font-weight:900;color:#fff;letter-spacing:1px}
-.load-txt span{color:#06b6d4}
-.auth-box{background:var(--bg-card);border:1px solid rgba(124,58,237,0.45);border-radius:24px;width:100%;max-width:410px;padding:28px 22px;box-shadow:0 15px 40px rgba(0,0,0,0.6)}
-.logo-area{text-align:center;margin-bottom:20px}
-.logo-area img{width:68px;height:68px;border-radius:18px;border:2px solid var(--primary);margin-bottom:10px;box-shadow:0 6px 20px rgba(124,58,237,0.35)}
-.logo-area h1{font-size:1.45rem;font-weight:900}
-.logo-area h1 span{color:var(--primary)}
-.logo-area p{font-size:0.82rem;color:var(--text-dim);margin-top:4px}
-.tabs{display:grid;grid-template-columns:1fr 1fr;background:#07090e;padding:5px;border-radius:12px;margin-bottom:20px;border:1px solid var(--border)}
-.tab-btn{padding:10px;border:none;background:none;color:var(--text-dim);font-weight:800;font-size:0.88rem;border-radius:9px;cursor:pointer;transition:0.2s}
-.tab-btn.active{background:var(--primary);color:#fff;box-shadow:0 4px 12px rgba(124,58,237,0.4)}
-.field{margin-bottom:15px}
-.field label{display:block;font-size:0.82rem;color:var(--text-dim);margin-bottom:6px;font-weight:700}
-.field input{width:100%;padding:13px 14px;background:#07090e;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.95rem;font-weight:600;transition:0.2s}
-.field input:focus{outline:none;border-color:var(--secondary);box-shadow:0 0 12px rgba(6,182,212,0.2)}
-.btn-submit{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;font-weight:900;font-size:0.98rem;cursor:pointer;margin-top:6px;box-shadow:0 6px 20px rgba(124,58,237,0.35)}
-.btn-submit:disabled{opacity:0.6;cursor:not-allowed}
-.msg{margin-top:14px;padding:11px;border-radius:10px;font-size:0.82rem;font-weight:700;text-align:center;display:none}
-.msg.err{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3);display:block}
-.msg.ok{background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.3);display:block}
-.back-home{display:block;text-align:center;margin-top:18px;color:var(--text-dim);text-decoration:none;font-size:0.84rem;font-weight:700}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+body{background:#07090e;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{background:#111623;border:1px solid #7c3aed;border-radius:22px;width:100%;max-width:400px;padding:26px 20px;box-shadow:0 10px 35px rgba(124,58,237,0.3)}
+.head{text-align:center;margin-bottom:18px}
+.head img{width:64px;height:64px;border-radius:16px;border:2px solid #7c3aed;margin-bottom:8px}
+.head h1{font-size:1.4rem;font-weight:900}
+.head h1 span{color:#06b6d4}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#07090e;padding:4px;border-radius:12px;margin-bottom:18px}
+.t-btn{padding:10px;border:none;background:none;color:#94a3b8;font-weight:800;border-radius:9px;cursor:pointer}
+.t-btn.active{background:#7c3aed;color:#fff}
+label{display:block;font-size:0.82rem;color:#94a3b8;margin-bottom:5px;font-weight:700}
+input{width:100%;padding:12px;background:#07090e;border:1px solid #283047;border-radius:12px;color:#fff;margin-bottom:14px;font-size:0.95rem}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;font-weight:900;font-size:0.95rem;cursor:pointer}
+.msg{margin-top:12px;padding:10px;border-radius:10px;font-size:0.82rem;text-align:center;display:none}
+.err{background:rgba(239,68,68,0.2);color:#ef4444;display:block}
+.ok{background:rgba(16,185,129,0.2);color:#10b981;display:block}
+.back{display:block;text-align:center;margin-top:16px;color:#94a3b8;text-decoration:none;font-size:0.82rem}
 </style>
 </head>
 <body>
-<div id="vcPreloader">
-  <div class="neon-spinner">
-    <div class="ring-1"></div>
-    <div class="ring-2"></div>
-    <div class="ring-3"></div>
-  </div>
-  <div class="load-txt">VC Store <span>1</span></div>
-</div>
-
-<div class="auth-box">
-<div class="logo-area">
-<img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="VC Store 1">
+<div class="box">
+<div class="head">
+<img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="Logo">
 <h1>VC Store <span>1</span></h1>
-<p>بوابة العملاء والمحفظة الإلكترونية</p>
 </div>
-
 <div class="tabs">
-<button class="tab-btn active" id="tabLogin" onclick="switchMode('login')">تسجيل الدخول</button>
-<button class="tab-btn" id="tabReg" onclick="switchMode('register')">إنشاء حساب جديد</button>
+<button class="t-btn active" id="b1" onclick="setM('login')">تسجيل الدخول</button>
+<button class="t-btn" id="b2" onclick="setM('reg')">حساب جديد</button>
 </div>
-
-<div class="field" id="nameField" style="display:none">
+<div id="nBox" style="display:none">
 <label>الاسم الكامل:</label>
-<input type="text" id="fullName" placeholder="اكتب اسمك هنا...">
+<input type="text" id="uName" placeholder="اكتب اسمك...">
 </div>
-
-<div class="field">
 <label>البريد الإلكتروني:</label>
-<input type="email" id="email" placeholder="example@gmail.com">
+<input type="email" id="uEmail" placeholder="example@gmail.com">
+<label>كلمة المرور:</label>
+<input type="password" id="uPass" placeholder="••••••">
+<button class="btn" id="goBtn" onclick="doAuth()">🚀 دخول الآن</button>
+<div class="msg" id="mBox"></div>
+<a href="store.html" class="back">← العودة للمتجر</a>
 </div>
-
-<div class="field">
-<label>كلمة المرور (6 أحرف أو أرقام على الأقل):</label>
-<input type="password" id="password" placeholder="••••••••">
-</div>
-
-<button class="btn-submit" id="submitBtn" onclick="handleAuth()">🚀 دخول إلى حسابي</button>
-<div class="msg" id="statusMsg"></div>
-<a href="store.html" class="back-home">← العودة لتصفح المتجر</a>
-</div>
-
 <script>
-function hideLoader() {
-  const p = document.getElementById('vcPreloader');
-  if (p) p.classList.add('hide');
-}
-window.addEventListener('load', hideLoader);
-setTimeout(hideLoader, 900);
-
-const SUPABASE_URL = "https://supabase.co";
-const SUPABASE_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
-let sb = null;
-
-if (window.supabase) {
-  sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-}
-
+const URL_SB = "https://supabase.co";
+const KEY_SB = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
 let mode = 'login';
-
-function switchMode(m) {
+function setM(m){
   mode = m;
-  document.getElementById('tabLogin').classList.toggle('active', m === 'login');
-  document.getElementById('tabReg').classList.toggle('active', m === 'register');
-  document.getElementById('nameField').style.display = m === 'register' ? 'block' : 'none';
-  document.getElementById('submitBtn').innerText = m === 'login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب ومحفظة جديدة';
-  document.getElementById('statusMsg').style.display = 'none';
+  document.getElementById('b1').classList.toggle('active', m==='login');
+  document.getElementById('b2').classList.toggle('active', m==='reg');
+  document.getElementById('nBox').style.display = m==='reg' ? 'block' : 'none';
+  document.getElementById('goBtn').innerText = m==='login' ? '🚀 دخول الآن' : '✨ إنشاء حساب جديد';
 }
-
-function showMsg(text, type) {
-  const box = document.getElementById('statusMsg');
-  box.innerText = text;
-  box.className = 'msg ' + type;
+function showM(t, c){
+  const el = document.getElementById('mBox');
+  el.innerText = t; el.className = 'msg ' + c;
 }
-
-async function handleAuth() {
-  if (!sb) {
-    if (window.supabase) {
-      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    } else {
-      showMsg("⚠️ يرجى الانتظار ثانية واحدة حتى يكتمل الاتصال بالشبكة ثم المحاولة مرة أخرى.", "err");
-      return;
+async function doAuth(){
+  const sb = window.supabase.createClient(URL_SB, KEY_SB);
+  const email = document.getElementById('uEmail').value.trim();
+  const password = document.getElementById('uPass').value.trim();
+  const full_name = document.getElementById('uName').value.trim() || email.split('@')[0];
+  if(!email || password.length < 6){ showM("أدخل الإيميل وكلمة مرور (6 خانات على الأقل)", "err"); return; }
+  const btn = document.getElementById('goBtn');
+  btn.disabled = true; btn.innerText = "⏳ جاري التنفيذ...";
+  if(mode === 'reg'){
+    const { data, error } = await sb.auth.signUp({ email, password });
+    if(error){ showM(error.message, "err"); }
+    else if(data.user){
+      await sb.from('profiles').upsert([{ id: data.user.id, email, full_name, balance: 0 }]);
+      showM("✅ تم إنشاء الحساب! جاري التحويل...", "ok");
+      setTimeout(()=> window.location.href = 'store.html', 1000);
+    }
+  } else {
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if(error){ showM("❌ بيانات الدخول غير صحيحة", "err"); }
+    else {
+      showM("✅ تم الدخول بنجاح!", "ok");
+      setTimeout(()=> window.location.href = 'store.html', 800);
     }
   }
-
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
-  const fullName = document.getElementById('fullName').value.trim() || email.split('@')[0];
-
-  if (!email || !password) {
-    showMsg("⚠️ يرجى إدخال البريد الإلكتروني وكلمة المرور!", "err");
-    return;
-  }
-
-  if (password.length < 6) {
-    showMsg("⚠️ كلمة المرور يجب أن تتكون من 6 أحرف أو أرقام على الأقل!", "err");
-    return;
-  }
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.innerText = "⏳ جاري الاتصال بالسحابة...";
-
-  try {
-    if (mode === 'register') {
-      const { data, error } = await sb.auth.signUp({ email, password });
-      if (error) {
-        showMsg("❌ خطأ: " + error.message, "err");
-      } else if (data && data.user) {
-        await sb.from('profiles').upsert([{
-          id: data.user.id,
-          email: email,
-          full_name: fullName,
-          balance: 0.00
-        }]);
-        showMsg("✅ تم إنشاء حسابك ومحفظتك بنجاح! جاري تحويلك للمتجر...", "ok");
-        setTimeout(() => window.location.href = 'store.html', 1200);
-      }
-    } else {
-      const { data, error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) {
-        showMsg("❌ البريد الإلكتروني أو كلمة المرور غير صحيحة", "err");
-      } else if (data && data.user) {
-        const { data: prof } = await sb.from('profiles').select('id').eq('id', data.user.id).single();
-        if (!prof) {
-          await sb.from('profiles').insert([{
-            id: data.user.id,
-            email: email,
-            full_name: fullName,
-            balance: 0.00
-          }]);
-        }
-        showMsg("✅ تم تسجيل الدخول بنجاح! جاري الدخول للمتجر...", "ok");
-        setTimeout(() => window.location.href = 'store.html', 1000);
-      }
-    }
-  } catch (err) {
-    showMsg("⚠️ تعذر الاتصال بالخادم، تأكد من جودة الإنترنت وحاول مجدداً.", "err");
-  }
-
-  btn.disabled = false;
-  btn.innerText = mode === 'login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب ومحفظة جديدة';
+  btn.disabled = false; btn.innerText = mode==='login' ? '🚀 دخول الآن' : '✨ إنشاء حساب جديد';
 }
 </script>
 </body>
