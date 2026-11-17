@@ -3,206 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>إضافة رصيد | VC Store 1</title>
+<title>شحن المحفظة | VC Store 1</title>
+<script src="https://jsdelivr.net"></script>
 <style>
 @import url('https://googleapis.com');
-:root{--bg-dark:#090b10;--bg-card:#121622;--bg-box:#181d2d;--primary:#7c3aed;--secondary:#06b6d4;--green:#10b981;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
-body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:40px}
-header{background:rgba(18,22,34,0.95);backdrop-filter:blur(12px);padding:14px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.brand{font-size:1.25rem;font-weight:900;color:#fff;text-decoration:none}
-.brand span{color:var(--secondary)}
-.back-btn{background:var(--bg-box);border:1px solid var(--border);color:#fff;text-decoration:none;padding:6px 14px;border-radius:10px;font-size:0.85rem;font-weight:700;cursor:pointer}
-.container{max-width:600px;margin:20px auto;padding:0 15px}
-.section-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:18px;margin-bottom:20px}
-.sec-title{font-size:1.1rem;font-weight:800;margin-bottom:16px;border-right:4px solid var(--primary);padding-right:10px}
-.methods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.method-item{background:var(--bg-box);border:1px solid var(--border);border-radius:16px;padding:12px 8px;text-align:center;cursor:pointer;transition:0.25s;position:relative}
-.method-item:hover{border-color:var(--secondary);transform:translateY(-3px)}
-.auto-tag{position:absolute;top:6px;right:6px;background:rgba(16,185,129,0.18);color:var(--green);border:1px solid rgba(16,185,129,0.4);font-size:0.65rem;font-weight:800;padding:1px 6px;border-radius:6px}
-.method-icon{width:54px;height:54px;border-radius:14px;margin:14px auto 10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;color:#fff}
-.ic-sham-usd{background:linear-gradient(135deg,#0284c7,#10b981)}
-.ic-sham-syp{background:linear-gradient(135deg,#0369a1,#06b6d4)}
-.ic-syr{background:linear-gradient(135deg,#dc2626,#991b1b)}
-.ic-usdt{background:linear-gradient(135deg,#059669,#047857)}
-.ic-bin{background:linear-gradient(135deg,#d97706,#f59e0b)}
-.ic-pay{background:linear-gradient(135deg,#4f46e5,#7c3aed)}
-.method-item h4{font-size:0.8rem;font-weight:800;color:#fff}
-#paymentDetails{display:none}
-.method-header{text-align:center;margin-bottom:20px}
-.verified-badge{display:inline-block;background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);padding:4px 12px;border-radius:50px;font-size:0.78rem;font-weight:800;margin-bottom:10px}
-.method-header h2{font-size:1.35rem;font-weight:900;display:flex;align-items:center;justify-content:center;gap:8px}
-.transfer-box{background:var(--bg-box);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px}
-.code-display{background:#090b10;border:1px solid #283047;border-radius:12px;padding:12px;margin:10px 0;text-align:left;direction:ltr}
-.code-label{font-size:0.72rem;color:var(--text-dim);display:block;margin-bottom:4px}
-.code-val{font-family:monospace;font-size:0.95rem;color:#fff;word-break:break-all;font-weight:700}
-.copy-btn{background:#23293d;border:1px solid var(--border);color:#fff;padding:6px 14px;border-radius:8px;font-size:0.8rem;font-weight:700;cursor:pointer;margin-top:8px;display:inline-flex;align-items:center;gap:6px}
-.min-note{background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.25);padding:10px 14px;border-radius:12px;font-size:0.82rem;color:var(--secondary);font-weight:700;margin-bottom:18px;text-align:center}
-.field{margin-bottom:15px}
-.field label{display:block;font-size:0.85rem;font-weight:800;margin-bottom:7px;color:#fff}
-.field input{width:100%;padding:13px 14px;background:#090b10;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.95rem;font-weight:600}
-.field input:focus{outline:none;border-color:var(--primary)}
-.api-note{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);padding:12px;border-radius:12px;font-size:0.8rem;color:var(--green);font-weight:700;margin-bottom:18px;text-align:center}
-.submit-btn{width:100%;padding:15px;border:none;border-radius:14px;background:linear-gradient(90deg,#7c3aed,#6366f1);color:#fff;font-size:1rem;font-weight:900;cursor:pointer;box-shadow:0 6px 20px rgba(124,58,237,0.4)}
+:root{--bg:#090b10;--card:#121622;--primary:#7c3aed;--sec:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
+body{background:var(--bg);color:#fff;padding-bottom:80px}
+header{background:var(--card);padding:14px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.brand{font-weight:900;font-size:1.2rem;color:#fff;text-decoration:none}
+.brand span{color:var(--primary)}
+.back{background:var(--primary);color:#fff;padding:6px 12px;border-radius:10px;text-decoration:none;font-size:0.8rem;font-weight:700}
+.container{max-width:500px;margin:20px auto;padding:0 15px}
+.methods{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.m-btn{background:var(--card);border:1px solid var(--border);padding:12px 6px;border-radius:14px;text-align:center;cursor:pointer;font-weight:800;font-size:0.8rem;color:#94a3b8}
+.m-btn.active{border-color:var(--sec);color:#fff;background:#171d2e}
+.box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:15px}
+.addr{background:#090b10;padding:12px;border-radius:10px;border:1px dashed var(--sec);text-align:center;font-weight:800;color:var(--gold);margin:10px 0;word-break:break-all;font-size:0.9rem}
+.copy-btn{width:100%;padding:8px;background:rgba(6,182,212,0.15);color:var(--sec);border:1px solid var(--sec);border-radius:10px;font-weight:800;cursor:pointer;margin-bottom:14px}
+label{display:block;font-size:0.82rem;color:#94a3b8;margin-bottom:6px;font-weight:700}
+input{width:100%;padding:12px;background:#090b10;border:1px solid #283047;border-radius:12px;color:#fff;margin-bottom:14px;font-weight:700}
+.submit{width:100%;padding:14px;background:linear-gradient(90deg,var(--primary),var(--sec));border:none;border-radius:12px;color:#fff;font-weight:900;font-size:0.95rem;cursor:pointer}
 </style>
 </head>
 <body>
 <header>
-<button class="back-btn" id="topBackBtn" onclick="goBack()">العودة للمتجر</button>
 <a href="store.html" class="brand">VC Store <span>1</span></a>
+<a href="store.html" class="back">العودة للمتجر</a>
 </header>
 
 <div class="container">
-<div class="section-card" id="methodsList">
-<div class="sec-title">اختر وسيلة الإيداع</div>
-<div class="methods-grid">
-<div class="method-item" onclick="openMethod('sham_usd')">
-<span class="auto-tag">⚡ تلقائي</span>
-<div class="method-icon ic-sham-usd">$</div>
-<h4>شام كاش دولار</h4>
+<h3 style="margin-bottom:12px;color:var(--gold);text-align:center">اختر وسيلة شحن المحفظة</h3>
+
+<div class="methods">
+<div class="m-btn active" id="btn_sham" onclick="selectMethod('sham')">💳 شام كاش</div>
+<div class="m-btn" id="btn_syriatel" onclick="selectMethod('syriatel')">📱 سيريتل كاش</div>
+<div class="m-btn" id="btn_usdt" onclick="selectMethod('usdt')">💲 USDT</div>
 </div>
 
-<div class="method-item" onclick="openMethod('sham_syp')">
-<span class="auto-tag">⚡ تلقائي</span>
-<div class="method-icon ic-sham-syp">ل.س</div>
-<h4>شام كاش ليرة</h4>
-</div>
+<div class="box">
+<div id="methodTitle" style="font-weight:800;font-size:0.9rem;color:var(--sec)">عنوان التحويل عبر شام كاش:</div>
+<div class="addr" id="walletAddr">0939877779</div>
+<button class="copy-btn" onclick="copyAddr()">📋 نسخ العنوان / الرقم</button>
 
-<div class="method-item" onclick="openMethod('syriatel')">
-<span class="auto-tag">⚡ تلقائي</span>
-<div class="method-icon ic-syr">S</div>
-<h4>سيريتل كاش</h4>
-</div>
+<label>المبلغ المرسل بالدولار ($):</label>
+<input type="number" step="0.1" id="depAmount" placeholder="مثال: 5.00">
 
-<div class="method-item" onclick="openMethod('usdt_trc20')">
-<span class="auto-tag">⚡ تلقائي</span>
-<div class="method-icon ic-usdt">₮</div>
-<h4>USDT (TRC20)</h4>
-</div>
+<label>رقم العملية أو اسم المرسل للتأكيد:</label>
+<input type="text" id="depTx" placeholder="اكتب رقم العملية أو اسمك الثلاثي...">
 
-<div class="method-item" onclick="openMethod('binance')">
-<div class="method-icon ic-bin">B</div>
-<h4>Binance Pay</h4>
-</div>
-
-<div class="method-item" onclick="openMethod('payeer')">
-<div class="method-icon ic-pay">P</div>
-<h4>Payeer / حوالات</h4>
+<button class="submit" id="sendBtn" onclick="sendDeposit()">🚀 إرسال إشعار الإيداع</button>
 </div>
 </div>
-</div>
-
-<div class="section-card" id="paymentDetails">
-<div class="method-header">
-<span class="verified-badge">✔ طريقة معتمدة</span>
-<h2 id="mTitle">شام كاش دولار</h2>
-</div>
-
-<div class="transfer-box">
-<div style="font-weight:800;font-size:0.9rem;margin-bottom:6px">ℹ️ معلومات التحويل</div>
-<div class="code-display">
-<span class="code-label">Transfer code / العنوان</span>
-<div class="code-val" id="mAddress">8b1e5f9c2a4d7e6b3f1a8c9d0e2f80fbf9</div>
-<button class="copy-btn" onclick="copyCode()">📋 نسخ الكود</button>
-</div>
-<div class="min-note" id="mMinNote">الحد الأدنى لإضافة الرصيد 1 دولار فقط</div>
-</div>
-
-<div class="field">
-<label># رقم العملية / TXID</label>
-<input type="text" id="txidInput" placeholder="أدخل رقم العملية أو معرف التحويل">
-</div>
-
-<div class="field">
-<label>$ المبلغ المحول (بالدولار)</label>
-<input type="number" id="amountInput" placeholder="أدخل المبلغ بالدولار (مثال: 5)">
-</div>
-
-<div class="api-note">⚡ سيتم إضافة الرصيد تلقائياً بعد مطابقة الحوالة عبر النظام</div>
-
-<button class="submit-btn" onclick="confirmDeposit()">🚀 تأكيد الإيداع</button>
-</div>
-</div>
-
 <script>
-const paymentData = {
-sham_usd: {
-title: "شام كاش دولار ($)",
-address: "8b1e5f9c2a4d7e6b3f1a8c9d0e2f80fbf9",
-min: "الحد الأدنى لإضافة الرصيد 1 دولار فقط"
-},
-sham_syp: {
-title: "شام كاش ليرة سورية",
-address: "8b1e5f9c2a4d7e6b3f1a8c9d0e2f80fbf9",
-min: "الحد الأدنى لإضافة الرصيد ما يعادل 1 دولار"
-},
-syriatel: {
-title: "سيريتل كاش (تحويل يدوي / كود تاجر)",
-address: "0939877779",
-min: "يرجى التحويل كود تاجر أو تحويل رصيد وإدخال رقم العملية"
-},
-usdt_trc20: {
-title: "USDT (شبكة TRC20)",
-address: "TYourUSDTWalletAddressHere123456789",
-min: "الحد الأدنى للإيداع 5 USDT على شبكة TRC20"
-},
-binance: {
-title: "Binance Pay ID",
-address: "123456789",
-min: "الحد الأدنى للإيداع 1 دولار عبر معرف باينانس"
-},
-payeer: {
-title: "محفظة Payeer",
-address: "P100000000",
-min: "الحد الأدنى للإيداع 1 دولار"
-}
+const SUPABASE_URL = "https://supabase.co";
+const SUPABASE_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const EXCHANGE_RATE = 12000;
+const SHAM_CASH_CODE = "f73392cbc5a68ee4e84be15ace4729d4";
+
+const paymentDetails = {
+  sham_usd: { title: "كود محفظة شام كاش (دولار أمريكي $):", addr: SHAM_CASH_CODE, name: "شام كاش (دولار $)" },
+  sham_syp: { title: "كود محفظة شام كاش (ليرة سورية SYP):", addr: SHAM_CASH_CODE, name: "شام كاش (ليرة سورية)" },
+  usdt: { title: "عنوان محفظة USDT (شبكة TRC20):", addr: "TYourWalletAddressHere123456789", name: "USDT TRC20" }
 };
 
-let currentMethodName = "";
+let selectedKey = 'sham_usd';
+let currentUser = null;
 
-function openMethod(key) {
-const data = paymentData[key];
-currentMethodName = data.title;
-document.getElementById('mTitle').innerText = data.title;
-document.getElementById('mAddress').innerText = data.address;
-document.getElementById('mMinNote').innerText = data.min;
+window.addEventListener('DOMContentLoaded', async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session && session.user) {
+    currentUser = session.user;
+  }
+});
 
-document.getElementById('methodsList').style.display = 'none';
-document.getElementById('paymentDetails').style.display = 'block';
-document.getElementById('topBackBtn').innerText = '← العودة للطرق';
+function selectMethod(key) {
+  selectedKey = key;
+  document.querySelectorAll('.m-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn_' + key).classList.add('active');
+  document.getElementById('methodTitle').innerText = paymentDetails[key].title;
+  document.getElementById('walletAddr').innerText = paymentDetails[key].addr;
+  document.getElementById('sypCalcBox').style.display = key === 'sham_syp' ? 'block' : 'none';
+  calcSyp();
 }
 
-function goBack() {
-if (document.getElementById('paymentDetails').style.display === 'block') {
-document.getElementById('paymentDetails').style.display = 'none';
-document.getElementById('methodsList').style.display = 'block';
-document.getElementById('topBackBtn').innerText = 'العودة للمتجر';
-} else {
-window.location.href = 'store.html';
-}
+function calcSyp() {
+  const usd = parseFloat(document.getElementById('depAmount').value) || 0;
+  const syp = Math.round(usd * EXCHANGE_RATE);
+  document.getElementById('sypTotal').innerText = syp.toLocaleString('en-US') + ' ل.س';
 }
 
-function copyCode() {
-const codeText = document.getElementById('mAddress').innerText;
-navigator.clipboard.writeText(codeText);
-alert('تم نسخ كود التحويل بنجاح: ' + codeText);
+function copyAddr() {
+  const txt = document.getElementById('walletAddr').innerText;
+  navigator.clipboard.writeText(txt);
+  alert("✅ تم نسخ كود المحفظة بنجاح:\n" + txt);
 }
 
-function confirmDeposit() {
-const txid = document.getElementById('txidInput').value.trim();
-const amount = document.getElementById('amountInput').value.trim();
+async function sendDeposit() {
+  if (!currentUser) {
+    alert("🔐 يرجى تسجيل الدخول أولاً لتتمكن من إرسال إشعار الإيداع!");
+    window.location.href = 'login.html';
+    return;
+  }
+  const amt = parseFloat(document.getElementById('depAmount').value);
+  const tx = document.getElementById('depTx').value.trim();
 
-if (!txid || !amount) {
-alert('يرجى إدخال رقم العملية (TXID) والمبلغ المحول أولاً!');
-return;
-}
+  if (!amt || amt <= 0 || !tx) {
+    alert("⚠️ يرجى إدخال المبلغ بالدولار ورقم العملية أو اسم المرسل!");
+    return;
+  }
 
-const msg = `طلب تأكيد إيداع رصيد في VC Store 1:%0A` +
-`💳 الوسيلة: ${currentMethodName}%0A` +
-`#️⃣ رقم العملية: ${txid}%0A` +
-`💵 المبلغ: ${amount}$`;
+  let extraNote = tx;
+  if (selectedKey === 'sham_syp') {
+    const syp = Math.round(amt * EXCHANGE_RATE).toLocaleString('en-US');
+    extraNote = `${tx} (المعادل: ${syp} ل.س)`;
+  }
 
-window.open(`https://t.me{msg}`, '_blank');
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = true;
+  btn.innerText = "⏳ جاري الإرسال للإدارة...";
+
+  const code = "#DEP-" + Math.floor(1000 + Math.random() * 9000);
+  const { error } = await sb.from('orders_history').insert([{
+    order_code: code,
+    user_email: currentUser.email,
+    order_type: 'deposit',
+    service_name: 'إيداع ' + paymentDetails[selectedKey].name,
+    target_info: extraNote,
+    amount: amt,
+    status: 'pending'
+  }]);
+
+  btn.disabled = false;
+  btn.innerText = "🚀 إرسال إشعار الإيداع";
+
+  if (error) {
+    alert("❌ خطأ في الإرسال: " + error.message);
+  } else {
+    alert(`✅ تم إرسال إشعار الإيداع بنجاح!\nرقم المرجع: ${code}\nسيظهر الطلب الآن في لوحة الإدارة للموافقة وشحن رصيدك.`);
+    window.location.href = 'store.html';
+  }
 }
 </script>
 </body>
