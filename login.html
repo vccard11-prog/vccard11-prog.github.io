@@ -9,7 +9,7 @@
 @import url('https://googleapis.com');
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif}
 body{background:#07090e;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.box{background:#111623;border:1px solid #7c3aed;border-radius:22px;width:100%;max-width:400px;padding:26px 20px;box-shadow:0 10px 35px rgba(124,58,237,0.3)}
+.box{background:#111623;border:1px solid #7c3aed;border-radius:22px;width:100%;max-width:400px;padding:26px 20px;box-shadow:0 10px 35px rgba(124,58,237,0.3);position:relative;z-index:10}
 .head{text-align:center;margin-bottom:18px}
 .head img{width:64px;height:64px;border-radius:16px;border:2px solid #7c3aed;margin-bottom:8px}
 .head h1{font-size:1.4rem;font-weight:900}
@@ -31,63 +31,94 @@ input{width:100%;padding:12px;background:#07090e;border:1px solid #283047;border
 <div class="head">
 <img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="Logo">
 <h1>VC Store <span>1</span></h1>
+<p style="font-size:0.8rem;color:#94a3b8">بوابة العملاء والمحفظة الإلكترونية</p>
 </div>
 <div class="tabs">
-<button class="t-btn active" id="b1" onclick="setM('login')">تسجيل الدخول</button>
-<button class="t-btn" id="b2" onclick="setM('reg')">حساب جديد</button>
+<button type="button" class="t-btn active" id="b1" onclick="setM('login')">تسجيل الدخول</button>
+<button type="button" class="t-btn" id="b2" onclick="setM('reg')">إنشاء حساب جديد</button>
 </div>
 <div id="nBox" style="display:none">
 <label>الاسم الكامل:</label>
-<input type="text" id="uName" placeholder="اكتب اسمك...">
+<input type="text" id="uName" placeholder="اكتب اسمك هنا...">
 </div>
 <label>البريد الإلكتروني:</label>
 <input type="email" id="uEmail" placeholder="example@gmail.com">
 <label>كلمة المرور:</label>
 <input type="password" id="uPass" placeholder="••••••">
-<button class="btn" id="goBtn" onclick="doAuth()">🚀 دخول الآن</button>
+<button type="button" class="btn" id="goBtn" onclick="doAuth()">🚀 دخول إلى حسابي</button>
 <div class="msg" id="mBox"></div>
-<a href="store.html" class="back">← العودة للمتجر</a>
+<a href="store.html" class="back">← العودة لتصفح المتجر</a>
 </div>
 <script>
 const URL_SB = "https://supabase.co";
 const KEY_SB = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
 let mode = 'login';
+
 function setM(m){
   mode = m;
   document.getElementById('b1').classList.toggle('active', m==='login');
   document.getElementById('b2').classList.toggle('active', m==='reg');
   document.getElementById('nBox').style.display = m==='reg' ? 'block' : 'none';
-  document.getElementById('goBtn').innerText = m==='login' ? '🚀 دخول الآن' : '✨ إنشاء حساب جديد';
+  document.getElementById('goBtn').innerText = m==='login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب جديد';
+  document.getElementById('mBox').style.display = 'none';
 }
+
 function showM(t, c){
   const el = document.getElementById('mBox');
-  el.innerText = t; el.className = 'msg ' + c;
+  el.innerText = t;
+  el.className = 'msg ' + c;
+  el.style.display = 'block';
 }
+
 async function doAuth(){
-  const sb = window.supabase.createClient(URL_SB, KEY_SB);
   const email = document.getElementById('uEmail').value.trim();
   const password = document.getElementById('uPass').value.trim();
-  const full_name = document.getElementById('uName').value.trim() || email.split('@')[0];
-  if(!email || password.length < 6){ showM("أدخل الإيميل وكلمة مرور (6 خانات على الأقل)", "err"); return; }
-  const btn = document.getElementById('goBtn');
-  btn.disabled = true; btn.innerText = "⏳ جاري التنفيذ...";
-  if(mode === 'reg'){
-    const { data, error } = await sb.auth.signUp({ email, password });
-    if(error){ showM(error.message, "err"); }
-    else if(data.user){
-      await sb.from('profiles').upsert([{ id: data.user.id, email, full_name, balance: 0 }]);
-      showM("✅ تم إنشاء الحساب! جاري التحويل...", "ok");
-      setTimeout(()=> window.location.href = 'store.html', 1000);
-    }
-  } else {
-    const { data, error } = await sb.auth.signInWithPassword({ email, password });
-    if(error){ showM("❌ بيانات الدخول غير صحيحة", "err"); }
-    else {
-      showM("✅ تم الدخول بنجاح!", "ok");
-      setTimeout(()=> window.location.href = 'store.html', 800);
-    }
+  const nameInput = document.getElementById('uName').value.trim();
+  const full_name = nameInput ? nameInput : email.split('@')[0];
+
+  if(!email || password.length < 6){
+    showM("⚠️ أدخل البريد الإلكتروني وكلمة مرور (6 خانات على الأقل)", "err");
+    return;
   }
-  btn.disabled = false; btn.innerText = mode==='login' ? '🚀 دخول الآن' : '✨ إنشاء حساب جديد';
+
+  if(!window.supabase){
+    showM("⏳ الاتصال بطيء، انتظر ثوانٍ قليلة ثم اضغط الزر مجدداً...", "err");
+    return;
+  }
+
+  const sb = window.supabase.createClient(URL_SB, KEY_SB);
+  const btn = document.getElementById('goBtn');
+  btn.disabled = true;
+  btn.innerText = "⏳ جاري الاتصال بالسحابة...";
+  showM("⏳ جاري معالجة طلبك، يرجى الانتظار...", "ok");
+
+  try {
+    if(mode === 'reg'){
+      const { data, error } = await sb.auth.signUp({ email, password });
+      if(error){
+        showM("❌ خطأ: " + error.message, "err");
+      } else if(data && data.user){
+        await sb.from('profiles').upsert([{ id: data.user.id, email: email, full_name: full_name, balance: 0 }]);
+        showM("✅ تم إنشاء حسابك بنجاح! جاري تحويلك للمتجر...", "ok");
+        setTimeout(()=> window.location.href = 'store.html', 1000);
+      } else {
+        showM("⚠️ تعذر إنشاء الحساب، تأكد من إعدادات Supabase.", "err");
+      }
+    } else {
+      const { data, error } = await sb.auth.signInWithPassword({ email, password });
+      if(error){
+        showM("❌ البريد الإلكتروني أو كلمة المرور غير صحيحة", "err");
+      } else {
+        showM("✅ تم الدخول بنجاح! جاري التحويل...", "ok");
+        setTimeout(()=> window.location.href = 'store.html', 800);
+      }
+    }
+  } catch(e) {
+    showM("⚠️ خطأ في الاتصال بالشبكة: " + e.message, "err");
+  }
+
+  btn.disabled = false;
+  btn.innerText = mode==='login' ? '🚀 دخول إلى حسابي' : '✨ إنشاء حساب جديد';
 }
 </script>
 </body>
