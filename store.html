@@ -461,3 +461,158 @@ function filterCards() {
     card.style.display = name.includes(q) ? 'block' : 'none';
   });
 }
+async function submitDirectOrder() {
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  if (!savedU || !savedU.id) {
+    alert("🔐 يرجى تسجيل الدخول أو إنشاء حساب أولاً لتتمكن من إتمام الشراء!");
+    window.location.href = 'login.html';
+    return;
+  }
+
+  const sel = document.getElementById('pkgField');
+  const opt = sel.options[sel.selectedIndex];
+  const pkgName = sel.value;
+  const pkgPrice = parseFloat(opt.getAttribute('data-price')) || 1.00;
+  const target = document.getElementById('idField').value.trim();
+
+  if (!target) {
+    alert("⚠️ يرجى إدخال المعرف (ID) أو الرقم المطلوب لإتمام الشراء!");
+    document.getElementById('idField').focus();
+    return;
+  }
+
+  const btn = document.querySelector('.btn-confirm');
+  btn.innerText = "⏳ جاري التحقق من الرصيد وتنفيذ الطلب...";
+  btn.disabled = true;
+
+  try {
+    const pRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY)
+      }
+    });
+    const rows = await pRes.json();
+    const currentBal = (rows && rows.length > 0) ? parseFloat(rows[0].balance || 0) : 0;
+
+    if (currentBal < pkgPrice) {
+      alert(`⚠️ رصيدك الحالي ($${currentBal.toFixed(2)}) غير كافٍ لإتمام الشراء ($${pkgPrice.toFixed(2)}).\nيرجى شحن محفظتك أولاً.`);
+      btn.innerText = "🚀 تأكيد الشراء";
+      btn.disabled = false;
+      window.location.href = 'deposit.html';
+      return;
+    }
+
+    const newBal = parseFloat((currentBal - pkgPrice).toFixed(2));
+    const orderId = "#ORD-" + Math.floor(1000 + Math.random() * 9000);
+
+    await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ balance: newBal })
+    });
+
+    await fetch(SB_URL + '/rest/v1/orders_history', {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order_code: orderId,
+        user_email: savedU.email,
+        order_type: 'order',
+        service_name: pkgName,
+        target_info: target,
+        amount: pkgPrice,
+        status: 'pending'
+      })
+    });
+
+    const balEl = document.getElementById('headerBalance');
+    if (balEl) balEl.innerText = '$' + newBal.toFixed(2);
+
+    closeCatModal();
+    alert(`✅ تم إرسال طلبك بنجاح!\nرقم الطلب: ${orderId}\nتم خصم $${pkgPrice.toFixed(2)} من رصيدك.`);
+  } catch (e) {
+    alert("⚠️ حدث خطأ أثناء الاتصال بالخادم، حاول مجدداً.");
+  }
+
+  btn.innerText = "🚀 تأكيد الشراء";
+  btn.disabled = false;
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  hidePreloader();
+  const hash = window.location.hash;
+  if (hash && hash.includes('access_token=')) {
+    const params = new URLSearchParams(hash.substring(1));
+    const token = params.get('access_token');
+    if (token) {
+      try {
+        const uRes = await fetch(SB_URL + '/auth/v1/user', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
+        });
+        const gUser = await uRes.json();
+        if (gUser && gUser.id) {
+          const gName = (gUser.user_metadata && gUser.user_metadata.full_name) ? gUser.user_metadata.full_name : gUser.email.split('@')[0];
+          localStorage.setItem('vc_user', JSON.stringify({
+            id: gUser.id,
+            email: gUser.email,
+            name: gName,
+            token: token
+          }));
+
+          await fetch(SB_URL + '/rest/v1/profiles', {
+            method: 'POST',
+            headers: {
+              'apikey': SB_KEY,
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json',
+              'Prefer': 'resolution=ignore-duplicates'
+            },
+            body: JSON.stringify({
+              id: gUser.id,
+              email: gUser.email,
+              full_name: gName,
+              balance: 0
+            })
+          });
+          window.history.replaceState(null, null, window.location.pathname);
+        }
+      } catch (e) {}
+    }
+  }
+
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  if (savedU && savedU.id) {
+    document.querySelectorAll('a[href="login.html"]').forEach(btn => {
+      btn.innerHTML = '👋 أهلاً، ' + savedU.name;
+      btn.style.borderColor = '#10b981';
+      btn.style.color = '#10b981';
+    });
+
+    try {
+      const pRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + (savedU.token || SB_KEY)
+        }
+      });
+      const rows = await pRes.json();
+      if (rows && rows.length > 0) {
+        const bal = parseFloat(rows[0].balance || 0).toFixed(2);
+        const balEl = document.getElementById('headerBalance');
+        if (balEl) balEl.innerText = '$' + bal;
+      }
+    } catch (e) {}
+  }
+});
+</script>
+</body>
+</html>
