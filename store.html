@@ -400,3 +400,78 @@ async function submitDirectOrder() {
   btn.innerText = "🚀 تأكيد الشراء";
   btn.disabled = false;
 }
+window.addEventListener('DOMContentLoaded', async () => {
+  const hash = window.location.hash;
+  if (hash && hash.includes('access_token=')) {
+    const params = new URLSearchParams(hash.substring(1));
+    const token = params.get('access_token');
+    if (token) {
+      const SB_URL = "https://supabase.co";
+      const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
+      try {
+        const uRes = await fetch(SB_URL + '/auth/v1/user', {
+          headers: {
+            'apikey': SB_KEY,
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        const gUser = await uRes.json();
+        if (gUser && gUser.id) {
+          const gName = (gUser.user_metadata && gUser.user_metadata.full_name) ? gUser.user_metadata.full_name : gUser.email.split('@')[0];
+          localStorage.setItem('vc_user', JSON.stringify({
+            id: gUser.id,
+            email: gUser.email,
+            name: gName,
+            token: token
+          }));
+
+          await fetch(SB_URL + '/rest/v1/profiles', {
+            method: 'POST',
+            headers: {
+              'apikey': SB_KEY,
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json',
+              'Prefer': 'resolution=ignore-duplicates'
+            },
+            body: JSON.stringify({
+              id: gUser.id,
+              email: gUser.email,
+              full_name: gName,
+              balance: 0
+            })
+          });
+          window.history.replaceState(null, null, window.location.pathname);
+        }
+      } catch (e) {}
+    }
+  }
+
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  if (savedU && savedU.id) {
+    document.querySelectorAll('a[href="login.html"]').forEach(btn => {
+      btn.innerHTML = '👋 أهلاً، ' + savedU.name;
+      btn.style.borderColor = '#10b981';
+      btn.style.color = '#10b981';
+    });
+
+    try {
+      const SB_URL = "https://supabase.co";
+      const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
+      const pRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + (savedU.token || SB_KEY)
+        }
+      });
+      const rows = await pRes.json();
+      if (rows && rows.length > 0) {
+        const bal = parseFloat(rows[0].balance || 0).toFixed(2);
+        const balEl = document.getElementById('headerBalance');
+        if (balEl) balEl.innerText = '$' + bal;
+      }
+    } catch (e) {}
+  }
+});
+</script>
+</body>
+</html>
