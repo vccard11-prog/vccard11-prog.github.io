@@ -173,7 +173,7 @@ function hideLoader() {
   if (p) p.classList.add('hide');
 }
 window.addEventListener('load', hideLoader);
-setTimeout(hideLoader, 500);
+setTimeout(hideLoader, 400);
 
 const SERVER_URL = "https://" + "://onrender.com";
 const SB_URL = "https://" + "qfumtnofsifygdxfxdyq.supabase.co";
@@ -302,7 +302,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       const rows = await pRes.json();
       if (Array.isArray(rows) && rows.length > 0) {
         const balEl = document.getElementById('headerBalance');
-        if (balEl) balEl.innerText = '$' + parseFloat(rows[0].balance || 0).toFixed(2);
+        if (balEl) balEl.innerText = '$' + parseFloat(rows.balance || 0).toFixed(2);
       }
       const oList = await oRes.json();
       if (Array.isArray(oList) && oList.length > 0) {
@@ -335,7 +335,7 @@ async function submitDirectGameOrder() {
   }
 
   const btn = document.querySelector('.btn-confirm');
-  btn.innerText = "⏳ جاري خصم الرصيد وتنفيذ الطلب...";
+  btn.innerText = "⏳ جاري تنفيذ الطلب...";
   btn.disabled = true;
 
   try {
@@ -343,7 +343,7 @@ async function submitDirectGameOrder() {
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
     });
     const rows = await pRes.json();
-    const currentBal = (Array.isArray(rows) && rows.length > 0) ? parseFloat(rows[0].balance || 0) : 0;
+    const currentBal = (Array.isArray(rows) && rows.length > 0) ? parseFloat(rows.balance || 0) : 0;
 
     if (currentBal < pkgPrice) {
       btn.innerText = "🚀 تأكيد الشراء"; btn.disabled = false;
@@ -360,8 +360,7 @@ async function submitDirectGameOrder() {
       body: JSON.stringify({ balance: newBal })
     });
 
-    await fetch(SB_URL + '/rest/v1/orders_history', {
-      let finalStatus = 'pending';
+    let finalStatus = 'pending';
     if (serviceId && serviceId !== "0") {
       try {
         const ctrl = new AbortController();
@@ -393,27 +392,6 @@ async function submitDirectGameOrder() {
         status: finalStatus
       })
     });
-
-      method: 'POST',
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY), 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        order_code: orderId,
-        user_email: savedU.email,
-        order_type: 'order',
-        service_name: pkgName,
-        target_info: pid,
-        amount: pkgPrice,
-        status: 'pending'
-      })
-    });
-
-    if (serviceId && serviceId !== "0") {
-      fetch(`${SERVER_URL}/api/create-order`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ service_id: serviceId, target_id: pid, quantity: 1 })
-      }).catch(() => {});
-    }
 
     const balEl = document.getElementById('headerBalance');
     if (balEl) balEl.innerText = '$' + newBal.toFixed(2);
