@@ -283,17 +283,38 @@ function openGameModal(key) {
 function closeModal() {
   document.getElementById('gameModal').classList.remove('show');
 }
+window.addEventListener('DOMContentLoaded', async () => {
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  if (savedU && savedU.id) {
+    try {
+      const [pRes, oRes] = await Promise.all([
+        fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
+        }),
+        fetch(SB_URL + '/rest/v1/orders_history?user_email=eq.' + encodeURIComponent(savedU.email) + '&select=id', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
+        })
+      ]);
+      const rows = await pRes.json();
+      if (rows && rows.length > 0) {
+        const balEl = document.getElementById('headerBalance');
+        if (balEl) balEl.innerText = '$' + parseFloat(rows.balance || 0).toFixed(2);
+      }
+      const oList = await oRes.json();
+      if (Array.isArray(oList) && oList.length > 0) {
+        document.querySelectorAll('a[href="orders.html"]').forEach(tab => {
+          tab.style.position = 'relative';
+          tab.innerHTML += `<span style="position:absolute;top:2px;right:18px;background:#ef4444;color:#fff;font-size:0.65rem;font-weight:900;padding:1px 6px;border-radius:50px">${oList.length}</span>`;
+        });
+      }
+    } catch (e) {}
+  }
+});
+
 async function submitDirectGameOrder() {
   const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
   if (!savedU || !savedU.id) {
-    showVcAlert(
-      "🔐",
-      "تسجيل الدخول مطلوب",
-      "يرجى تسجيل الدخول أو إنشاء حساب أولاً لتتمكن من إتمام الشراء الفوري!",
-      "تسجيل الدخول الآن",
-      () => { window.location.href = 'login.html'; },
-      true
-    );
+    showVcAlert("🔐", "تسجيل الدخول مطلوب", "يرجى تسجيل الدخول أو إنشاء حساب أولاً لتتمكن من إتمام الشراء!", "تسجيل الدخول", () => { window.location.href = 'login.html'; }, true);
     return;
   }
 
@@ -305,92 +326,39 @@ async function submitDirectGameOrder() {
   const pid = document.getElementById('mPlayerId').value.trim();
 
   if (!pid) {
-    showVcAlert(
-      "⚠️",
-      "بيانات ناقصة",
-      "يرجى إدخال معرف اللاعب (Player ID) أولاً قبل تأكيد الشراء!",
-      "حسناً",
-      () => { document.getElementById('mPlayerId').focus(); }
-    );
+    showVcAlert("⚠️", "بيانات ناقصة", "يرجى إدخال معرف اللاعب (Player ID) أولاً!", "حسناً", () => { document.getElementById('mPlayerId').focus(); });
     return;
   }
 
   const btn = document.querySelector('.btn-confirm');
-  btn.innerText = "⏳ جاري التحقق من الرصيد وتنفيذ الطلب...";
+  btn.innerText = "⏳ جاري خصم الرصيد وتنفيذ الطلب...";
   btn.disabled = true;
 
   try {
     const pRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': 'Bearer ' + (savedU.token || SB_KEY)
-      }
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
     });
     const rows = await pRes.json();
     const currentBal = (rows && rows.length > 0) ? parseFloat(rows.balance || 0) : 0;
 
     if (currentBal < pkgPrice) {
-      btn.innerText = "🚀 تأكيد الشراء";
-      btn.disabled = false;
-      showVcAlert(
-        "💳",
-        "الرصيد غير كافٍ",
-        `رصيدك الحالي ($${currentBal.toFixed(2)}) لا يكفي لشراء هذه الباقة ($${pkgPrice.toFixed(2)}).\nيرجى شحن محفظتك أولاً.`,
-        "شحن الرصيد الآن",
-        () => { window.location.href = 'deposit.html'; },
-        true
-      );
+      btn.innerText = "🚀 تأكيد الشراء"; btn.disabled = false;
+      showVcAlert("💳", "الرصيد غير كافٍ", `رصيدك الحالي ($${currentBal.toFixed(2)}) لا يكفي ($${pkgPrice.toFixed(2)}).`, "شحن الرصيد", () => { window.location.href = 'deposit.html'; }, true);
       return;
     }
 
-    let orderStatus = "pending";
-    let orderTime = "قيد المعالجة";
-    let serverReply = "";
-    let newBal = parseFloat((currentBal - pkgPrice).toFixed(2));
-
-    if (serviceId && serviceId !== "0") {
-      try {
-        const res = await fetch(`${SERVER_URL}/api/create-order`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ service_id: serviceId, target_id: pid, quantity: 1 })
-        });
-        const data = await res.json();
-        if (data.success) {
-          orderStatus = "completed";
-          orderTime = "فوري (API)";
-        } else {
-          orderStatus = "rejected";
-          orderTime = "مرفوض من المزود";
-          newBal = currentBal;
-          serverReply = `\n❌ سبب الرفض: ${data.error || 'تعذر تنفيذ الطلب من المزود'}`;
-        }
-      } catch (e) {
-        serverReply = "\n⚠️ تم تسجيل الطلب، بانتظار استجابة الخادم.";
-      }
-    }
-
-    if (newBal !== currentBal) {
-      await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id, {
-        method: 'PATCH',
-        headers: {
-          'apikey': SB_KEY,
-          'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ balance: newBal })
-      });
-    }
-
+    const newBal = parseFloat((currentBal - pkgPrice).toFixed(2));
     const orderId = "#ORD-" + Math.floor(10000 + Math.random() * 90000);
+
+    await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id, {
+      method: 'PATCH',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ balance: newBal })
+    });
 
     await fetch(SB_URL + '/rest/v1/orders_history', {
       method: 'POST',
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
-        'Content-Type': 'application/json'
-      },
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY), 'Content-Type': 'application/json' },
       body: JSON.stringify({
         order_code: orderId,
         user_email: savedU.email,
@@ -398,37 +366,27 @@ async function submitDirectGameOrder() {
         service_name: pkgName,
         target_info: pid,
         amount: pkgPrice,
-        status: orderStatus
+        status: 'pending'
       })
     });
 
-    let orders = JSON.parse(localStorage.getItem('vc_orders') || '[]');
-    orders.unshift({
-      id: orderId,
-      service: pkgName,
-      target: pid,
-      date: new Date().toLocaleDateString('en-CA'),
-      price: pkgPrice,
-      status: orderStatus === 'completed' ? 'done' : (orderStatus === 'rejected' ? 'rej' : 'wait'),
-      time: orderTime
-    });
-    localStorage.setItem('vc_orders', JSON.stringify(orders));
+    if (serviceId && serviceId !== "0") {
+      fetch(`${SERVER_URL}/api/create-order`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ service_id: serviceId, target_id: pid, quantity: 1 })
+      }).catch(() => {});
+    }
 
-    btn.innerText = "🚀 تأكيد الشراء";
-    btn.disabled = false;
+    const balEl = document.getElementById('headerBalance');
+    if (balEl) balEl.innerText = '$' + newBal.toFixed(2);
+
+    btn.innerText = "🚀 تأكيد الشراء"; btn.disabled = false;
     closeModal();
-
-    showVcAlert(
-      orderStatus === "rejected" ? "❌" : "✅",
-      orderStatus === "rejected" ? "تعذر تنفيذ الطلب" : "تم تسجيل طلبك بنجاح!",
-      `رقم الطلب: ${orderId}\nالخدمة: ${pkgName}\nرصيدك المتبقي: $${newBal.toFixed(2)}${serverReply}`,
-      "عرض طلباتي",
-      () => { window.location.href = 'orders.html'; }
-    );
+    showVcAlert("✅", "تم إرسال طلب الشحن بنجاح!", `رقم الطلب: ${orderId}\nالباقة: ${pkgName}\nآيدي اللاعب: ${pid}\nرصيدك المتبقي: $${newBal.toFixed(2)}`, "عرض طلباتي", () => { window.location.href = 'orders.html'; });
   } catch (err) {
-    btn.innerText = "🚀 تأكيد الشراء";
-    btn.disabled = false;
-    showVcAlert("⚠️", "خطأ في الاتصال", "تعذر الاتصال بقاعدة البيانات حالياً، يرجى المحاولة مجدداً.", "حسناً");
+    btn.innerText = "🚀 تأكيد الشراء"; btn.disabled = false;
+    showVcAlert("⚠️", "خطأ في الاتصال", "تعذر الاتصال بقاعدة البيانات، حاول مجدداً.", "حسناً");
   }
 }
 </script>
