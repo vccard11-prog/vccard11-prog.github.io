@@ -422,6 +422,21 @@ window.addEventListener('DOMContentLoaded', async () => {
     if (outLink) outLink.style.display = 'flex';
     if (greet) greet.innerText = 'أهلاً، ' + savedU.name;
     if (pill) { pill.innerHTML = '👋 أهلاً، ' + savedU.name; pill.href = 'javascript:void(0)'; pill.onclick = openProfileModal; }
+    await fetch(SB_URL + '/rest/v1/profiles', {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=ignore-duplicates'
+      },
+      body: JSON.stringify({
+        id: savedU.id,
+        email: savedU.email,
+        full_name: savedU.name,
+        balance: 0
+      })
+    }).catch(() => {});
 
     try {
       const pRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance,full_name', {
