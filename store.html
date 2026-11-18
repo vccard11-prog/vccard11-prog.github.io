@@ -3,75 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VC Store 1 | الشحن الفوري والآلي</title>
+<title>VC Store 1 | المتجر الآلي</title>
 <link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
 <style>
 @import url('https://googleapis.com');
-:root{--bg-dark:#07090e;--bg-card:#111623;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
-body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:90px;overflow-x:hidden}
-#vcPreloader{position:fixed;inset:0;background:radial-gradient(circle at center,#131829 0%,#07090e 100%);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity 0.35s ease,visibility 0.35s ease}
+body{background:#07090e;color:#fff;padding-bottom:85px;overflow-x:hidden}
+#vcPreloader{position:fixed;inset:0;background:radial-gradient(circle at center,#131829 0%,#07090e 100%);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:0.3s}
 #vcPreloader.hide{opacity:0;visibility:hidden;pointer-events:none}
-.neon-spinner{position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center}
-.ring-1{position:absolute;inset:0;border-radius:50%;border:3px solid transparent;border-top-color:#7c3aed;border-bottom-color:#7c3aed;animation:spinCw 1s linear infinite;box-shadow:0 0 22px rgba(124,58,237,0.45)}
-.ring-2{position:absolute;inset:10px;border-radius:50%;border:3px solid transparent;border-left-color:#06b6d4;border-right-color:#06b6d4;animation:spinCcw 0.75s linear infinite}
-.ring-3{position:absolute;inset:20px;border-radius:50%;border:2px dashed rgba(251,191,36,0.8);animation:spinCw 2s linear infinite}
-@keyframes spinCw{to{transform:rotate(360deg)}}
-@keyframes spinCcw{to{transform:rotate(-360deg)}}
-.load-txt{font-size:1.05rem;font-weight:900;color:#fff;letter-spacing:1px}
-.load-txt span{color:#06b6d4}
-.top-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(7,9,14,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:900}
+.neon-spinner{position:relative;width:68px;height:68px}
+.ring-1{position:absolute;inset:0;border-radius:50%;border:3px solid transparent;border-top-color:#7c3aed;border-bottom-color:#7c3aed;animation:sp 1s linear infinite}
+.ring-2{position:absolute;inset:10px;border-radius:50%;border:3px solid transparent;border-left-color:#06b6d4;border-right-color:#06b6d4;animation:spR 0.75s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes spR{to{transform:rotate(-360deg)}}
+.top-header{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:rgba(7,9,14,0.95);border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:900}
 .header-right{display:flex;align-items:center;gap:10px}
-.menu-btn{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;color:#fff;font-size:1.3rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.menu-btn{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;color:#fff;font-size:1.3rem;cursor:pointer}
 .brand-wrap{display:flex;align-items:center;gap:8px}
-.brand-name{font-size:1.15rem;font-weight:900;color:#fff}
-.brand-name span{color:var(--secondary)}
-.brand-logo{width:34px;height:34px;border-radius:9px;border:1.5px solid var(--primary);object-fit:cover}
-.bal-pill{display:flex;align-items:center;gap:8px;background:#131826;border:1px solid rgba(6,182,212,0.35);padding:5px 12px 5px 6px;border-radius:50px;text-decoration:none;color:#fff;font-weight:800;font-size:0.9rem}
-.bal-plus{width:24px;height:24px;border-radius:50%;background:var(--secondary);color:#000;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem}
+.brand-name{font-size:1.15rem;font-weight:900}
+.brand-name span{color:#06b6d4}
+.brand-logo{width:34px;height:34px;border-radius:9px;border:1.5px solid #7c3aed;object-fit:cover}
+.bal-pill{display:flex;align-items:center;gap:8px;background:#131826;border:1px solid rgba(6,182,212,0.4);padding:5px 12px 5px 6px;border-radius:50px;text-decoration:none;color:#fff;font-weight:800;font-size:0.9rem}
+.bal-plus{width:24px;height:24px;border-radius:50%;background:#06b6d4;color:#000;display:flex;align-items:center;justify-content:center;font-weight:900}
 .status-bar{display:flex;gap:8px;padding:10px 14px;overflow-x:auto;scrollbar-width:none}
 .status-bar::-webkit-scrollbar{display:none}
-.pill-item{flex-shrink:0;display:flex;align-items:center;gap:6px;background:var(--bg-card);border:1px solid var(--border);padding:7px 13px;border-radius:50px;font-size:0.78rem;font-weight:700;color:var(--text-main);text-decoration:none}
+.pill-item{flex-shrink:0;display:flex;align-items:center;gap:6px;background:#111623;border:1px solid rgba(255,255,255,0.08);padding:7px 13px;border-radius:50px;font-size:0.78rem;font-weight:700;color:#fff;text-decoration:none}
 .dot-live{width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 8px #10b981}
-.hero-banner{margin:4px 14px 14px;border-radius:20px;overflow:hidden;border:1px solid rgba(124,58,237,0.4);box-shadow:0 10px 30px rgba(0,0,0,0.5)}
-.hero-banner img{width:100%;height:175px;object-fit:cover;display:block}
-.promo-card{margin:0 14px 14px;background:linear-gradient(135deg,#6d28d9,#4f46e5);border-radius:18px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 8px 25px rgba(109,40,217,0.35)}
-.promo-text h3{font-size:1rem;font-weight:900;color:#fff;margin-bottom:3px}
-.promo-text p{font-size:0.76rem;color:rgba(255,255,255,0.85);font-weight:600}
-.promo-icon{width:46px;height:46px;background:rgba(255,255,255,0.15);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.slider-box{margin:4px 14px 14px;border-radius:20px;overflow:hidden;border:1.5px solid rgba(124,58,237,0.45);position:relative;height:175px}
+.slider-img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0;transition:opacity 0.6s ease}
+.slider-img.active{opacity:1}
+.promo-card{margin:0 14px 14px;background:linear-gradient(135deg,#6d28d9,#4f46e5);border-radius:18px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.promo-text h3{font-size:1rem;font-weight:900;margin-bottom:2px}
+.promo-text p{font-size:0.76rem;color:rgba(255,255,255,0.85)}
+.promo-icon{width:44px;height:44px;background:rgba(255,255,255,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
 .search-box{margin:0 14px 18px;position:relative}
-.search-box input{width:100%;padding:13px 42px 13px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:15px;color:#fff;font-size:0.88rem;font-weight:600}
-.search-box span{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:var(--text-dim)}
+.search-box input{width:100%;padding:13px 42px 13px 16px;background:#111623;border:1px solid rgba(255,255,255,0.08);border-radius:15px;color:#fff;font-size:0.88rem}
+.search-box span{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:#94a3b8}
 .sec-head{display:flex;justify-content:space-between;align-items:center;padding:0 16px 12px}
-.sec-title{font-size:1.05rem;font-weight:900;border-right:4px solid var(--primary);padding-right:10px}
-.sec-badge{background:var(--bg-card);border:1px solid var(--border);padding:4px 11px;border-radius:50px;font-size:0.74rem;color:var(--text-dim);font-weight:700}
+.sec-title{font-size:1.05rem;font-weight:900;border-right:4px solid #7c3aed;padding-right:10px}
+.sec-badge{background:#111623;border:1px solid rgba(255,255,255,0.08);padding:4px 11px;border-radius:50px;font-size:0.74rem;color:#94a3b8}
 .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 14px}
-.cat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:15px 8px;text-align:center;cursor:pointer;transition:0.2s}
-.cat-card:active{transform:scale(0.96);border-color:var(--secondary)}
-.cat-ico{width:54px;height:54px;border-radius:16px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:1.6rem}
-.cat-name{font-size:0.8rem;font-weight:800;color:#fff;line-height:1.3}
-.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1100;display:none}
-.side-drawer{position:fixed;top:0;right:-280px;width:265px;height:100%;background:#0d111b;border-left:1px solid var(--border);z-index:1200;padding:22px 16px;transition:0.3s ease}
-.side-drawer.open{right:0}
-.drawer-link{display:flex;align-items:center;gap:12px;padding:13px 14px;color:#fff;text-decoration:none;border-radius:12px;font-weight:700;font-size:0.9rem;margin-bottom:6px;background:rgba(255,255,255,0.03)}
+.cat-card{background:#111623;border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:14px 8px;text-align:center;cursor:pointer;position:relative}
+.cat-card:active{transform:scale(0.96);border-color:#06b6d4}
+.cat-ico{width:54px;height:54px;border-radius:15px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;position:relative}
+.cat-badge{position:absolute;top:-5px;right:-5px;width:20px;height:20px;border-radius:6px;background:#0d111b;border:1px solid rgba(255,255,255,0.2);font-size:0.68rem;display:flex;align-items:center;justify-content:center}
+.cat-name{font-size:0.8rem;font-weight:800;line-height:1.3}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1500;display:none;align-items:center;justify-content:center;padding:16px}
 .modal-overlay.show{display:flex}
-.modal-box{background:var(--bg-card);border:1px solid var(--primary);border-radius:22px;width:100%;max-width:410px;padding:22px 18px}
+.modal-box{background:#111623;border:1px solid #7c3aed;border-radius:22px;width:100%;max-width:410px;padding:22px 18px}
 .m-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.m-close{background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer}
-.m-label{display:block;font-size:0.8rem;color:var(--text-dim);margin-bottom:6px;font-weight:700}
+.m-close{background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer}
+.m-label{display:block;font-size:0.8rem;color:#94a3b8;margin-bottom:6px;font-weight:700}
 .m-select,.m-input{width:100%;padding:12px;background:#07090e;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.9rem;font-weight:700;margin-bottom:14px}
 .btn-confirm{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;font-weight:900;font-size:0.96rem;cursor:pointer}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(11,15,25,0.96);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 0;z-index:950}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:var(--text-dim);font-size:0.72rem;font-weight:700}
-.nav-item.active{color:var(--secondary)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(11,15,25,0.96);border-top:1px solid rgba(255,255,255,0.08);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 0;z-index:950}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:#94a3b8;font-size:0.72rem;font-weight:700}
+.nav-item.active{color:#06b6d4}
 .nav-item span{font-size:1.25rem}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1100;display:none}
+.side-drawer{position:fixed;top:0;right:-280px;width:265px;height:100%;background:#0d111b;border-left:1px solid rgba(255,255,255,0.08);z-index:1200;padding:22px 16px;transition:0.3s ease}
+.side-drawer.open{right:0}
+.drawer-link{display:flex;align-items:center;gap:12px;padding:13px 14px;color:#fff;text-decoration:none;border-radius:12px;font-weight:700;font-size:0.9rem;margin-bottom:6px;background:rgba(255,255,255,0.03)}
 </style>
 </head>
 <body>
 <div id="vcPreloader">
-  <div class="neon-spinner"><div class="ring-1"></div><div class="ring-2"></div><div class="ring-3"></div></div>
-  <div class="load-txt">VC Store <span>1</span></div>
+  <div class="neon-spinner"><div class="ring-1"></div><div class="ring-2"></div></div>
+  <div style="font-weight:900;font-size:1.05rem">VC Store <span style="color:#06b6d4">1</span></div>
 </div>
 
 <header class="top-header">
@@ -94,8 +92,8 @@ body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:90px;
   <div class="pill-item">🏷️ أسعار الجملة</div>
 </div>
 
-<div class="hero-banner">
-  <img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="VC Store Banner">
+<div class="slider-box">
+  <img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" class="slider-img active" alt="Banner 1">
 </div>
 
 <div class="promo-card" onclick="openCatModal('telecom')">
@@ -118,39 +116,74 @@ body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:90px;
 
 <div class="cat-grid">
   <div class="cat-card service-card" data-name="الالعاب ببجي فري فاير" onclick="openCatModal('games')">
-    <div class="cat-ico" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">🎮</div>
+    <div class="cat-ico" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+      <div class="cat-badge">🎮</div>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"/></svg>
+    </div>
     <div class="cat-name">الألعاب</div>
   </div>
+
   <div class="cat-card service-card" data-name="تطبيقات الدردشة تيك توك بيغو" onclick="openCatModal('chat')">
-    <div class="cat-ico" style="background:linear-gradient(135deg,#9333ea,#7e22ce)">💬</div>
+    <div class="cat-ico" style="background:linear-gradient(135deg,#a855f7,#7e22ce)">
+      <div class="cat-badge">💬</div>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
     <div class="cat-name">تطبيقات الدردشة</div>
   </div>
+
   <div class="cat-card service-card" data-name="الرصيد والعملات بطاقات جوجل" onclick="openCatModal('cards')">
-    <div class="cat-ico" style="background:linear-gradient(135deg,#059669,#047857)">💳</div>
+    <div class="cat-ico" style="background:linear-gradient(135deg,#10b981,#047857)">
+      <div class="cat-badge">💳</div>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    </div>
     <div class="cat-name">الرصيد والعملات</div>
   </div>
+
   <div class="cat-card service-card" data-name="الاتصالات سيريتل ام تي ان" onclick="openCatModal('telecom')">
-    <div class="cat-ico" style="background:linear-gradient(135deg,#ea580c,#c2410c)">📡</div>
+    <div class="cat-ico" style="background:linear-gradient(135deg,#f97316,#c2410c)">
+      <div class="cat-badge">📡</div>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>
+    </div>
     <div class="cat-name">الاتصالات</div>
   </div>
+
   <div class="cat-card service-card" data-name="البرامج والتطبيقات نتفليكس شاهد" onclick="openCatModal('apps')">
-    <div class="cat-ico" style="background:linear-gradient(135deg,#dc2626,#b91c1c)">🎬</div>
+    <div class="cat-ico" style="background:linear-gradient(135deg,#ef4444,#b91c1c)">
+      <div class="cat-badge">🎬</div>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+    </div>
     <div class="cat-name">البرامج والتطبيقات</div>
   </div>
+
   <div class="cat-card service-card" data-name="خدمات التصميم كانفا" onclick="openCatModal('design')">
-    <div class="cat-ico" style="background:linear-gradient(135deg,#0891b2,#0e7490)">🎨</div>
+    <div class="cat-ico" style="background:linear-gradient(135deg,#06b6d4,#0e7490)">
+      <div class="cat-badge">🎨</div>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+    </div>
     <div class="cat-name">خدمات التصميم</div>
   </div>
+
   <div class="cat-card service-card" data-name="مفاتيح ويندوز اوفيس" onclick="openCatModal('keys')">
-    <div class="cat-ico" style="background:linear-gradient(135deg,#ca8a04,#a16207)">🔑</div>
+    <div class="cat-ico" style="background:linear-gradient(135deg,#eab308,#a16207)">
+      <div class="cat-badge">🔑</div>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+    </div>
     <div class="cat-name">مفاتيح التفعيل</div>
   </div>
+
   <div class="cat-card service-card" data-name="التسويق والشبكات متابعين" onclick="openCatModal('smm')">
-    <div class="cat-ico" style="background:linear-gradient(135deg,#4f46e5,#4338ca)">📈</div>
+    <div class="cat-ico" style="background:linear-gradient(135deg,#6366f1,#4338ca)">
+      <div class="cat-badge">📈</div>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+    </div>
     <div class="cat-name">التسويق والشبكات</div>
   </div>
+
   <div class="cat-card service-card" data-name="بروكسي vpn" onclick="openCatModal('vpn')">
-    <div class="cat-ico" style="background:linear-gradient(135deg,#0d9488,#0f766e)">🛡️</div>
+    <div class="cat-ico" style="background:linear-gradient(135deg,#14b8a6,#0f766e)">
+      <div class="cat-badge">🛡️</div>
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
     <div class="cat-name">بروكسي و VPN</div>
   </div>
 </div>
@@ -191,7 +224,10 @@ function hidePreloader() {
   if (loader) loader.classList.add('hide');
 }
 window.addEventListener('load', hidePreloader);
-setTimeout(hidePreloader, 700);
+setTimeout(hidePreloader, 600);
+
+const SB_URL = "https://" + "qfumtnofsifygdxfxdyq.supabase.co";
+const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
 
 const storeCatalog = {
   games: {
@@ -331,6 +367,92 @@ function filterCards() {
     card.style.display = name.includes(q) ? 'block' : 'none';
   });
 }
+async function submitDirectOrder() {
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  if (!savedU || !savedU.id) {
+    alert("🔐 يرجى تسجيل الدخول أو إنشاء حساب أولاً لتتمكن من إتمام الشراء!");
+    window.location.href = 'login.html';
+    return;
+  }
+
+  const sel = document.getElementById('pkgField');
+  const opt = sel.options[sel.selectedIndex];
+  const pkgName = sel.value;
+  const pkgPrice = parseFloat(opt.getAttribute('data-price')) || 1.00;
+  const target = document.getElementById('idField').value.trim();
+
+  if (!target) {
+    alert("⚠️ يرجى إدخال المعرف (ID) أو الرقم المطلوب لإتمام الشراء!");
+    document.getElementById('idField').focus();
+    return;
+  }
+
+  const btn = document.querySelector('.btn-confirm');
+  btn.innerText = "⏳ جاري التحقق من الرصيد وتنفيذ الطلب...";
+  btn.disabled = true;
+
+  try {
+    const pRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY)
+      }
+    });
+    const rows = await pRes.json();
+    const currentBal = (rows && rows.length > 0) ? parseFloat(rows[0].balance || 0) : 0;
+
+    if (currentBal < pkgPrice) {
+      alert(`⚠️ رصيدك الحالي ($${currentBal.toFixed(2)}) غير كافٍ لإتمام الشراء ($${pkgPrice.toFixed(2)}).\nيرجى شحن محفظتك أولاً.`);
+      btn.innerText = "🚀 تأكيد الشراء";
+      btn.disabled = false;
+      window.location.href = 'deposit.html';
+      return;
+    }
+
+    const newBal = parseFloat((currentBal - pkgPrice).toFixed(2));
+    const orderId = "#ORD-" + Math.floor(1000 + Math.random() * 9000);
+
+    await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id, {
+      method: 'PATCH',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ balance: newBal })
+    });
+
+    await fetch(SB_URL + '/rest/v1/orders_history', {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order_code: orderId,
+        user_email: savedU.email,
+        order_type: 'order',
+        service_name: pkgName,
+        target_info: target,
+        amount: pkgPrice,
+        status: 'pending'
+      })
+    });
+
+    const balEl = document.getElementById('headerBalance');
+    if (balEl) balEl.innerText = '$' + newBal.toFixed(2);
+
+    closeCatModal();
+    alert(`✅ تم إرسال طلبك بنجاح!\nرقم الطلب: ${orderId}\nتم خصم $${pkgPrice.toFixed(2)} من رصيدك.`);
+  } catch (e) {
+    alert("⚠️ حدث خطأ أثناء الاتصال بالخادم، حاول مجدداً.");
+  }
+
+  btn.innerText = "🚀 تأكيد الشراء";
+  btn.disabled = false;
+}
+
 window.addEventListener('DOMContentLoaded', async () => {
   hidePreloader();
   const hash = window.location.hash;
@@ -340,10 +462,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     if (token) {
       try {
         const uRes = await fetch(SB_URL + '/auth/v1/user', {
-          headers: {
-            'apikey': SB_KEY,
-            'Authorization': 'Bearer ' + token
-          }
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
         });
         const gUser = await uRes.json();
         if (gUser && gUser.id) {
