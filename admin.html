@@ -154,7 +154,7 @@ async function loadAllAdminData() {
       fetch(SB_URL + '/rest/v1/orders_history?select=*&order=created_at.desc', {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
       }),
-      fetch(SB_URL + '/rest/v1/profiles?select=*&order=created_at.desc', {
+      fetch(SB_URL + '/rest/v1/profiles?select=*', {
         headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
       })
     ]);
@@ -267,23 +267,37 @@ async function approveDeposit(rowId, userEmail, amount) {
     "نعم، اشحن الآن",
     async () => {
       try {
-        const userObj = allProfiles.find(p => p.email === userEmail);
-        if (!userObj) {
-          showVcAlert("⚠️", "تنبيه", "لم يتم العثور على ملف العميل في جدول الحسابات!", "حسناً");
-          return;
+        const cleanEmail = userEmail.trim().toLowerCase();
+        const userObj = allProfiles.find(p => (p.email || '').trim().toLowerCase() === cleanEmail);
+        let newBalance = parseFloat(amount);
+
+        if (userObj) {
+          newBalance = parseFloat((parseFloat(userObj.balance || 0) + parseFloat(amount)).toFixed(2));
+          await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + userObj.id, {
+            method: 'PATCH',
+            headers: {
+              'apikey': SB_KEY,
+              'Authorization': 'Bearer ' + SB_KEY,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ balance: newBalance })
+          });
+        } else {
+          await fetch(SB_URL + '/rest/v1/profiles', {
+            method: 'POST',
+            headers: {
+              'apikey': SB_KEY,
+              'Authorization': 'Bearer ' + SB_KEY,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              id: crypto.randomUUID(),
+              email: userEmail,
+              full_name: userEmail.split('@')[0],
+              balance: newBalance
+            })
+          });
         }
-
-        const newBalance = parseFloat((parseFloat(userObj.balance || 0) + parseFloat(amount)).toFixed(2));
-
-        await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + userObj.id, {
-          method: 'PATCH',
-          headers: {
-            'apikey': SB_KEY,
-            'Authorization': 'Bearer ' + SB_KEY,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ balance: newBalance })
-        });
 
         await fetch(SB_URL + '/rest/v1/orders_history?id=eq.' + rowId, {
           method: 'PATCH',
