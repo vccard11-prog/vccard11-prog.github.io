@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>قسم الألعاب | VC Store 1</title>
 <link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
-<script src="https://jsdelivr.net" defer></script>
+<link rel="preconnect" href="https://googleapis.com">
+<link rel="preconnect" href="https://gstatic.com" crossorigin>
+<link href="https://googleapis.com/css2?family=Cairo:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-@import url('https://googleapis.com');
 :root{--bg-dark:#090b10;--bg-card:#121622;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
 body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:85px}
@@ -59,6 +60,16 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:14px 5%
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#121622;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 10px;z-index:900}
 .nav-tab{text-decoration:none;color:var(--text-dim);font-size:0.72rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
 .nav-tab.active{color:var(--secondary)}
+.vc-alert-overlay{position:fixed;inset:0;background:rgba(4,6,11,0.86);backdrop-filter:blur(8px);z-index:2500;display:none;align-items:center;justify-content:center;padding:18px}
+.vc-alert-overlay.show{display:flex}
+.vc-alert-card{background:linear-gradient(160deg,#161c2e 0%,#0e1320 100%);border:1px solid rgba(6,182,212,0.4);border-radius:24px;width:100%;max-width:360px;padding:26px 20px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.8);animation:popIn 0.25s ease}
+.vc-alert-ico{width:62px;height:62px;border-radius:20px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.9rem;background:rgba(124,58,237,0.16);border:1px solid rgba(124,58,237,0.4)}
+.vc-alert-title{font-size:1.15rem;font-weight:900;color:#fff;margin-bottom:8px}
+.vc-alert-msg{font-size:0.86rem;color:#cbd5e1;line-height:1.6;margin-bottom:20px;white-space:pre-line}
+.vc-alert-actions{display:flex;gap:10px}
+.vc-alert-btn{flex:1;padding:12px;border:none;border-radius:13px;font-weight:800;font-size:0.9rem;cursor:pointer;color:#fff}
+.vc-btn-primary{background:linear-gradient(90deg,#7c3aed,#06b6d4)}
+.vc-btn-sec{background:#1e2538;color:#94a3b8}
 </style>
 </head>
 <body>
@@ -134,175 +145,287 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:14px 5%
 </div>
 </div>
 
+<div class="vc-alert-overlay" id="vcAlertBox">
+  <div class="vc-alert-card">
+    <div class="vc-alert-ico" id="vcAlertIco">🔐</div>
+    <div class="vc-alert-title" id="vcAlertTitle">تنبيه</div>
+    <div class="vc-alert-msg" id="vcAlertMsg"></div>
+    <div class="vc-alert-actions">
+      <button class="vc-alert-btn vc-btn-primary" id="vcAlertOk">حسناً</button>
+      <button class="vc-alert-btn vc-btn-sec" id="vcAlertCancel" onclick="closeVcAlert()">إغلاق</button>
+    </div>
+  </div>
+</div>
+
 <nav class="bottom-nav">
 <a href="index.html" class="nav-tab">🏠<div>الرئيسية</div></a>
 <a href="deposit.html" class="nav-tab">💳<div>إضافة رصيد</div></a>
 <a href="store.html" class="nav-tab active">🛒<div>المتجر</div></a>
 <a href="orders.html" class="nav-tab">📋<div>طلباتي</div></a>
 </nav>
-
 <script>
 function hideLoader() {
   const p = document.getElementById('vcPreloader');
   if (p) p.classList.add('hide');
 }
 window.addEventListener('load', hideLoader);
-setTimeout(hideLoader, 1200);
+setTimeout(hideLoader, 800);
 
-const SERVER_URL = "https://vc-store-api.onrender.com";
-const SUPABASE_URL = "https://supabase.co";
-const SUPABASE_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
+const SERVER_URL = "https://" + "://onrender.com";
+const SB_URL = "https://" + "qfumtnofsifygdxfxdyq.supabase.co";
+const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
 
-let sb = null;
-let currentUser = null;
-let userBalance = 0.00;
+function showVcAlert(icon, title, msg, okText, onConfirm, showCancel = false) {
+  document.getElementById('vcAlertIco').innerText = icon;
+  document.getElementById('vcAlertTitle').innerText = title;
+  document.getElementById('vcAlertMsg').innerText = msg;
+  const okBtn = document.getElementById('vcAlertOk');
+  okBtn.innerText = okText || 'حسناً';
+  okBtn.onclick = () => {
+    closeVcAlert();
+    if (onConfirm) onConfirm();
+  };
+  document.getElementById('vcAlertCancel').style.display = showCancel ? 'block' : 'none';
+  document.getElementById('vcAlertBox').classList.add('show');
+}
 
-window.addEventListener('DOMContentLoaded', async () => {
-  if (window.supabase) {
-    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    try {
-      const { data: { session } } = await sb.auth.getSession();
-      if (session && session.user) {
-        currentUser = session.user;
-        const { data } = await sb.from('profiles').select('balance').eq('id', currentUser.id).single();
-        if (data) userBalance = parseFloat(data.balance || 0);
-      }
-    } catch (e) { console.log(e); }
+function closeVcAlert() {
+  document.getElementById('vcAlertBox').classList.remove('show');
+}
+
+const gamesCatalog = {
+  pubg: {
+    title: "شحن شدات ببجي موبايل (PUBG UC)",
+    label: "أدخل معرف اللاعب في ببجي (Player ID):",
+    placeholder: "مثال: 5123456789",
+    packages: [
+      { id: "78", name: "ببجي - 60 شدة روبوت", price: 1.00 },
+      { id: "95", name: "ببجي - 325 شدة روبوت", price: 5.00 },
+      { id: "115", name: "ببجي - 660 شدة روبوت", price: 10.00 },
+      { id: "132", name: "ببجي - 1800 شدة روبوت", price: 25.00 },
+      { id: "2363", name: "ببجي - 3850 شدة روبوت", price: 50.00 },
+      { id: "2366", name: "ببجي - 8100 شدة روبوت", price: 100.00 }
+    ]
+  },
+  ff: {
+    title: "شحن جواهر فري فاير (Free Fire)",
+    label: "أدخل معرف اللاعب في فري فاير (Player ID):",
+    placeholder: "مثال: 198273645",
+    packages: [
+      { id: "2351", name: "فري فاير - 25 جوهرة (EU)", price: 0.35 },
+      { id: "2354", name: "فري فاير - 100 جوهرة (EU)", price: 1.10 },
+      { id: "2357", name: "فري فاير - 310 جوهرة (EU)", price: 3.20 },
+      { id: "2359", name: "فري فاير - 520 جوهرة (EU)", price: 5.30 },
+      { id: "2365", name: "فري فاير - 2180 جوهرة (EU)", price: 21.50 }
+    ]
+  },
+  ml: {
+    title: "شحن جواهر موبايل ليجند",
+    label: "أدخل الـ User ID مع رقم السيرفر (Zone ID):",
+    placeholder: "مثال: 12345678 (1234)",
+    packages: [
+      { id: "0", name: "موبايل ليجند - 86 جوهرة", price: 2.00 },
+      { id: "0", name: "موبايل ليجند - 172 جوهرة", price: 4.00 }
+    ]
+  },
+  rbx: {
+    title: "شحن روبلوكس (Roblox Robux)",
+    label: "أدخل اسم المستخدم في روبلوكس:",
+    placeholder: "اسم الحساب...",
+    packages: [
+      { id: "0", name: "روبلوكس - 400 روبوكس", price: 5.00 },
+      { id: "0", name: "روبلوكس - 800 روبوكس", price: 10.00 }
+    ]
+  },
+  fc: {
+    title: "شحن نقاط FC Mobile",
+    label: "أدخل معرف الحساب (User ID):",
+    placeholder: "اكتب رقم الـ ID هنا...",
+    packages: [
+      { id: "0", name: "FC Mobile - 100 نقطة", price: 1.00 },
+      { id: "0", name: "FC Mobile - 520 نقطة", price: 5.00 }
+    ]
+  },
+  cod: {
+    title: "شحن نقاط كول أوف ديوتي (COD CP)",
+    label: "أدخل معرف اللاعب (Player ID):",
+    placeholder: "اكتب رقم الـ ID هنا...",
+    packages: [
+      { id: "0", name: "كول أوف ديوتي - 80 نقطة CP", price: 1.00 },
+      { id: "0", name: "كول أوف ديوتي - 420 نقطة CP", price: 5.00 }
+    ]
   }
-});
-
-const gamesCatalog={
-pubg:{title:"شحن شدات ببجي موبايل (PUBG UC)",label:"أدخل معرف اللاعب في ببجي (Player ID):",placeholder:"مثال: 5123456789",packages:[
-{id:"78",name:"ببجي - 60 شدة روبوت",price:1.00},
-{id:"95",name:"ببجي - 325 شدة روبوت",price:5.00},
-{id:"115",name:"ببجي - 660 شدة روبوت",price:10.00},
-{id:"132",name:"ببجي - 1800 شدة روبوت",price:25.00},
-{id:"2363",name:"ببجي - 3850 شدة روبوت",price:50.00},
-{id:"2366",name:"ببجي - 8100 شدة روبوت",price:100.00}
-]},
-ff:{title:"شحن جواهر فري فاير (Free Fire)",label:"أدخل معرف اللاعب في فري فاير (Player ID):",placeholder:"مثال: 198273645",packages:[
-{id:"2351",name:"فري فاير - 25 جوهرة (EU)",price:0.35},
-{id:"2354",name:"فري فاير - 100 جوهرة (EU)",price:1.10},
-{id:"2357",name:"فري فاير - 310 جوهرة (EU)",price:3.20},
-{id:"2359",name:"فري فاير - 520 جوهرة (EU)",price:5.30},
-{id:"2365",name:"فري فاير - 2180 جوهرة (EU)",price:21.50}
-]},
-ml:{title:"شحن جواهر موبايل ليجند",label:"أدخل الـ User ID مع رقم السيرفر (Zone ID):",placeholder:"مثال: 12345678 (1234)",packages:[
-{id:"0",name:"موبايل ليجند - 86 جوهرة",price:2.00},
-{id:"0",name:"موبايل ليجند - 172 جوهرة",price:4.00}
-]},
-rbx:{title:"شحن روبلوكس (Roblox Robux)",label:"أدخل اسم المستخدم في روبلوكس:",placeholder:"اسم الحساب...",packages:[
-{id:"0",name:"روبلوكس - 400 روبوكس",price:5.00},
-{id:"0",name:"روبلوكس - 800 روبوكس",price:10.00}
-]},
-fc:{title:"شحن نقاط FC Mobile",label:"أدخل معرف الحساب (User ID):",placeholder:"اكتب رقم الـ ID هنا...",packages:[
-{id:"0",name:"FC Mobile - 100 نقطة",price:1.00},
-{id:"0",name:"FC Mobile - 520 نقطة",price:5.00}
-]},
-cod:{title:"شحن نقاط كول أوف ديوتي (COD CP)",label:"أدخل معرف اللاعب (Player ID):",placeholder:"اكتب رقم الـ ID هنا...",packages:[
-{id:"0",name:"كول أوف ديوتي - 80 نقطة CP",price:1.00},
-{id:"0",name:"كول أوف ديوتي - 420 نقطة CP",price:5.00}
-]}
 };
 
-function openGameModal(key){
-const g=gamesCatalog[key];
-document.getElementById('mTitle').innerText=g.title;
-document.getElementById('mIdLabel').innerText=g.label;
-document.getElementById('mPlayerId').placeholder=g.placeholder;
-document.getElementById('mPlayerId').value="";
-const sel=document.getElementById('mPackages');
-sel.innerHTML="";
-g.packages.forEach(p=>{
-const opt=document.createElement('option');
-opt.value=p.name;
-opt.setAttribute('data-id',p.id);
-opt.setAttribute('data-price',p.price);
-opt.textContent=`${p.name} - ($${p.price.toFixed(2)})`;
-sel.appendChild(opt);
-});
-document.getElementById('gameModal').classList.add('show');
+function openGameModal(key) {
+  const g = gamesCatalog[key];
+  document.getElementById('mTitle').innerText = g.title;
+  document.getElementById('mIdLabel').innerText = g.label;
+  document.getElementById('mPlayerId').placeholder = g.placeholder;
+  document.getElementById('mPlayerId').value = "";
+  const sel = document.getElementById('mPackages');
+  sel.innerHTML = "";
+  g.packages.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.name;
+    opt.setAttribute('data-id', p.id);
+    opt.setAttribute('data-price', p.price);
+    opt.textContent = `${p.name} - ($${p.price.toFixed(2)})`;
+    sel.appendChild(opt);
+  });
+  document.getElementById('gameModal').classList.add('show');
 }
 
-function closeModal(){document.getElementById('gameModal').classList.remove('show')}
-
-async function submitDirectGameOrder(){
-if(!currentUser){
-  alert("🔐 يرجى تسجيل الدخول أو إنشاء حساب أولاً لتتمكن من الشراء!");
-  window.location.href = 'login.html';
-  return;
+function closeModal() {
+  document.getElementById('gameModal').classList.remove('show');
 }
-const sel=document.getElementById('mPackages');
-const opt=sel.options[sel.selectedIndex];
-const serviceId=opt.getAttribute('data-id');
-const pkgName=sel.value;
-const pkgPrice=parseFloat(opt.getAttribute('data-price'))||1.00;
-const pid=document.getElementById('mPlayerId').value.trim();
+async function submitDirectGameOrder() {
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  if (!savedU || !savedU.id) {
+    showVcAlert(
+      "🔐",
+      "تسجيل الدخول مطلوب",
+      "يرجى تسجيل الدخول أو إنشاء حساب أولاً لتتمكن من إتمام الشراء الفوري!",
+      "تسجيل الدخول الآن",
+      () => { window.location.href = 'login.html'; },
+      true
+    );
+    return;
+  }
 
-if(!pid){
-alert("يرجى إدخال معرف اللاعب (ID) أولاً!");
-document.getElementById('mPlayerId').focus();
-return;
-}
+  const sel = document.getElementById('mPackages');
+  const opt = sel.options[sel.selectedIndex];
+  const serviceId = opt.getAttribute('data-id');
+  const pkgName = sel.value;
+  const pkgPrice = parseFloat(opt.getAttribute('data-price')) || 1.00;
+  const pid = document.getElementById('mPlayerId').value.trim();
 
-if(userBalance < pkgPrice){
-alert(`⚠️ رصيدك الحالي ($${userBalance.toFixed(2)}) غير كافٍ لشراء هذه الباقة ($${pkgPrice.toFixed(2)}).\nيرجى شحن محفظتك أولاً!`);
-window.location.href = 'deposit.html';
-return;
-}
+  if (!pid) {
+    showVcAlert(
+      "⚠️",
+      "بيانات ناقصة",
+      "يرجى إدخال معرف اللاعب (Player ID) أولاً قبل تأكيد الشراء!",
+      "حسناً",
+      () => { document.getElementById('mPlayerId').focus(); }
+    );
+    return;
+  }
 
-const btn=document.querySelector('.btn-confirm');
-btn.innerText="⏳ جاري التنفيذ الآلي...";
-btn.disabled=true;
+  const btn = document.querySelector('.btn-confirm');
+  btn.innerText = "⏳ جاري التحقق من الرصيد وتنفيذ الطلب...";
+  btn.disabled = true;
 
-let orderStatus="wait";
-let orderTime="قيد المعالجة";
-let serverReply="";
+  try {
+    const pRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY)
+      }
+    });
+    const rows = await pRes.json();
+    const currentBal = (rows && rows.length > 0) ? parseFloat(rows.balance || 0) : 0;
 
-if(serviceId && serviceId !== "0"){
-try{
-const res=await fetch(`${SERVER_URL}/api/create-order`,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({service_id:serviceId,target_id:pid,quantity:1})
-});
-const data=await res.json();
-if(data.success){
-orderStatus="done";
-orderTime="فوري (API)";
-userBalance = Math.max(0, userBalance - pkgPrice);
-if(sb) await sb.from('profiles').update({ balance: userBalance }).eq('id', currentUser.id);
-} else {
-orderStatus="rej";
-orderTime="مرفوض من المزود";
-serverReply=`\n❌ سبب الرفض: ${data.error || 'تعذر تنفيذ الطلب'}`;
-}
-}catch(e){
-serverReply="\n⚠️ تعذر الاتصال بالسيرفر حالياً.";
-}
-} else {
-userBalance = Math.max(0, userBalance - pkgPrice);
-if(sb) await sb.from('profiles').update({ balance: userBalance }).eq('id', currentUser.id);
-}
+    if (currentBal < pkgPrice) {
+      btn.innerText = "🚀 تأكيد الشراء";
+      btn.disabled = false;
+      showVcAlert(
+        "💳",
+        "الرصيد غير كافٍ",
+        `رصيدك الحالي ($${currentBal.toFixed(2)}) لا يكفي لشراء هذه الباقة ($${pkgPrice.toFixed(2)}).\nيرجى شحن محفظتك أولاً.`,
+        "شحن الرصيد الآن",
+        () => { window.location.href = 'deposit.html'; },
+        true
+      );
+      return;
+    }
 
-const orderId="#"+Math.floor(10000+Math.random()*90000);
-let orders=JSON.parse(localStorage.getItem('vc_orders')||'[]');
-orders.unshift({
-id:orderId,
-service:pkgName,
-target:pid,
-date:new Date().toLocaleDateString('en-CA'),
-price:pkgPrice,
-status:orderStatus,
-time:orderTime
-});
-localStorage.setItem('vc_orders',JSON.stringify(orders));
+    let orderStatus = "pending";
+    let orderTime = "قيد المعالجة";
+    let serverReply = "";
+    let newBal = parseFloat((currentBal - pkgPrice).toFixed(2));
 
-btn.innerText="🚀 تأكيد الشراء";
-btn.disabled=false;
-closeModal();
-alert(`✅ تم تسجيل طلبك!\nرقم الطلب: ${orderId}\nرصيدك المتبقي: $${userBalance.toFixed(2)}${serverReply}`);
-window.location.href='orders.html';
+    if (serviceId && serviceId !== "0") {
+      try {
+        const res = await fetch(`${SERVER_URL}/api/create-order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ service_id: serviceId, target_id: pid, quantity: 1 })
+        });
+        const data = await res.json();
+        if (data.success) {
+          orderStatus = "completed";
+          orderTime = "فوري (API)";
+        } else {
+          orderStatus = "rejected";
+          orderTime = "مرفوض من المزود";
+          newBal = currentBal;
+          serverReply = `\n❌ سبب الرفض: ${data.error || 'تعذر تنفيذ الطلب من المزود'}`;
+        }
+      } catch (e) {
+        serverReply = "\n⚠️ تم تسجيل الطلب، بانتظار استجابة الخادم.";
+      }
+    }
+
+    if (newBal !== currentBal) {
+      await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ balance: newBal })
+      });
+    }
+
+    const orderId = "#ORD-" + Math.floor(10000 + Math.random() * 90000);
+
+    await fetch(SB_URL + '/rest/v1/orders_history', {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order_code: orderId,
+        user_email: savedU.email,
+        order_type: 'order',
+        service_name: pkgName,
+        target_info: pid,
+        amount: pkgPrice,
+        status: orderStatus
+      })
+    });
+
+    let orders = JSON.parse(localStorage.getItem('vc_orders') || '[]');
+    orders.unshift({
+      id: orderId,
+      service: pkgName,
+      target: pid,
+      date: new Date().toLocaleDateString('en-CA'),
+      price: pkgPrice,
+      status: orderStatus === 'completed' ? 'done' : (orderStatus === 'rejected' ? 'rej' : 'wait'),
+      time: orderTime
+    });
+    localStorage.setItem('vc_orders', JSON.stringify(orders));
+
+    btn.innerText = "🚀 تأكيد الشراء";
+    btn.disabled = false;
+    closeModal();
+
+    showVcAlert(
+      orderStatus === "rejected" ? "❌" : "✅",
+      orderStatus === "rejected" ? "تعذر تنفيذ الطلب" : "تم تسجيل طلبك بنجاح!",
+      `رقم الطلب: ${orderId}\nالخدمة: ${pkgName}\nرصيدك المتبقي: $${newBal.toFixed(2)}${serverReply}`,
+      "عرض طلباتي",
+      () => { window.location.href = 'orders.html'; }
+    );
+  } catch (err) {
+    btn.innerText = "🚀 تأكيد الشراء";
+    btn.disabled = false;
+    showVcAlert("⚠️", "خطأ في الاتصال", "تعذر الاتصال بقاعدة البيانات حالياً، يرجى المحاولة مجدداً.", "حسناً");
+  }
 }
 </script>
 </body>
