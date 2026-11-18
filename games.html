@@ -166,8 +166,7 @@ header{background:rgba(18,22,34,0.92);backdrop-filter:blur(12px);padding:14px 5%
 <a href="deposit.html" class="nav-tab">💳<div>إضافة رصيد</div></a>
 <a href="store.html" class="nav-tab active">🛒<div>المتجر</div></a>
 <a href="orders.html" class="nav-tab">📋<div>طلباتي</div></a>
-</nav>
-<script>
+</nav><script>
 function hideLoader() {
   const p = document.getElementById('vcPreloader');
   if (p) p.classList.add('hide');
@@ -302,7 +301,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       const rows = await pRes.json();
       if (Array.isArray(rows) && rows.length > 0) {
         const balEl = document.getElementById('headerBalance');
-        if (balEl) balEl.innerText = '$' + parseFloat(rows.balance || 0).toFixed(2);
+        if (balEl) balEl.innerText = '$' + parseFloat(rows.at(0).balance || 0).toFixed(2);
       }
       const oList = await oRes.json();
       if (Array.isArray(oList) && oList.length > 0) {
@@ -314,7 +313,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     } catch (e) {}
   }
 });
-
 async function submitDirectGameOrder() {
   const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
   if (!savedU || !savedU.id) {
@@ -343,7 +341,7 @@ async function submitDirectGameOrder() {
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
     });
     const rows = await pRes.json();
-    const currentBal = (Array.isArray(rows) && rows.length > 0) ? parseFloat(rows.balance || 0) : 0;
+    const currentBal = (Array.isArray(rows) && rows.length > 0) ? parseFloat(rows.at(0).balance || 0) : 0;
 
     if (currentBal < pkgPrice) {
       btn.innerText = "🚀 تأكيد الشراء"; btn.disabled = false;
