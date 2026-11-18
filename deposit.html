@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>إضافة رصيد | VC Store 1</title>
 <link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
-<script src="https://jsdelivr.net" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://gstatic.com" crossorigin>
+<link href="https://googleapis.com" rel="stylesheet">
 <style>
-@import url('https://googleapis.com');
 :root{--bg-dark:#0b0e14;--bg-card:#151923;--bg-inner:#1b202c;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.07)}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
 body{background-color:var(--bg-dark);color:#fff;padding-bottom:85px;min-height:100vh}
@@ -56,6 +57,16 @@ header{background:var(--bg-card);padding:14px 5%;display:flex;justify-content:sp
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#151923;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 10px;z-index:900}
 .nav-tab{text-decoration:none;color:#94a3b8;font-size:0.72rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
 .nav-tab.active{color:var(--secondary)}
+.vc-alert-overlay{position:fixed;inset:0;background:rgba(4,6,11,0.86);backdrop-filter:blur(8px);z-index:2500;display:none;align-items:center;justify-content:center;padding:18px}
+.vc-alert-overlay.show{display:flex}
+.vc-alert-card{background:linear-gradient(160deg,#161c2e 0%,#0e1320 100%);border:1px solid rgba(6,182,212,0.4);border-radius:24px;width:100%;max-width:360px;padding:26px 20px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.8);animation:popIn 0.25s ease}
+.vc-alert-ico{width:62px;height:62px;border-radius:20px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.9rem;background:rgba(124,58,237,0.16);border:1px solid rgba(124,58,237,0.4)}
+.vc-alert-title{font-size:1.15rem;font-weight:900;color:#fff;margin-bottom:8px}
+.vc-alert-msg{font-size:0.86rem;color:#cbd5e1;line-height:1.6;margin-bottom:20px;white-space:pre-line}
+.vc-alert-actions{display:flex;gap:10px}
+.vc-alert-btn{flex:1;padding:12px;border:none;border-radius:13px;font-weight:800;font-size:0.9rem;cursor:pointer;color:#fff}
+.vc-btn-primary{background:linear-gradient(90deg,#7c3aed,#06b6d4)}
+.vc-btn-sec{background:#1e2538;color:#94a3b8}
 </style>
 </head>
 <body>
@@ -147,6 +158,18 @@ header{background:var(--bg-card);padding:14px 5%;display:flex;justify-content:sp
 </div>
 </div>
 
+<div class="vc-alert-overlay" id="vcAlertBox">
+  <div class="vc-alert-card">
+    <div class="vc-alert-ico" id="vcAlertIco">🔐</div>
+    <div class="vc-alert-title" id="vcAlertTitle">تنبيه</div>
+    <div class="vc-alert-msg" id="vcAlertMsg"></div>
+    <div class="vc-alert-actions">
+      <button class="vc-alert-btn vc-btn-primary" id="vcAlertOk">حسناً</button>
+      <button class="vc-alert-btn vc-btn-sec" id="vcAlertCancel" onclick="closeVcAlert()">إغلاق</button>
+    </div>
+  </div>
+</div>
+
 <nav class="bottom-nav">
 <a href="index.html" class="nav-tab">🏠<div>الرئيسية</div></a>
 <a href="deposit.html" class="nav-tab active">💳<div>إضافة رصيد</div></a>
@@ -159,10 +182,10 @@ function hideLoader() {
   if (p) p.classList.add('hide');
 }
 window.addEventListener('load', hideLoader);
-setTimeout(hideLoader, 1100);
+setTimeout(hideLoader, 800);
 
-const SUPABASE_URL = "https://supabase.co";
-const SUPABASE_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
+const SB_URL = "https://" + "qfumtnofsifygdxfxdyq.supabase.co";
+const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
 
 const EXCHANGE_RATE = 12000;
 const SHAM_CASH_CODE = "f73392cbc5a68ee4e84be15ace4729d4";
@@ -176,21 +199,25 @@ const payMethods = {
   payeer: { title: "Payeer / حوالات", addr: "P100000000" }
 };
 
-let sb = null;
 let currentMethod = 'sham_usd';
-let currentUser = null;
 
-window.addEventListener('DOMContentLoaded', async () => {
-  if (window.supabase) {
-    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    try {
-      const { data: { session } } = await sb.auth.getSession();
-      if (session && session.user) {
-        currentUser = session.user;
-      }
-    } catch (e) { console.log(e); }
-  }
-});
+function showVcAlert(icon, title, msg, okText, onConfirm, showCancel = false) {
+  document.getElementById('vcAlertIco').innerText = icon;
+  document.getElementById('vcAlertTitle').innerText = title;
+  document.getElementById('vcAlertMsg').innerText = msg;
+  const okBtn = document.getElementById('vcAlertOk');
+  okBtn.innerText = okText || 'حسناً';
+  okBtn.onclick = () => {
+    closeVcAlert();
+    if (onConfirm) onConfirm();
+  };
+  document.getElementById('vcAlertCancel').style.display = showCancel ? 'block' : 'none';
+  document.getElementById('vcAlertBox').classList.add('show');
+}
+
+function closeVcAlert() {
+  document.getElementById('vcAlertBox').classList.remove('show');
+}
 
 function openPayModal(key) {
   currentMethod = key;
@@ -216,20 +243,28 @@ function calcModalSyp() {
 function copyModalAddr() {
   const txt = document.getElementById('mWalletAddr').innerText;
   navigator.clipboard.writeText(txt);
-  alert("✅ تم نسخ العنوان بنجاح:\n" + txt);
+  showVcAlert("📋", "تم النسخ بنجاح", "تم نسخ عنوان المحفظة إلى الحافظة:\n" + txt, "حسناً");
 }
 
 async function submitModalDeposit() {
-  if (!currentUser) {
-    alert("🔐 يرجى تسجيل الدخول أولاً لتتمكن من إرسال إشعار الإيداع!");
-    window.location.href = 'login.html';
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  if (!savedU || !savedU.id) {
+    showVcAlert(
+      "🔐",
+      "تسجيل الدخول مطلوب",
+      "يرجى تسجيل الدخول أولاً لتتمكن من إرسال إشعار الإيداع وشحن محفظتك!",
+      "تسجيل الدخول الآن",
+      () => { window.location.href = 'login.html'; },
+      true
+    );
     return;
   }
+
   const amt = parseFloat(document.getElementById('mDepAmount').value);
   const tx = document.getElementById('mDepTx').value.trim();
 
   if (!amt || amt <= 0 || !tx) {
-    alert("⚠️ يرجى إدخال المبلغ بالدولار ورقم العملية أو اسم المرسل!");
+    showVcAlert("⚠️", "بيانات ناقصة", "يرجى إدخال المبلغ بالدولار ورقم العملية أو اسم المرسل!", "حسناً");
     return;
   }
 
@@ -244,25 +279,45 @@ async function submitModalDeposit() {
   btn.innerText = "⏳ جاري الإرسال للإدارة...";
 
   const code = "#DEP-" + Math.floor(1000 + Math.random() * 9000);
-  const { error } = await sb.from('orders_history').insert([{
-    order_code: code,
-    user_email: currentUser.email,
-    order_type: 'deposit',
-    service_name: 'إيداع ' + payMethods[currentMethod].title,
-    target_info: extraNote,
-    amount: amt,
-    status: 'pending'
-  }]);
 
-  btn.disabled = false;
-  btn.innerText = "🚀 إرسال إشعار الإيداع";
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/orders_history', {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order_code: code,
+        user_email: savedU.email,
+        order_type: 'deposit',
+        service_name: 'إيداع ' + payMethods[currentMethod].title,
+        target_info: extraNote,
+        amount: amt,
+        status: 'pending'
+      })
+    });
 
-  if (error) {
-    alert("❌ خطأ في الإرسال: " + error.message);
-  } else {
-    closePayModal();
-    alert(`✅ تم إرسال إشعار الإيداع بنجاح!\nرقم المرجع: ${code}\nسيظهر الطلب الآن في تطبيق الإدارة للموافقة وشحن رصيدك.`);
-    window.location.href = 'store.html';
+    btn.disabled = false;
+    btn.innerText = "🚀 إرسال إشعار الإيداع";
+
+    if (!res.ok) {
+      showVcAlert("❌", "تعذر الإرسال", "حدث خطأ أثناء إرسال الإشعار، يرجى المحاولة مجدداً.", "حسناً");
+    } else {
+      closePayModal();
+      showVcAlert(
+        "✅",
+        "تم إرسال إشعار الإيداع بنجاح!",
+        `رقم المرجع: ${code}\nسيظهر الطلب الآن في لوحة الإدارة للموافقة وشحن رصيدك فوراً.`,
+        "العودة للمتجر",
+        () => { window.location.href = 'store.html'; }
+      );
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.innerText = "🚀 إرسال إشعار الإيداع";
+    showVcAlert("⚠️", "خطأ في الاتصال", "تعذر الاتصال بالخادم حالياً، يرجى التحقق من الإنترنت.", "حسناً");
   }
 }
 </script>
