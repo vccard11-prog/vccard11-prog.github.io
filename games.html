@@ -285,7 +285,7 @@ function closeModal() {
 }
 window.addEventListener('DOMContentLoaded', async () => {
   const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
-  if (savedU && savedU.id) {
+  if (balEl) balEl.innerText = '$' + parseFloat(rows[0].balance || 0).toFixed(2);
     try {
       const [pRes, oRes] = await Promise.all([
         fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
