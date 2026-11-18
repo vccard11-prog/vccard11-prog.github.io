@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VC Store 1 | المتجر الآلي</title>
+<title>VC Store 1 | الشحن الفوري والآلي</title>
 <link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
 <link rel="preconnect" href="https://googleapis.com">
 <link rel="preconnect" href="https://gstatic.com" crossorigin>
-<link href="https://googleapis.com/css2?family=Tajawal:wght@500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://googleapis.com/css2?family=Cairo:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif !important;-webkit-tap-highlight-color:transparent}
 body{background:#06080d;color:#fff;padding-bottom:88px;overflow-x:hidden}
 #vcPreloader{position:fixed;inset:0;background:radial-gradient(circle at center,#131829 0%,#06080d 100%);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:0.3s}
 #vcPreloader.hide{opacity:0;visibility:hidden;pointer-events:none}
@@ -18,38 +18,38 @@ body{background:#06080d;color:#fff;padding-bottom:88px;overflow-x:hidden}
 .ring-2{position:absolute;inset:10px;border-radius:50%;border:3px solid transparent;border-left-color:#06b6d4;border-right-color:#06b6d4;animation:spR 0.75s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 @keyframes spR{to{transform:rotate(-360deg)}}
-.top-header{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:rgba(9,13,22,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:900}
+.top-header{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:rgba(9,13,22,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;z-index:900}
 .header-right{display:flex;align-items:center;gap:10px}
-.menu-btn{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;color:#fff;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.menu-btn{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;color:#fff;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(124,58,237,0.4)}
 .brand-wrap{display:flex;align-items:center;gap:8px}
-.brand-name{font-size:1.2rem;font-weight:900;letter-spacing:0.3px}
+.brand-name{font-size:1.25rem;font-weight:900;letter-spacing:0.2px}
 .brand-name span{color:#06b6d4}
-.brand-logo{width:35px;height:35px;border-radius:10px;border:1.5px solid #7c3aed;object-fit:cover}
-.bal-pill{display:flex;align-items:center;gap:8px;background:#131826;border:1px solid rgba(6,182,212,0.4);padding:5px 12px 5px 6px;border-radius:50px;text-decoration:none;color:#fff;font-weight:800;font-size:0.95rem}
-.bal-plus{width:24px;height:24px;border-radius:50%;background:#06b6d4;color:#000;display:flex;align-items:center;justify-content:center;font-weight:900}
+.brand-logo{width:36px;height:36px;border-radius:10px;border:1.5px solid #7c3aed;object-fit:cover}
+.bal-pill{display:flex;align-items:center;gap:8px;background:#131826;border:1px solid rgba(6,182,212,0.45);padding:5px 13px 5px 6px;border-radius:50px;text-decoration:none;color:#fff;font-weight:900;font-size:0.95rem}
+.bal-plus{width:25px;height:25px;border-radius:50%;background:#06b6d4;color:#000;display:flex;align-items:center;justify-content:center;font-weight:900}
 .status-bar{display:flex;gap:8px;padding:10px 14px;overflow-x:auto;scrollbar-width:none}
 .status-bar::-webkit-scrollbar{display:none}
-.pill-item{flex-shrink:0;display:flex;align-items:center;gap:6px;background:#111623;border:1px solid rgba(255,255,255,0.08);padding:7px 14px;border-radius:50px;font-size:0.82rem;font-weight:700;color:#fff;text-decoration:none}
+.pill-item{flex-shrink:0;display:flex;align-items:center;gap:6px;background:#111623;border:1px solid rgba(255,255,255,0.08);padding:7px 14px;border-radius:50px;font-size:0.8rem;font-weight:800;color:#fff;text-decoration:none}
 .dot-live{width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 8px #10b981}
-.slider-box{margin:4px 14px 14px;border-radius:20px;overflow:hidden;border:1.5px solid rgba(124,58,237,0.5);position:relative;height:180px;box-shadow:0 10px 25px rgba(0,0,0,0.5)}
+.slider-box{margin:4px 14px 14px;border-radius:20px;overflow:hidden;border:1.5px solid rgba(124,58,237,0.55);position:relative;height:185px;box-shadow:0 10px 25px rgba(0,0,0,0.5)}
 .slider-track{display:flex;width:200%;height:100%;animation:slideAds 8s infinite ease-in-out}
 .slider-slide{width:50%;height:100%;position:relative}
 .slider-slide img{width:100%;height:100%;object-fit:cover}
-.ad-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,13,0.92) 0%,rgba(6,8,13,0.2) 60%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
-.ad-badge{align-self:flex-start;background:linear-gradient(90deg,#f59e0b,#ea580c);color:#fff;font-size:0.72rem;font-weight:900;padding:3px 10px;border-radius:50px;margin-bottom:5px}
+.ad-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,13,0.92) 0%,rgba(6,8,13,0.15) 60%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
+.ad-badge{align-self:flex-start;background:linear-gradient(90deg,#f59e0b,#ea580c);color:#fff;font-size:0.72rem;font-weight:900;padding:3px 10px;border-radius:50px;margin-bottom:4px}
 .ad-title{font-size:1.05rem;font-weight:900;color:#fff}
-.ad-sub{font-size:0.78rem;color:#cbd5e1;font-weight:600}
+.ad-sub{font-size:0.76rem;color:#cbd5e1;font-weight:700}
 @keyframes slideAds{0%,45%{transform:translateX(0)}50%,95%{transform:translateX(50%)}100%{transform:translateX(0)}}
-.promo-card{margin:0 14px 14px;background:linear-gradient(135deg,#6d28d9,#4f46e5);border-radius:18px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 6px 20px rgba(109,40,217,0.3)}
+.promo-card{margin:0 14px 14px;background:linear-gradient(135deg,#6d28d9,#4f46e5);border-radius:18px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;box-shadow:0 6px 20px rgba(109,40,217,0.35)}
 .promo-text h3{font-size:1.05rem;font-weight:900;margin-bottom:2px}
-.promo-text p{font-size:0.8rem;color:rgba(255,255,255,0.88);font-weight:600}
-.promo-icon{width:44px;height:44px;background:rgba(255,255,255,0.16);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+.promo-text p{font-size:0.78rem;color:rgba(255,255,255,0.9);font-weight:700}
+.promo-icon{width:44px;height:44px;background:rgba(255,255,255,0.16);border-radius:12px;display:flex;align-items:center;justify-content:center}
 .search-box{margin:0 14px 18px;position:relative}
-.search-box input{width:100%;padding:13px 42px 13px 16px;background:#111623;border:1px solid rgba(255,255,255,0.1);border-radius:15px;color:#fff;font-size:0.9rem;font-weight:700}
+.search-box input{width:100%;padding:13px 42px 13px 16px;background:#111623;border:1px solid rgba(255,255,255,0.1);border-radius:15px;color:#fff;font-size:0.88rem;font-weight:700}
 .search-box span{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:#94a3b8}
 .sec-head{display:flex;justify-content:space-between;align-items:center;padding:0 16px 12px}
 .sec-title{font-size:1.1rem;font-weight:900;border-right:4px solid #7c3aed;padding-right:10px}
-.sec-badge{background:#111623;border:1px solid rgba(255,255,255,0.08);padding:4px 12px;border-radius:50px;font-size:0.78rem;color:#94a3b8;font-weight:700}
+.sec-badge{background:#111623;border:1px solid rgba(255,255,255,0.08);padding:4px 12px;border-radius:50px;font-size:0.78rem;color:#94a3b8;font-weight:800}
 .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 14px}
 .cat-card{background:#111623;border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:15px 8px;text-align:center;cursor:pointer;position:relative;transition:0.2s}
 .cat-card:active{transform:scale(0.96);border-color:#06b6d4}
@@ -61,8 +61,8 @@ body{background:#06080d;color:#fff;padding-bottom:88px;overflow-x:hidden}
 .modal-box{background:#111623;border:1px solid #7c3aed;border-radius:22px;width:100%;max-width:410px;padding:22px 18px}
 .m-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
 .m-close{background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer}
-.m-label{display:block;font-size:0.84rem;color:#94a3b8;margin-bottom:6px;font-weight:700}
-.m-select,.m-input{width:100%;padding:12px;background:#07090e;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.92rem;font-weight:700;margin-bottom:14px}
+.m-label{display:block;font-size:0.84rem;color:#94a3b8;margin-bottom:6px;font-weight:800}
+.m-select,.m-input{width:100%;padding:12px;background:#07090e;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.9rem;font-weight:700;margin-bottom:14px}
 .btn-confirm{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;font-weight:900;font-size:1rem;cursor:pointer}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(11,15,25,0.97);backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,0.08);display:grid;grid-template-columns:repeat(4,1fr);padding:9px 0;z-index:950}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:#94a3b8;font-size:0.75rem;font-weight:800}
@@ -70,7 +70,7 @@ body{background:#06080d;color:#fff;padding-bottom:88px;overflow-x:hidden}
 .drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1100;display:none}
 .side-drawer{position:fixed;top:0;right:-280px;width:265px;height:100%;background:#0d111b;border-left:1px solid rgba(255,255,255,0.08);z-index:1200;padding:22px 16px;transition:0.3s ease}
 .side-drawer.open{right:0}
-.drawer-link{display:flex;align-items:center;gap:12px;padding:13px 14px;color:#fff;text-decoration:none;border-radius:12px;font-weight:700;font-size:0.92rem;margin-bottom:6px;background:rgba(255,255,255,0.03)}
+.drawer-link{display:flex;align-items:center;gap:12px;padding:13px 14px;color:#fff;text-decoration:none;border-radius:12px;font-weight:800;font-size:0.9rem;margin-bottom:6px;background:rgba(255,255,255,0.03)}
 </style>
 </head>
 <body>
@@ -267,6 +267,7 @@ setTimeout(hidePreloader, 600);
 
 const SB_URL = "https://" + "qfumtnofsifygdxfxdyq.supabase.co";
 const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
+const API_SERVER = "https://" + "://onrender.com";
 
 const subGamesList = [
   { key: 'pubg', name: 'ببجي موبايل (PUBG)', icon: '🪖', color: 'linear-gradient(135deg,#eab308,#ca8a04)' },
@@ -281,10 +282,10 @@ const storeCatalog = {
     label: "أدخل آيدي اللاعب في ببجي (Player ID):",
     placeholder: "مثال: 5142893012",
     packages: [
-      { name: "ببجي موبايل - 60 UC", price: 0.99 },
-      { name: "ببجي موبايل - 325 UC", price: 4.85 },
-      { name: "ببجي موبايل - 660 UC", price: 9.60 },
-      { name: "ببجي موبايل - 1800 UC", price: 24.50 }
+      { name: "ببجي موبايل - 60 UC", price: 0.99, api_id: "101" },
+      { name: "ببجي موبايل - 325 UC", price: 4.85, api_id: "102" },
+      { name: "ببجي موبايل - 660 UC", price: 9.60, api_id: "103" },
+      { name: "ببجي موبايل - 1800 UC", price: 24.50, api_id: "104" }
     ]
   },
   freefire: {
@@ -292,10 +293,10 @@ const storeCatalog = {
     label: "أدخل آيدي اللاعب في فري فاير (ID):",
     placeholder: "مثال: 284910472",
     packages: [
-      { name: "فري فاير - 110 جوهرة", price: 1.50 },
-      { name: "فري فاير - 210 جوهرة", price: 2.50 },
-      { name: "فري فاير - 530 جوهرة", price: 5.80 },
-      { name: "فري فاير - 1080 جوهرة", price: 11.00 }
+      { name: "فري فاير - 110 جوهرة", price: 1.50, api_id: "201" },
+      { name: "فري فاير - 210 جوهرة", price: 2.50, api_id: "202" },
+      { name: "فري فاير - 530 جوهرة", price: 5.80, api_id: "203" },
+      { name: "فري فاير - 1080 جوهرة", price: 11.00, api_id: "204" }
     ]
   },
   roblox: {
@@ -303,8 +304,8 @@ const storeCatalog = {
     label: "أدخل اسم المستخدم (Username):",
     placeholder: "مثال: Ahmed_Pro",
     packages: [
-      { name: "روبلوكس - 400 روبوكس", price: 5.20 },
-      { name: "روبلوكس - 800 روبوكس", price: 10.20 }
+      { name: "روبلوكس - 400 روبوكس", price: 5.20, api_id: "301" },
+      { name: "روبلوكس - 800 روبوكس", price: 10.20, api_id: "302" }
     ]
   },
   ludo: {
@@ -312,8 +313,8 @@ const storeCatalog = {
     label: "أدخل آيدي الحساب في يلا لودو:",
     placeholder: "مثال: 8940215",
     packages: [
-      { name: "يلا لودو - 830 ألماسة", price: 2.10 },
-      { name: "يلا لودو - 2320 ألماسة", price: 5.20 }
+      { name: "يلا لودو - 830 ألماسة", price: 2.10, api_id: "401" },
+      { name: "يلا لودو - 2320 ألماسة", price: 5.20, api_id: "402" }
     ]
   },
   chat: {
@@ -321,11 +322,11 @@ const storeCatalog = {
     label: "أدخل رقم الحساب أو اليوزرنيم:",
     placeholder: "مثال: @username أو ID",
     packages: [
-      { name: "عملات تيك توك - 70 عملة", price: 0.85 },
-      { name: "عملات تيك توك - 350 عملة", price: 4.10 },
-      { name: "عملات تيك توك - 700 عملة", price: 8.15 },
-      { name: "ماسات بيغو لايف - 42 ماسة", price: 1.00 },
-      { name: "عملات كواي - 100 عملة", price: 1.10 }
+      { name: "عملات تيك توك - 70 عملة", price: 0.85, api_id: "501" },
+      { name: "عملات تيك توك - 350 عملة", price: 4.10, api_id: "502" },
+      { name: "عملات تيك توك - 700 عملة", price: 8.15, api_id: "503" },
+      { name: "ماسات بيغو لايف - 42 ماسة", price: 1.00, api_id: "504" },
+      { name: "عملات كواي - 100 عملة", price: 1.10, api_id: "505" }
     ]
   },
   cards: {
@@ -333,11 +334,11 @@ const storeCatalog = {
     label: "أدخل رقم واتساب لاستلام الكود فوراً:",
     placeholder: "مثال: 0943438983",
     packages: [
-      { name: "بطاقة جوجل بلاي 5$ أمريكي", price: 5.20 },
-      { name: "بطاقة جوجل بلاي 10$ أمريكي", price: 10.30 },
-      { name: "بطاقة آيتونز 10$ أمريكي", price: 10.25 },
-      { name: "بطاقة بلايستيشن 10$ أمريكي", price: 10.40 },
-      { name: "بطاقة ريزر جولد 5$ عالمي", price: 5.15 }
+      { name: "بطاقة جوجل بلاي 5$ أمريكي", price: 5.20, api_id: "601" },
+      { name: "بطاقة جوجل بلاي 10$ أمريكي", price: 10.30, api_id: "602" },
+      { name: "بطاقة آيتونز 10$ أمريكي", price: 10.25, api_id: "603" },
+      { name: "بطاقة بلايستيشن 10$ أمريكي", price: 10.40, api_id: "604" },
+      { name: "بطاقة ريزر جولد 5$ عالمي", price: 5.15, api_id: "605" }
     ]
   },
   telecom: {
@@ -345,12 +346,12 @@ const storeCatalog = {
     label: "أدخل رقم الموبايل السوري:",
     placeholder: "مثال: 093xxxxxxx أو 094xxxxxxx",
     packages: [
-      { name: "وحدات سيريتل - 5000 وحدة", price: 0.55 },
-      { name: "وحدات سيريتل - 10000 وحدة", price: 1.05 },
-      { name: "وحدات سيريتل - 25000 وحدة", price: 2.55 },
-      { name: "وحدات MTN - 5000 وحدة", price: 0.55 },
-      { name: "وحدات MTN - 10000 وحدة", price: 1.05 },
-      { name: "باقة إنترنت سيريتل 4GB", price: 1.40 }
+      { name: "وحدات سيريتل - 5000 وحدة", price: 0.55, api_id: "701" },
+      { name: "وحدات سيريتل - 10000 وحدة", price: 1.05, api_id: "702" },
+      { name: "وحدات سيريتل - 25000 وحدة", price: 2.55, api_id: "703" },
+      { name: "وحدات MTN - 5000 وحدة", price: 0.55, api_id: "704" },
+      { name: "وحدات MTN - 10000 وحدة", price: 1.05, api_id: "705" },
+      { name: "باقة إنترنت سيريتل 4GB", price: 1.40, api_id: "706" }
     ]
   },
   apps: {
@@ -358,10 +359,10 @@ const storeCatalog = {
     label: "أدخل رقم واتساب أو البريد الإلكتروني:",
     placeholder: "مثال: 0943438983",
     packages: [
-      { name: "اشتراك نتفليكس 4K - شهر واحد", price: 3.50 },
-      { name: "اشتراك شاهد VIP - شهر واحد", price: 2.80 },
-      { name: "اشتراك يوتيوب بريميوم - شهر واحد", price: 2.50 },
-      { name: "اشتراك سبوتيفاي بريميوم - شهر", price: 2.20 }
+      { name: "اشتراك نتفليكس 4K - شهر واحد", price: 3.50, api_id: "801" },
+      { name: "اشتراك شاهد VIP - شهر واحد", price: 2.80, api_id: "802" },
+      { name: "اشتراك يوتيوب بريميوم - شهر واحد", price: 2.50, api_id: "803" },
+      { name: "اشتراك سبوتيفاي بريميوم - شهر", price: 2.20, api_id: "804" }
     ]
   },
   design: {
@@ -369,8 +370,8 @@ const storeCatalog = {
     label: "أدخل بريدك الإلكتروني للتفعيل:",
     placeholder: "example@gmail.com",
     packages: [
-      { name: "اشتراك Canva Pro - سنة كاملة", price: 3.00 },
-      { name: "اشتراك CapCut Pro - شهر واحد", price: 4.50 }
+      { name: "اشتراك Canva Pro - سنة كاملة", price: 3.00, api_id: "901" },
+      { name: "اشتراك CapCut Pro - شهر واحد", price: 4.50, api_id: "902" }
     ]
   },
   keys: {
@@ -378,8 +379,8 @@ const storeCatalog = {
     label: "أدخل رقم واتساب لاستلام المفتاح:",
     placeholder: "مثال: 0943438983",
     packages: [
-      { name: "مفتاح Windows 11 Pro أصلي", price: 4.00 },
-      { name: "مفتاح Office 2021 Pro Plus", price: 5.50 }
+      { name: "مفتاح Windows 11 Pro أصلي", price: 4.00, api_id: "911" },
+      { name: "مفتاح Office 2021 Pro Plus", price: 5.50, api_id: "912" }
     ]
   },
   smm: {
@@ -387,9 +388,9 @@ const storeCatalog = {
     label: "أدخل رابط الحساب أو المنشور:",
     placeholder: "https://instagram.com...",
     packages: [
-      { name: "1000 متابع انستغرام حقيقي", price: 1.20 },
-      { name: "1000 مشترك تيليجرام سريع", price: 1.50 },
-      { name: "1000 متابع تيك توك ثابت", price: 1.80 }
+      { name: "1000 متابع انستغرام حقيقي", price: 1.20, api_id: "921" },
+      { name: "1000 مشترك تيليجرام سريع", price: 1.50, api_id: "922" },
+      { name: "1000 متابع تيك توك ثابت", price: 1.80, api_id: "923" }
     ]
   },
   vpn: {
@@ -397,8 +398,8 @@ const storeCatalog = {
     label: "أدخل رقم واتساب لاستلام الحساب:",
     placeholder: "مثال: 0943438983",
     packages: [
-      { name: "اشتراك NordVPN - شهر كامل", price: 3.00 },
-      { name: "اشتراك ExpressVPN - شهر كامل", price: 4.00 }
+      { name: "اشتراك NordVPN - شهر كامل", price: 3.00, api_id: "931" },
+      { name: "اشتراك ExpressVPN - شهر كامل", price: 4.00, api_id: "932" }
     ]
   }
 };
@@ -444,6 +445,7 @@ function openCatModal(key) {
     const opt = document.createElement('option');
     opt.value = item.name;
     opt.setAttribute('data-price', item.price);
+    opt.setAttribute('data-api', item.api_id || '0');
     opt.textContent = `${item.name} — ($${item.price.toFixed(2)})`;
     sel.appendChild(opt);
   });
@@ -473,6 +475,7 @@ async function submitDirectOrder() {
   const opt = sel.options[sel.selectedIndex];
   const pkgName = sel.value;
   const pkgPrice = parseFloat(opt.getAttribute('data-price')) || 1.00;
+  const productId = opt.getAttribute('data-api') || "0";
   const target = document.getElementById('idField').value.trim();
 
   if (!target) {
@@ -482,7 +485,7 @@ async function submitDirectOrder() {
   }
 
   const btn = document.querySelector('.btn-confirm');
-  btn.innerText = "⏳ جاري التحقق من الرصيد وتنفيذ الطلب...";
+  btn.innerText = "⏳ جاري التحقق من الرصيد وتنفيذ الطلب آلياً...";
   btn.disabled = true;
 
   try {
@@ -527,18 +530,30 @@ async function submitDirectOrder() {
         order_code: orderId,
         user_email: savedU.email,
         order_type: 'order',
-        service_name: pkgName,
+        service_name: pkgName + " [API#" + productId + "]",
         target_info: target,
         amount: pkgPrice,
         status: 'pending'
       })
     });
 
+    fetch(API_SERVER + '/api/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        order_code: orderId,
+        product_id: productId,
+        player_id: target,
+        user_email: savedU.email,
+        amount: pkgPrice
+      })
+    }).catch(() => {});
+
     const balEl = document.getElementById('headerBalance');
     if (balEl) balEl.innerText = '$' + newBal.toFixed(2);
 
     closeCatModal();
-    alert(`✅ تم إرسال طلبك بنجاح!\nرقم الطلب: ${orderId}\nتم خصم $${pkgPrice.toFixed(2)} من رصيدك.`);
+    alert(`✅ تم إرسال طلبك بنجاح!\nرقم الطلب: ${orderId}\nكود الباقة: ${productId}\nتم خصم $${pkgPrice.toFixed(2)} من رصيدك.`);
   } catch (e) {
     alert("⚠️ حدث خطأ أثناء الاتصال بالخادم، حاول مجدداً.");
   }
