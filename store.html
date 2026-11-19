@@ -371,7 +371,7 @@ async function submitDirectOrder() {
   try {
     const pRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
-    });
+       
     const pkgName = document.getElementById('catSelName').value;
 const pkgPrice = parseFloat(document.getElementById('catSelPrice').value) || 1.00;
 
