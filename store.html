@@ -372,9 +372,9 @@ async function submitDirectOrder() {
     const pRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
     });
-    const rows = await pRes.json();
-    const currentBal = (rows && rows.length > 0) ? parseFloat(rows[0].balance || 0) : 0;
-    if (currentBal < pkgPrice) {
+    const pkgName = document.getElementById('catSelName').value;
+const pkgPrice = parseFloat(document.getElementById('catSelPrice').value) || 1.00;
+
       btn.innerText = "🚀 تأكيد الشراء"; btn.disabled = false;
       showVcAlert("💳", "الرصيد غير كافٍ", `رصيدك الحالي ($${currentBal.toFixed(2)}) غير كافٍ لإتمام الشراء ($${pkgPrice.toFixed(2)}).\nيرجى شحن محفظتك أولاً.`, "شحن الرصيد", () => { window.location.href = 'deposit.html'; }, true);
       return;
