@@ -3,34 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>طلباتي والإشعارات | VC Store 1</title>
+<title>طلباتي وسجل العمليات | VC Store 1</title>
 <link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
 <style>
 @import url('https://googleapis.com');
 :root{--bg-dark:#0b0e14;--bg-card:#121622;--bg-elevated:#191f30;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--green:#10b981;--red:#ef4444;--border:rgba(255,255,255,0.08);--text-dim:#94a3b8}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
-body{background-color:var(--bg-dark);color:#fff;padding-bottom:85px;min-height:100vh}
+body{background-color:var(--bg-dark);color:#fff;padding-bottom:90px;min-height:100vh}
 header{background:rgba(18,22,34,0.95);backdrop-filter:blur(12px);padding:12px 4%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:900}
 .wallet-box{background:var(--bg-elevated);border:1px solid rgba(6,182,212,0.45);padding:5px 12px;border-radius:50px;display:flex;align-items:center;gap:7px;font-weight:900;font-size:0.9rem;text-decoration:none;color:#fff}
 .plus-badge{background:var(--secondary);color:#000;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
-.brand{font-size:1.25rem;font-weight:900;color:#fff;text-decoration:none}
+.brand{font-size:1.25rem;font-weight:900;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
+.brand img{width:30px;height:30px;border-radius:8px;border:1px solid var(--primary)}
 .brand span{color:var(--primary)}
 .ref-btn{background:var(--bg-elevated);border:1px solid var(--secondary);color:var(--secondary);padding:6px 12px;border-radius:10px;font-size:0.8rem;font-weight:800;cursor:pointer}
-.live-toast{position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-130%);background:linear-gradient(135deg,#161e31,#0e1320);border:1px solid var(--green);box-shadow:0 12px 30px rgba(0,0,0,0.75);padding:12px 18px;border-radius:16px;z-index:2000;display:flex;align-items:center;gap:10px;width:92%;max-width:420px;transition:transform 0.35s ease}
+.live-toast{position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-150%);background:linear-gradient(135deg,#161e31,#0e1320);border:1px solid var(--green);box-shadow:0 12px 30px rgba(0,0,0,0.8);padding:12px 18px;border-radius:16px;z-index:2000;display:flex;align-items:center;gap:10px;width:92%;max-width:420px;transition:transform 0.35s ease}
 .live-toast.show{transform:translateX(-50%) translateY(0)}
-.container{max-width:650px;margin:18px auto;padding:0 14px}
+.container{max-width:680px;margin:16px auto;padding:0 14px}
+.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.st-box{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:12px 8px;text-align:center}
+.st-val{font-size:1.2rem;font-weight:900;color:#fff}
+.st-lbl{font-size:0.72rem;color:var(--text-dim);font-weight:700;margin-top:2px}
+.search-box{position:relative;margin-bottom:12px}
+.search-box input{width:100%;background:var(--bg-card);border:1px solid var(--border);padding:11px 38px 11px 14px;border-radius:14px;color:#fff;font-size:0.85rem;font-weight:700}
+.search-box input:focus{outline:none;border-color:var(--secondary)}
+.search-box span{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--text-dim)}
 .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:var(--bg-card);padding:6px;border-radius:15px;border:1px solid var(--border);margin-bottom:16px}
 .tab-btn{padding:9px 6px;border:none;border-radius:11px;background:transparent;color:var(--text-dim);font-weight:800;font-size:0.82rem;cursor:pointer;transition:0.2s}
-.tab-btn.active{background:linear-gradient(90deg,var(--primary),#4f46e5);color:#fff}
-.ord-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:15px;margin-bottom:12px}
-.ord-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;margin-bottom:8px;border-bottom:1px solid var(--border)}
-.ord-code{font-weight:900;color:var(--secondary);font-size:0.9rem}
-.badge{padding:3px 10px;border-radius:50px;font-size:0.72rem;font-weight:800}
-.b-pend{background:rgba(251,191,36,0.15);color:var(--gold);border:1px solid rgba(251,191,36,0.35)}
-.b-done{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.35)}
-.b-rej{background:rgba(239,68,68,0.15);color:var(--red);border:1px solid rgba(239,68,68,0.35)}
-.ord-row{display:flex;justify-content:space-between;font-size:0.84rem;color:#cbd5e1;margin-bottom:5px}
-.ord-row b{color:#fff}
+.tab-btn.active{background:linear-gradient(90deg,var(--primary),#4f46e5);color:#fff;box-shadow:0 4px 12px rgba(124,58,237,0.35)}
+.ord-card{background:linear-gradient(160deg,#141927 0%,#0f131e 100%);border:1px solid var(--border);border-radius:20px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden;transition:0.2s}
+.ord-card::before{content:'';position:absolute;top:0;right:0;width:4px;height:100%;background:var(--primary)}
+.ord-card.is-dep::before{background:var(--green)}
+.ord-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--border)}
+.code-wrap{display:flex;align-items:center;gap:8px}
+.ord-code{font-weight:900;color:var(--secondary);font-size:0.92rem;letter-spacing:0.5px}
+.copy-btn{background:var(--bg-elevated);border:1px solid rgba(255,255,255,0.12);color:#cbd5e1;padding:3px 9px;border-radius:8px;font-size:0.72rem;font-weight:800;cursor:pointer}
+.copy-btn:active{transform:scale(0.95);border-color:var(--secondary);color:var(--secondary)}
+.badge{padding:4px 11px;border-radius:50px;font-size:0.74rem;font-weight:800}
+.b-pend{background:rgba(251,191,36,0.14);color:var(--gold);border:1px solid rgba(251,191,36,0.35)}
+.b-done{background:rgba(16,185,129,0.14);color:var(--green);border:1px solid rgba(16,185,129,0.35)}
+.b-rej{background:rgba(239,68,68,0.14);color:var(--red);border:1px solid rgba(239,68,68,0.35)}
+.ord-title{font-size:0.95rem;font-weight:900;color:#fff;margin-bottom:8px}
+.ord-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:rgba(0,0,0,0.28);padding:10px 12px;border-radius:12px;font-size:0.8rem}
+.og-item span{display:block;color:var(--text-dim);font-size:0.72rem;margin-bottom:2px}
+.og-item b{color:#fff;word-break:break-all}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#121622;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 10px;z-index:900}
 .nav-tab{text-decoration:none;color:var(--text-dim);font-size:0.72rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
 .nav-tab.active{color:var(--secondary)}
@@ -40,23 +56,35 @@ header{background:rgba(18,22,34,0.95);backdrop-filter:blur(12px);padding:12px 4%
 <div class="live-toast" id="liveToast">
   <span style="font-size:1.5rem">🔔</span>
   <div>
-    <div style="font-weight:900;font-size:0.88rem;color:var(--green)" id="toastTitle">تحديث من السيرفر</div>
-    <div style="font-size:0.78rem;color:#e2e8f0" id="toastMsg">تم تحديث حالة طلبك الآن!</div>
+    <div style="font-weight:900;font-size:0.88rem;color:var(--green)" id="toastTitle">إشعار النظام</div>
+    <div style="font-size:0.78rem;color:#e2e8f0" id="toastMsg">تم التحديث بنجاح!</div>
   </div>
 </div>
 
 <header>
   <a href="deposit.html" class="wallet-box"><span id="headerBalance">$0.00</span><span class="plus-badge">+</span></a>
-  <a href="store.html" class="brand">VC Store <span>1</span></a>
+  <a href="store.html" class="brand"><img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="Logo"><div>VC Store <span>1</span></div></a>
   <button class="ref-btn" onclick="fetchUserOrders(true)">🔄 تحديث</button>
 </header>
 
 <div class="container">
+  <div class="stats-bar">
+    <div class="st-box"><div class="st-val" id="stTotal">0</div><div class="st-lbl">إجمالي العمليات</div></div>
+    <div class="st-box"><div class="st-val" id="stDone" style="color:var(--green)">0</div><div class="st-lbl">مكتملة بنجاح</div></div>
+    <div class="st-box"><div class="st-val" id="stPend" style="color:var(--gold)">0</div><div class="st-lbl">قيد التنفيذ</div></div>
+  </div>
+
+  <div class="search-box">
+    <span>🔍</span>
+    <input type="text" id="ordSearch" placeholder="ابحث برقم العملية (#ORD) أو اسم الخدمة أو ID..." onkeyup="renderOrders()">
+  </div>
+
   <div class="tabs">
     <button class="tab-btn active" id="tAll" onclick="setFilter('all')">الكل</button>
     <button class="tab-btn" id="tOrd" onclick="setFilter('order')">🛒 مشترياتي</button>
     <button class="tab-btn" id="tDep" onclick="setFilter('deposit')">💳 إيداعاتي</button>
   </div>
+
   <div id="ordersList"><div style="text-align:center;padding:40px;color:#94a3b8">⏳ جاري تحميل سجل العمليات...</div></div>
 </div>
 
@@ -79,7 +107,14 @@ function triggerLiveToast(title, msg) {
   document.getElementById('toastMsg').innerText = msg;
   const t = document.getElementById('liveToast');
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 4500);
+  setTimeout(() => t.classList.remove('show'), 4200);
+}
+
+function copyOrderCode(code) {
+  if (!code) return;
+  navigator.clipboard.writeText(code).then(() => {
+    triggerLiveToast("تم النسخ بنجاح 📋", `تم نسخ رقم العملية (${code}) إلى الحافظة.`);
+  }).catch(() => {});
 }
 
 function setFilter(f) {
@@ -122,7 +157,11 @@ async function fetchUserOrders(manual = false) {
         }
         knownStatuses[item.id] = item.status;
       });
+
       myRecords = list;
+      document.getElementById('stTotal').innerText = myRecords.length;
+      document.getElementById('stDone').innerText = myRecords.filter(x => x.status === 'completed').length;
+      document.getElementById('stPend').innerText = myRecords.filter(x => x.status === 'pending').length;
 
       const navTab = document.getElementById('navOrdersTab');
       const oldBadge = navTab.querySelector('.ord-badge');
@@ -130,8 +169,9 @@ async function fetchUserOrders(manual = false) {
       if (myRecords.length > 0) {
         navTab.innerHTML += `<span class="ord-badge" style="position:absolute;top:2px;right:18px;background:#ef4444;color:#fff;font-size:0.65rem;font-weight:900;padding:1px 6px;border-radius:50px">${myRecords.length}</span>`;
       }
+
       renderOrders();
-      if (manual) triggerLiveToast("تم التحديث", "تمت مزامنة طلباتك ورصيدك مع السيرفر بنجاح.");
+      if (manual) triggerLiveToast("تم التحديث 🔄", "تمت مزامنة سجل عملياتك ورصيدك بنجاح.");
     }
   } catch (e) {
     if (manual) triggerLiveToast("تنبيه الاتصال", "تعذر التحديث حالياً، تحقق من الإنترنت.");
@@ -140,28 +180,46 @@ async function fetchUserOrders(manual = false) {
 
 function renderOrders() {
   const box = document.getElementById('ordersList');
-  const filtered = activeFilter === 'all' ? myRecords : myRecords.filter(x => (activeFilter === 'deposit' ? x.order_type === 'deposit' : x.order_type !== 'deposit'));
+  const q = (document.getElementById('ordSearch').value || '').trim().toLowerCase();
+
+  let filtered = activeFilter === 'all' ? myRecords : myRecords.filter(x => (activeFilter === 'deposit' ? x.order_type === 'deposit' : x.order_type !== 'deposit'));
+  if (q) {
+    filtered = filtered.filter(x =>
+      (x.order_code || '').toLowerCase().includes(q) ||
+      (x.service_name || '').toLowerCase().includes(q) ||
+      (x.target_info || '').toLowerCase().includes(q)
+    );
+  }
 
   if (filtered.length === 0) {
-    box.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">لا توجد عمليات مسجلة في هذا القسم بعد.</div>';
+    box.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">لا توجد عمليات مطابقة للبحث في هذا القسم.</div>';
     return;
   }
 
   box.innerHTML = '';
   filtered.forEach(o => {
     const isDep = o.order_type === 'deposit';
+    const code = o.order_code || (isDep ? '#DEP' : '#ORD');
     const bCls = o.status === 'completed' ? 'b-done' : (o.status === 'rejected' ? 'b-rej' : 'b-pend');
-    const bTxt = o.status === 'completed' ? (isDep ? 'مقبول ومشحون ✅' : 'مكتمل ✅') : (o.status === 'rejected' ? 'مرفوض ❌' : 'قيد التنفيذ ⏳');
+    const bTxt = o.status === 'completed' ? (isDep ? 'مقبول ومشحون ✅' : 'مكتمل ✅') : (o.status === 'rejected' ? 'مرفوض ومسترد ❌' : 'قيد التنفيذ ⏳');
+    const dt = o.created_at ? new Date(o.created_at).toLocaleDateString('ar-EG', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'الآن';
 
     box.innerHTML += `
-      <div class="ord-card">
+      <div class="ord-card ${isDep ? 'is-dep' : ''}">
         <div class="ord-top">
-          <span class="ord-code">${o.order_code || (isDep ? '#DEP' : '#ORD')}</span>
+          <div class="code-wrap">
+            <span class="ord-code">${code}</span>
+            <button class="copy-btn" onclick="copyOrderCode('${code}')">📋 نسخ</button>
+          </div>
           <span class="badge ${bCls}">${bTxt}</span>
         </div>
-        <div class="ord-row"><span>العملية:</span><b>${o.service_name}</b></div>
-        <div class="ord-row"><span>${isDep ? 'رقم التحويل:' : 'المعرّف (ID):'}</span><b style="color:var(--gold)">${o.target_info}</b></div>
-        <div class="ord-row"><span>المبلغ:</span><b style="color:${isDep ? 'var(--green)' : '#fff'}">$${parseFloat(o.amount || 0).toFixed(2)}</b></div>
+        <div class="ord-title">${o.service_name}</div>
+        <div class="ord-grid">
+          <div class="og-item"><span>${isDep ? 'بيانات التحويل:' : 'المعرّف (ID):'}</span><b style="color:var(--gold)">${o.target_info}</b></div>
+          <div class="og-item"><span>القيمة المالية:</span><b style="color:${isDep ? 'var(--green)' : '#fff'}">$${parseFloat(o.amount || 0).toFixed(2)}</b></div>
+          <div class="og-item"><span>نوع العملية:</span><b>${isDep ? 'شحن محفظة' : 'شراء باقة'}</b></div>
+          <div class="og-item"><span>التوقيت:</span><b>${dt}</b></div>
+        </div>
       </div>`;
   });
 }
