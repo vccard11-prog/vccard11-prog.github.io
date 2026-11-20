@@ -98,6 +98,22 @@ header{background:rgba(18,22,34,0.95);backdrop-filter:blur(12px);padding:11px 4%
 .vc-alert-btn{flex:1;padding:12px;border:none;border-radius:13px;font-weight:800;font-size:0.9rem;cursor:pointer;color:#fff}
 .vc-btn-primary{background:linear-gradient(90deg,#7c3aed,#06b6d4)}
 .vc-btn-sec{background:#1e2538;color:#94a3b8}
+.vca-badge{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#000;font-size:0.68rem;font-weight:900;padding:2px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:3px;box-shadow:0 0 12px rgba(251,191,36,0.5);margin-right:6px}
+.tier-tag{font-size:0.7rem;font-weight:800;padding:2px 8px;border-radius:50px;background:rgba(124,58,237,0.2);color:#c084fc;border:1px solid rgba(124,58,237,0.4);margin-right:4px}
+.ai-fab{position:fixed;bottom:76px;left:16px;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);color:#fff;border:2px solid rgba(255,255,255,0.25);box-shadow:0 8px 25px rgba(124,58,237,0.55);font-size:1.5rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:950;transition:0.25s}
+.ai-fab:hover{transform:scale(1.08)}
+.ai-box{position:fixed;bottom:140px;left:16px;width:330px;max-width:90vw;background:#121622;border:1px solid rgba(6,182,212,0.45);border-radius:22px;box-shadow:0 15px 40px rgba(0,0,0,0.85);z-index:1400;display:none;flex-direction:column;overflow:hidden}
+.ai-box.open{display:flex;animation:popIn 0.25s ease}
+.ai-head{background:linear-gradient(90deg,#7c3aed,#06b6d4);padding:12px 15px;display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:0.9rem}
+.ai-msgs{height:230px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;font-size:0.82rem}
+.msg-bot{background:#1b2234;color:#e2e8f0;padding:9px 12px;border-radius:14px 14px 14px 4px;align-self:flex-start;max-width:85%;line-height:1.5}
+.msg-usr{background:linear-gradient(90deg,#7c3aed,#4f46e5);color:#fff;padding:9px 12px;border-radius:14px 14px 4px 14px;align-self:flex-end;max-width:85%}
+.ai-quick{display:flex;gap:5px;padding:6px 10px;overflow-x:auto;border-top:1px solid rgba(255,255,255,0.06)}
+.ai-qbtn{background:#191f30;border:1px solid rgba(6,182,212,0.35);color:#06b6d4;font-size:0.7rem;font-weight:800;padding:4px 9px;border-radius:50px;white-space:nowrap;cursor:pointer}
+.ai-inp-row{display:flex;padding:8px;border-top:1px solid rgba(255,255,255,0.08);gap:6px}
+.ai-inp-row input{flex:1;background:#090b10;border:1px solid #283047;border-radius:10px;padding:8px 10px;color:#fff;font-size:0.8rem}
+.ai-inp-row button{background:#06b6d4;color:#000;border:none;border-radius:10px;padding:0 12px;font-weight:900;cursor:pointer}
+ 
 </style>
 </head>
  <body>
@@ -215,6 +231,25 @@ header{background:rgba(18,22,34,0.95);backdrop-filter:blur(12px);padding:11px 4%
       <button class="vc-alert-btn vc-btn-primary" id="vcAlertOk">حسناً</button>
       <button class="vc-alert-btn vc-btn-sec" id="vcAlertCancel" onclick="closeVcAlert()">إغلاق</button>
     </div>
+  </div>
+</div>
+<button class="ai-fab" onclick="toggleAiChat()" title="مساعد VC الذكي">🤖</button>
+<div class="ai-box" id="aiChatBox">
+  <div class="ai-head">
+    <span>🤖 مساعد VC Store 1 الذكي</span>
+    <button onclick="toggleAiChat()" style="background:none;border:none;color:#fff;font-size:1.1rem;cursor:pointer">✕</button>
+  </div>
+  <div class="ai-msgs" id="aiMsgs">
+    <div class="msg-bot">أهلاً بك في منصة <b>VC Store 1</b>! 👋<br>أنا مساعدك الذكي، اسألني عن الشحن، نظام النقاط، أو توثيق الوكالة <b>VCA</b>.</div>
+  </div>
+  <div class="ai-quick">
+    <button class="ai-qbtn" onclick="askAiQuick('كيف أشحن رصيدي؟')">💳 طريقة الإيداع</button>
+    <button class="ai-qbtn" onclick="askAiQuick('ما هو توثيق VCA؟')">👑 وكالة VCA</button>
+    <button class="ai-qbtn" onclick="askAiQuick('كيف أحصل على خصم؟')">🎁 نظام النقاط</button>
+  </div>
+  <div class="ai-inp-row">
+    <input type="text" id="aiInput" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key==='Enter')sendAiMsg()">
+    <button onclick="sendAiMsg()">إرسال</button>
   </div>
 </div>
 
@@ -512,6 +547,59 @@ window.addEventListener('DOMContentLoaded', async () => {
     } catch (e) {}
   }
 });
+function toggleAiChat() {
+  document.getElementById('aiChatBox').classList.toggle('open');
+}
+
+function askAiQuick(q) {
+  document.getElementById('aiInput').value = q;
+  sendAiMsg();
+}
+
+function sendAiMsg() {
+  const inp = document.getElementById('aiInput');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  const box = document.getElementById('aiMsgs');
+  box.innerHTML += `<div class="msg-usr">${txt}</div>`;
+  inp.value = '';
+  box.scrollTop = box.scrollHeight;
+
+  setTimeout(() => {
+    let reply = "شكراً لتواصلك مع منصة <b>VC Store 1</b>! يمكنك متابعة طلباتك من قسم (طلباتي) أو شحن محفظتك من علامة (+).";
+    if (txt.includes('إيداع') || txt.includes('أشحن') || txt.includes('رصيد')) {
+      reply = "لإضافة رصيد لمحفظتك: اضغط على علامة <b>(+)</b> في الأعلى، اختر وسيلة الدفع (سيريتل كاش، شام كاش، USDT)، وأدخل رقم العملية ليتم شحن رصيدك فوراً! 💳";
+    } else if (txt.includes('vca') || txt.includes('وكالة') || txt.includes('وكيل')) {
+      reply = "توثيق الوكالة الذهبي <span class='vca-badge'>VCA ✓</span> يمنحك خصم <b>12%</b> على كافة الباقات وأولوية في التنفيذ! يتفعل تلقائياً عند شحن <b>$250</b> أو بطلب التفعيل من الإدارة. 👑";
+    } else if (txt.includes('خصم') || txt.includes('نقاط') || txt.includes('100')) {
+      reply = "نظام الولاء في منصتنا يكافئك تلقائياً:<br>• شحن <b>$50+</b>: خصم <b>3%</b><br>• شحن <b>$100+</b>: خصم <b>7%</b><br>• شحن <b>$250+</b>: وكالة <b>VCA ✓</b> بخصم <b>12%</b>! 🚀";
+    }
+    box.innerHTML += `<div class="msg-bot">${reply}</div>`;
+    box.scrollTop = box.scrollHeight;
+  }, 400);
+}
+
+(async function loadVcaStatus() {
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  if (!savedU || !savedU.id) return;
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=is_vca,vip_tier,total_spent', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
+    });
+    const rows = await res.json();
+    if (Array.isArray(rows) && rows.length > 0) {
+      const prof = rows.at(0);
+      const pill = document.getElementById('accountPill');
+      if (pill) {
+        const vcaHtml = prof.is_vca ? `<span class="vca-badge">VCA ✓</span>` : '';
+        const tierHtml = (!prof.is_vca && prof.vip_tier && prof.vip_tier !== 'Member') ? `<span class="tier-tag">${prof.vip_tier}</span>` : '';
+        pill.innerHTML = `👋 ${savedU.name} ${vcaHtml}${tierHtml}`;
+      }
+      localStorage.setItem('vc_tier_data', JSON.stringify(prof));
+    }
+  } catch (e) {}
+})();
+
 </script>
 </body>
 </html>
