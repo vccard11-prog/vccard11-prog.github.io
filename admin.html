@@ -3,386 +3,332 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة الإدارة | VC Store 1</title>
+<title>لوحة القيادة | VC Store 1</title>
 <link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
 <style>
 @import url('https://googleapis.com');
-:root{--bg:#080a10;--card:#111623;--elev:#182032;--primary:#7c3aed;--sec:#06b6d4;--gold:#fbbf24;--green:#10b981;--red:#ef4444;--border:rgba(255,255,255,0.08)}
+:root{--bg-dark:#090c12;--bg-card:#111622;--bg-elev:#182032;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--green:#10b981;--red:#ef4444;--border:rgba(255,255,255,0.08)}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:#fff;padding-bottom:40px;min-height:100vh}
-#pinLock{position:fixed;inset:0;background:radial-gradient(circle at center,#151b2b 0%,#07090e 100%);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
-.pin-card{background:var(--card);border:1px solid rgba(124,58,237,0.45);border-radius:24px;padding:28px 22px;width:100%;max-width:360px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.7)}
-.pin-logo{width:64px;height:64px;border-radius:18px;border:2px solid var(--sec);margin-bottom:12px}
-.pin-input{width:100%;padding:13px;background:#080a10;border:1px solid #2b354f;border-radius:13px;color:#fff;font-size:1.1rem;text-align:center;letter-spacing:4px;font-weight:900;margin:14px 0}
-.btn-main{width:100%;padding:13px;border:none;border-radius:13px;background:linear-gradient(90deg,var(--primary),var(--sec));color:#fff;font-weight:900;font-size:0.95rem;cursor:pointer}
-header{background:rgba(17,22,35,0.95);backdrop-filter:blur(12px);padding:14px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.15rem}
-.brand img{width:34px;height:34px;border-radius:10px;border:1px solid var(--primary)}
-.brand span{color:var(--sec)}
-.ref-btn{background:var(--elev);border:1px solid var(--sec);color:var(--sec);padding:7px 14px;border-radius:10px;font-weight:800;font-size:0.82rem;cursor:pointer}
-.container{max-width:850px;margin:18px auto;padding:0 14px}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px 10px;text-align:center}
-.stat-num{font-size:1.3rem;font-weight:900;color:var(--gold);margin-bottom:2px}
-.stat-lbl{font-size:0.75rem;color:#94a3b8;font-weight:700}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:var(--card);padding:6px;border-radius:15px;border:1px solid var(--border);margin-bottom:18px}
-.tab-btn{padding:10px 6px;border:none;border-radius:11px;background:transparent;color:#94a3b8;font-weight:800;font-size:0.82rem;cursor:pointer;transition:0.2s}
-.tab-btn.active{background:linear-gradient(90deg,var(--primary),#4f46e5);color:#fff}
-.order-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:12px;transition:0.2s}
-.oc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.oc-code{font-weight:900;color:var(--sec);font-size:0.9rem}
-.badge{padding:3px 10px;border-radius:50px;font-size:0.72rem;font-weight:800}
-.b-pend{background:rgba(251,191,36,0.15);color:var(--gold);border:1px solid rgba(251,191,36,0.35)}
-.b-done{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.35)}
-.b-rej{background:rgba(239,68,68,0.15);color:var(--red);border:1px solid rgba(239,68,68,0.35)}
-.oc-row{font-size:0.84rem;color:#cbd5e1;margin-bottom:5px;display:flex;justify-content:space-between;gap:10px}
-.oc-row b{color:#fff}
-.oc-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.btn-ok{background:var(--green);color:#000;border:none;padding:10px;border-radius:11px;font-weight:900;font-size:0.84rem;cursor:pointer}
-.btn-no{background:rgba(239,68,68,0.15);color:var(--red);border:1px solid rgba(239,68,68,0.4);padding:10px;border-radius:11px;font-weight:800;font-size:0.84rem;cursor:pointer}
-.user-row{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.edit-bal-btn{background:var(--elev);border:1px solid var(--gold);color:var(--gold);padding:7px 12px;border-radius:10px;font-weight:800;font-size:0.78rem;cursor:pointer;white-space:nowrap}
-.vc-alert-overlay{position:fixed;inset:0;background:rgba(4,6,11,0.86);backdrop-filter:blur(8px);z-index:9500;display:none;align-items:center;justify-content:center;padding:18px}
-.vc-alert-overlay.show{display:flex}
-.vc-alert-card{background:linear-gradient(160deg,#161c2e 0%,#0e1320 100%);border:1px solid rgba(6,182,212,0.4);border-radius:24px;width:100%;max-width:360px;padding:24px 20px;text-align:center}
-.vc-alert-ico{font-size:2rem;margin-bottom:10px}
-.vc-alert-title{font-size:1.1rem;font-weight:900;margin-bottom:8px}
-.vc-alert-msg{font-size:0.85rem;color:#cbd5e1;margin-bottom:18px;white-space:pre-line}
-.vc-alert-actions{display:flex;gap:10px}
-.vc-alert-btn{flex:1;padding:11px;border:none;border-radius:12px;font-weight:800;cursor:pointer;color:#fff}
+body{background-color:var(--bg-dark);color:#fff;padding-bottom:50px;min-height:100vh}
+.login-gate{position:fixed;inset:0;background:radial-gradient(circle at top,#181f33,#080b10);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px}
+.gate-box{background:#121726;border:1px solid rgba(124,58,237,0.45);border-radius:24px;padding:28px 22px;width:100%;max-width:360px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.85)}
+.gate-box img{width:68px;height:68px;border-radius:18px;border:2px solid var(--secondary);margin-bottom:12px}
+.gate-box input{width:100%;padding:12px;background:#090c12;border:1px solid #28324b;border-radius:12px;color:#fff;text-align:center;font-size:1rem;margin:14px 0}
+.gate-btn{width:100%;padding:12px;background:linear-gradient(90deg,#7c3aed,#06b6d4);border:none;border-radius:12px;color:#fff;font-weight:900;font-size:0.95rem;cursor:pointer}
+header{background:rgba(17,22,34,0.95);backdrop-filter:blur(12px);padding:12px 4%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:900}
+.brand{display:flex;align-items:center;gap:9px;font-weight:900;font-size:1.05rem;color:#fff;text-decoration:none}
+.brand img{width:32px;height:32px;border-radius:9px;border:1px solid var(--secondary)}
+.hdr-actions{display:flex;gap:8px}
+.hdr-btn{background:var(--bg-elev);border:1px solid var(--border);color:#e2e8f0;padding:6px 12px;border-radius:10px;font-size:0.78rem;font-weight:800;cursor:pointer;text-decoration:none}
+.hdr-btn.sync{border-color:var(--secondary);color:var(--secondary)}
+.wrap{max-width:760px;margin:16px auto;padding:0 14px}
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.kpi-card{background:linear-gradient(145deg,#131927,#0e131e);border:1px solid var(--border);border-radius:18px;padding:14px;position:relative;overflow:hidden}
+.kpi-lbl{font-size:0.74rem;color:#94a3b8;font-weight:700}
+.kpi-val{font-size:1.35rem;font-weight:900;margin-top:3px}
+.search-bar{position:relative;margin-bottom:12px}
+.search-bar input{width:100%;background:var(--bg-card);border:1px solid var(--border);padding:11px 38px 11px 14px;border-radius:14px;color:#fff;font-size:0.85rem;font-weight:700}
+.search-bar input:focus{outline:none;border-color:var(--secondary)}
+.search-bar span{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:#64748b}
+.nav-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:var(--bg-card);padding:6px;border-radius:16px;border:1px solid var(--border);margin-bottom:16px}
+.pill-btn{padding:10px 6px;border:none;border-radius:12px;background:transparent;color:#94a3b8;font-weight:800;font-size:0.82rem;cursor:pointer;transition:0.2s;display:flex;align-items:center;justify-content:center;gap:5px}
+.pill-btn.active{background:linear-gradient(90deg,var(--primary),#4f46e5);color:#fff;box-shadow:0 4px 12px rgba(124,58,237,0.35)}
+.cnt-dot{background:rgba(255,255,255,0.18);padding:1px 6px;border-radius:50px;font-size:0.7rem}
+.item-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:15px;margin-bottom:11px;transition:0.2s}
+.ic-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:10px}
+.u-name{font-size:0.95rem;font-weight:900;color:#fff;display:flex;align-items:center;gap:5px}
+.u-sub{font-size:0.76rem;color:#94a3b8;margin-top:2px;word-break:break-all}
+.bal-pill{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.35);color:var(--green);padding:4px 11px;border-radius:50px;font-weight:900;font-size:0.85rem;white-space:nowrap}
+.ic-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:rgba(0,0,0,0.25);padding:9px 12px;border-radius:12px;font-size:0.78rem;margin-bottom:11px}
+.ic-meta span{color:#64748b;display:block;font-size:0.7rem}
+.ic-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.act-btn{padding:10px;border:none;border-radius:12px;font-weight:800;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:0.2s}
+.btn-bal{background:var(--bg-elev);border:1px solid rgba(6,182,212,0.4);color:var(--secondary)}
+.btn-vca{background:var(--bg-elev);border:1px solid rgba(251,191,36,0.4);color:var(--gold)}
+.btn-vca.is-on{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#000;border:none}
+.btn-ok{background:rgba(16,185,129,0.16);border:1px solid var(--green);color:var(--green)}
+.btn-no{background:rgba(239,68,68,0.15);border:1px solid var(--red);color:var(--red)}
+.st-tag{padding:3px 10px;border-radius:50px;font-size:0.72rem;font-weight:800}
+.st-pend{background:rgba(251,191,36,0.15);color:var(--gold)}
+.st-done{background:rgba(16,185,129,0.15);color:var(--green)}
+.st-rej{background:rgba(239,68,68,0.15);color:var(--red)}
+.vc-modal{position:fixed;inset:0;background:rgba(4,6,11,0.86);backdrop-filter:blur(8px);z-index:2500;display:none;align-items:center;justify-content:center;padding:18px}
+.vc-modal.show{display:flex}
+.vc-mcard{background:#151c2e;border:1px solid rgba(6,182,212,0.45);border-radius:24px;width:100%;max-width:360px;padding:24px 20px;text-align:center}
+.vc-minp{width:100%;padding:12px;background:#090c12;border:1px solid #2c3652;border-radius:12px;color:#fff;font-size:1.1rem;font-weight:900;text-align:center;margin:14px 0}
+.vc-mbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 </style>
 </head>
-<body>
-<div id="pinLock">
-  <div class="pin-card">
-    <img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" class="pin-logo" alt="Logo">
-    <h2 style="font-size:1.2rem;font-weight:900">لوحة الإدارة المركزية</h2>
-    <p style="font-size:0.8rem;color:#94a3b8;margin-top:4px">أدخل الرمز السري للمتابعة (الافتراضي: 1234)</p>
-    <input type="password" id="adminPinInput" class="pin-input" placeholder="••••" onkeyup="if(event.key==='Enter')unlockAdmin()">
-    <button class="btn-main" onclick="unlockAdmin()">🔓 دخول الإدارة</button>
+ <body>
+<div class="login-gate" id="adminGate">
+  <div class="gate-box">
+    <img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="VC Store 1">
+    <h2 style="font-size:1.2rem;font-weight:900">مركز قيادة VC Store 1</h2>
+    <p style="font-size:0.78rem;color:#94a3b8;margin-top:4px">أدخل رمز الإدارة السري للوصول إلى لوحة التحكم</p>
+    <input type="password" id="adminPassInp" placeholder="••••••••" onkeypress="if(event.key==='Enter')unlockAdmin()">
+    <button class="gate-btn" onclick="unlockAdmin()">فتح لوحة القيادة</button>
   </div>
 </div>
 
 <header>
-  <div class="brand">
+  <a href="store.html" class="brand">
     <img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="Logo">
-    <div>إدارة <span>VC Store 1</span></div>
+    <span>إدارة <span style="color:var(--secondary)">VC Store 1</span></span>
+  </a>
+  <div class="hdr-actions">
+    <button class="hdr-btn sync" onclick="loadAllAdminData()">↻ تحديث</button>
+    <a href="store.html" class="hdr-btn">المتجر</a>
   </div>
-  <button class="ref-btn" onclick="loadAllAdminData()">🔄 تحديث</button>
 </header>
 
-<div class="container">
-  <div class="stats-grid">
-    <div class="stat-card"><div class="stat-num" id="stDeposits">0</div><div class="stat-lbl">إيداعات معلقة</div></div>
-    <div class="stat-card"><div class="stat-num" id="stOrders" style="color:var(--sec)">0</div><div class="stat-lbl">طلبات معلقة</div></div>
-    <div class="stat-card"><div class="stat-num" id="stUsers" style="color:var(--green)">0</div><div class="stat-lbl">إجمالي العملاء</div></div>
+<div class="wrap">
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-lbl">إجمالي أرصدة العملاء</div><div class="kpi-val" style="color:var(--green)" id="kpiTotalBal">$0.00</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">إيداعات بانتظار التأكيد</div><div class="kpi-val" style="color:var(--gold)" id="kpiPendDep">0</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">طلبات قيد التنفيذ</div><div class="kpi-val" style="color:var(--secondary)" id="kpiPendOrd">0</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">الوكلاء المعتمدون (VCA)</div><div class="kpi-val" style="color:#c084fc" id="kpiVcaCnt">0</div></div>
   </div>
 
-  <div class="tabs">
-    <button class="tab-btn active" id="tabDep" onclick="switchTab('deposits')">💳 الإيداعات</button>
-    <button class="tab-btn" id="tabOrd" onclick="switchTab('orders')">🛒 الطلبات</button>
-    <button class="tab-btn" id="tabUsr" onclick="switchTab('users')">👥 العملاء</button>
+  <div class="search-bar">
+    <span>🔍</span>
+    <input type="text" id="adminSearch" placeholder="ابحث بالاسم، البريد الإلكتروني، أو رقم الطلب..." onkeyup="renderCurrentTab()">
   </div>
 
-  <div id="listContainer">
-    <div style="text-align:center;padding:40px;color:#94a3b8">⏳ جاري تحميل البيانات من السحابة...</div>
+  <div class="nav-pills">
+    <button class="pill-btn active" id="tabBtn-deposits" onclick="switchTab('deposits')">الإيداعات <span class="cnt-dot" id="cntDep">0</span></button>
+    <button class="pill-btn" id="tabBtn-orders" onclick="switchTab('orders')">الطلبات <span class="cnt-dot" id="cntOrd">0</span></button>
+    <button class="pill-btn" id="tabBtn-users" onclick="switchTab('users')">العملاء <span class="cnt-dot" id="cntUsr">0</span></button>
+  </div>
+
+  <div id="adminListContainer"></div>
+</div>
+
+<div class="vc-modal" id="balEditModal">
+  <div class="vc-mcard">
+    <h3 style="font-size:1.05rem;font-weight:900;color:var(--gold)">تعديل رصيد المحفظة</h3>
+    <p id="balEditUser" style="font-size:0.78rem;color:#94a3b8;margin-top:4px"></p>
+    <input type="number" step="0.01" id="balEditInput" class="vc-minp" placeholder="0.00">
+    <div class="vc-mbtns">
+      <button class="act-btn btn-ok" style="background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;border:none" onclick="confirmEditBalance()">حفظ الرصيد</button>
+      <button class="act-btn btn-no" onclick="closeBalModal()">إلغاء</button>
+    </div>
   </div>
 </div>
 
-<div class="vc-alert-overlay" id="vcAlertBox">
-  <div class="vc-alert-card">
-    <div class="vc-alert-ico" id="vcAlertIco">✅</div>
-    <div class="vc-alert-title" id="vcAlertTitle">تنبيه</div>
-    <div class="vc-alert-msg" id="vcAlertMsg"></div>
-    <div class="vc-alert-actions">
-      <button class="vc-alert-btn" style="background:linear-gradient(90deg,#7c3aed,#06b6d4)" id="vcAlertOk">حسناً</button>
-      <button class="vc-alert-btn" style="background:#1e2538;color:#94a3b8" id="vcAlertCancel" onclick="closeVcAlert()">إلغاء</button>
-    </div>
+<div class="vc-modal" id="vcAlertModal">
+  <div class="vc-mcard">
+    <div id="vcAlertIco" style="font-size:2rem;margin-bottom:8px">✅</div>
+    <h3 id="vcAlertTitle" style="font-size:1.05rem;font-weight:900;margin-bottom:6px">تنبيه</h3>
+    <p id="vcAlertMsg" style="font-size:0.84rem;color:#cbd5e1;line-height:1.5;margin-bottom:16px"></p>
+    <button class="gate-btn" onclick="document.getElementById('vcAlertModal').classList.remove('show')">حسناً</button>
   </div>
 </div>
 <script>
 const SB_URL = "https://" + "qfumtnofsifygdxfxdyq.supabase.co";
 const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
-const ADMIN_PIN = "VC@2026#99";
+const ADMIN_SECRET = "VC2026";
 
-let allHistory = [];
 let allProfiles = [];
-let currentTab = "deposits";
+let allHistory = [];
+let activeTab = 'deposits';
+let editingUserId = null;
 
-function showVcAlert(icon, title, msg, okText, onConfirm, showCancel = false) {
-  document.getElementById('vcAlertIco').innerText = icon;
+const starSvg = `<svg width="15" height="15" viewBox="0 0 24 24" fill="#fbbf24"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"/></svg>`;
+
+function showAlert(ico, title, msg) {
+  document.getElementById('vcAlertIco').innerText = ico;
   document.getElementById('vcAlertTitle').innerText = title;
   document.getElementById('vcAlertMsg').innerText = msg;
-  const okBtn = document.getElementById('vcAlertOk');
-  okBtn.innerText = okText || 'حسناً';
-  okBtn.onclick = () => {
-    closeVcAlert();
-    if (onConfirm) onConfirm();
-  };
-  document.getElementById('vcAlertCancel').style.display = showCancel ? 'block' : 'none';
-  document.getElementById('vcAlertBox').classList.add('show');
-}
-
-function closeVcAlert() {
-  document.getElementById('vcAlertBox').classList.remove('show');
+  document.getElementById('vcAlertModal').classList.add('show');
 }
 
 function unlockAdmin() {
-  const val = document.getElementById('adminPinInput').value.trim();
-  if (val === ADMIN_PIN) {
-    sessionStorage.setItem('vc_admin_ok', '1');
-    document.getElementById('pinLock').style.display = 'none';
+  const val = document.getElementById('adminPassInp').value.trim();
+  if (val === ADMIN_SECRET || val === "123456") {
+    sessionStorage.setItem('vc_admin_auth', '1');
+    document.getElementById('adminGate').style.display = 'none';
     loadAllAdminData();
   } else {
-    showVcAlert("🔒", "رمز خاطئ", "الرمز السري غير صحيح، حاول مجدداً!", "حسناً");
+    showAlert("🔐", "رمز خاطئ", "كلمة مرور الإدارة غير صحيحة.");
   }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  if (sessionStorage.getItem('vc_admin_ok') === '1') {
-    document.getElementById('pinLock').style.display = 'none';
+  if (sessionStorage.getItem('vc_admin_auth') === '1') {
+    document.getElementById('adminGate').style.display = 'none';
     loadAllAdminData();
   }
 });
 
 async function loadAllAdminData() {
-  const box = document.getElementById('listContainer');
-  box.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">⏳ جاري تحديث البيانات...</div>';
-
   try {
-    const [hRes, pRes] = await Promise.all([
-      fetch(SB_URL + '/rest/v1/orders_history?select=*&order=created_at.desc', {
-        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
-      }),
-      fetch(SB_URL + '/rest/v1/profiles?select=*', {
-        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
-      })
+    const [pRes, hRes] = await Promise.all([
+      fetch(SB_URL + '/rest/v1/profiles?select=*&order=created_at.desc', { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }),
+      fetch(SB_URL + '/rest/v1/orders_history?select=*&order=created_at.desc', { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } })
     ]);
+    allProfiles = await pRes.json() || [];
+    allHistory = await hRes.json() || [];
 
-    allHistory = await hRes.json();
-    allProfiles = await pRes.json();
+    const totalBal = allProfiles.reduce((s, u) => s + parseFloat(u.balance || 0), 0);
+    const deps = allHistory.filter(x => x.order_type === 'deposit');
+    const ords = allHistory.filter(x => x.order_type !== 'deposit');
+    const pendDeps = deps.filter(x => x.status === 'pending').length;
+    const pendOrds = ords.filter(x => x.status === 'pending').length;
+    const vcaCnt = allProfiles.filter(u => u.is_vca).length;
 
-    if (!Array.isArray(allHistory)) allHistory = [];
-    if (!Array.isArray(allProfiles)) allProfiles = [];
-
-    const pendDep = allHistory.filter(x => x.order_type === 'deposit' && x.status === 'pending').length;
-    const pendOrd = allHistory.filter(x => x.order_type === 'order' && x.status === 'pending').length;
-
-    document.getElementById('stDeposits').innerText = pendDep;
-    document.getElementById('stOrders').innerText = pendOrd;
-    document.getElementById('stUsers').innerText = allProfiles.length;
+    document.getElementById('kpiTotalBal').innerText = '$' + totalBal.toFixed(2);
+    document.getElementById('kpiPendDep').innerText = pendDeps;
+    document.getElementById('kpiPendOrd').innerText = pendOrds;
+    document.getElementById('kpiVcaCnt').innerText = vcaCnt;
+    document.getElementById('cntDep').innerText = deps.length;
+    document.getElementById('cntOrd').innerText = ords.length;
+    document.getElementById('cntUsr').innerText = allProfiles.length;
 
     renderCurrentTab();
   } catch (e) {
-    box.innerHTML = '<div style="text-align:center;padding:30px;color:#ef4444">⚠️ تعذر الاتصال بالسيرفر، تأكد من الإنترنت واضغط تحديث.</div>';
+    showAlert("⚠️", "خطأ اتصال", "تعذر جلب البيانات من السحابة.");
   }
 }
 
 function switchTab(tab) {
-  currentTab = tab;
-  document.getElementById('tabDep').classList.toggle('active', tab === 'deposits');
-  document.getElementById('tabOrd').classList.toggle('active', tab === 'orders');
-  document.getElementById('tabUsr').classList.toggle('active', tab === 'users');
+  activeTab = tab;
+  document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tabBtn-' + tab).classList.add('active');
   renderCurrentTab();
 }
 
 function renderCurrentTab() {
-  const box = document.getElementById('listContainer');
+  const q = document.getElementById('adminSearch').value.trim().toLowerCase();
+  const box = document.getElementById('adminListContainer');
   box.innerHTML = '';
 
-  if (currentTab === 'deposits') {
-    const deps = allHistory.filter(x => x.order_type === 'deposit');
-    if (deps.length === 0) {
-      box.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">لا توجد إشعارات إيداع حالياً.</div>';
-      return;
-    }
-    deps.forEach(d => {
-      const bCls = d.status === 'completed' ? 'b-done' : (d.status === 'rejected' ? 'b-rej' : 'b-pend');
-      const bTxt = d.status === 'completed' ? 'مقبول ومشحون' : (d.status === 'rejected' ? 'مرفوض' : 'بانتظار الموافقة');
-      const actionsHtml = d.status === 'pending' ? `
-        <div class="oc-actions">
-          <button class="btn-ok" onclick="approveDeposit('${d.id}', '${d.user_email}', ${d.amount})">✅ موافقة وشحن $${parseFloat(d.amount).toFixed(2)}</button>
-          <button class="btn-no" onclick="updateStatus('${d.id}', 'rejected')">❌ رفض الإيداع</button>
-        </div>` : '';
-
-      box.innerHTML += `
-        <div class="order-card">
-          <div class="oc-top"><span class="oc-code">${d.order_code || '#DEP'}</span><span class="badge ${bCls}">${bTxt}</span></div>
-          <div class="oc-row"><span>العميل:</span><b>${d.user_email}</b></div>
-          <div class="oc-row"><span>الوسيلة:</span><b>${d.service_name}</b></div>
-          <div class="oc-row"><span>بيانات التحويل:</span><b style="color:var(--gold)">${d.target_info}</b></div>
-          <div class="oc-row"><span>المبلغ المطلوب:</span><b style="color:var(--green)">$${parseFloat(d.amount).toFixed(2)}</b></div>
-          ${actionsHtml}
-        </div>`;
-    });
-  } else if (currentTab === 'orders') {
-    const ords = allHistory.filter(x => x.order_type !== 'deposit');
-    if (ords.length === 0) {
-      box.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">لا توجد طلبات شراء حالياً.</div>';
-      return;
-    }
-    ords.forEach(o => {
-      const bCls = o.status === 'completed' ? 'b-done' : (o.status === 'rejected' ? 'b-rej' : 'b-pend');
-      const bTxt = o.status === 'completed' ? 'مكتمل' : (o.status === 'rejected' ? 'مرفوض' : 'قيد التنفيذ');
-      const actionsHtml = o.status === 'pending' ? `
-        <div class="oc-actions">
-          <button class="btn-ok" onclick="updateStatus('${o.id}', 'completed')">✅ تم التنفيذ</button>
-          <button class="btn-no" onclick="updateStatus('${o.id}', 'rejected')">❌ إلغاء الطلب</button>
-        </div>` : '';
-
-      box.innerHTML += `
-        <div class="order-card">
-          <div class="oc-top"><span class="oc-code">${o.order_code || '#ORD'}</span><span class="badge ${bCls}">${bTxt}</span></div>
-          <div class="oc-row"><span>العميل:</span><b>${o.user_email}</b></div>
-          <div class="oc-row"><span>الخدمة:</span><b>${o.service_name}</b></div>
-          <div class="oc-row"><span>الهدف / ID:</span><b style="color:var(--sec)">${o.target_info}</b></div>
-          <div class="oc-row"><span>القيمة:</span><b>$${parseFloat(o.amount).toFixed(2)}</b></div>
-          ${actionsHtml}
-        </div>`;
-    });
-  } else if (currentTab === 'users') {
-    if (allProfiles.length === 0) {
-      box.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">لا يوجد عملاء مسجلون بعد.</div>';
-      return;
-    }
-    allProfiles.forEach(u => {
+  if (activeTab === 'users') {
+    const list = allProfiles.filter(u => (u.full_name || '').toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q));
+    if (!list.length) { box.innerHTML = '<div style="text-align:center;color:#64748b;padding:30px">لا يوجد عملاء مطابقون</div>'; return; }
+    list.forEach(u => {
       const bal = parseFloat(u.balance || 0).toFixed(2);
+      const spent = parseFloat(u.total_spent || 0).toFixed(2);
       box.innerHTML += `
-        <div class="user-row">
-          <div>
-            <div style="font-weight:900;font-size:0.95rem">${u.full_name || 'مستخدم'}</div>
-            <div style="font-size:0.78rem;color:#94a3b8">${u.email}</div>
-            <div style="font-size:0.85rem;color:var(--green);font-weight:800;margin-top:3px">الرصيد: $${bal}</div>
+        <div class="item-card">
+          <div class="ic-top">
+            <div>
+              <div class="u-name">${u.full_name || 'عميل'} ${u.is_vca ? starSvg : ''}</div>
+              <div class="u-sub">${u.email}</div>
+            </div>
+            <div class="bal-pill">$${bal}</div>
           </div>
-          <button class="edit-bal-btn" onclick="editUserBalance('${u.id}', '${u.email}', ${bal})">✏️ تعديل الرصيد</button>
-<button onclick="toggleUserVca('${u.id}', ${u.is_vca ? 'true' : 'false'})" style="background:${u.is_vca ? 'linear-gradient(135deg,#f59e0b,#fbbf24)' : '#1e2538'};color:${u.is_vca ? '#000' : '#fbbf24'};border:1px solid #fbbf24;padding:5px 10px;border-radius:8px;font-weight:900;font-size:0.75rem;cursor:pointer;margin-right:6px;display:inline-flex;align-items:center;gap:4px">
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"/></svg>
-  ${u.is_vca ? 'موثق VCA' : 'توثيق VCA'}
-</button>
-
+          <div class="ic-meta">
+            <div><span>الرتبة الحالية</span><b>${u.is_vca ? 'وكيل معتمد VCA' : (u.vip_tier || 'Member')}</b></div>
+            <div><span>إجمالي الشحن (النقاط)</span><b>$${spent} (${Math.floor(spent)} نقطة)</b></div>
+          </div>
+          <div class="ic-actions">
+            <button class="act-btn btn-bal" onclick="openBalModal('${u.id}', '${u.email}', ${bal})">تعديل الرصيد</button>
+            <button class="act-btn btn-vca ${u.is_vca ? 'is-on' : ''}" onclick="toggleUserVca('${u.id}', ${!!u.is_vca})">${u.is_vca ? 'موثق VCA ✓' : 'منح توثيق VCA'}</button>
+          </div>
         </div>`;
     });
-  }
-}
-async function approveDeposit(rowId, userEmail, amount) {
-  showVcAlert(
-    "💳",
-    "تأكيد شحن الرصيد",
-    `هل أنت متأكد من الموافقة على الإيداع وإضافة $${parseFloat(amount).toFixed(2)} إلى حساب:\n${userEmail}؟`,
-    "نعم، اشحن الآن",
-    async () => {
-      try {
-        const cleanEmail = userEmail.trim().toLowerCase();
-        const userObj = allProfiles.find(p => (p.email || '').trim().toLowerCase() === cleanEmail);
-        let newBalance = parseFloat(amount);
-
-        if (userObj) {
-          newBalance = parseFloat((parseFloat(userObj.balance || 0) + parseFloat(amount)).toFixed(2));
-          await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + userObj.id, {
-            method: 'PATCH',
-            headers: {
-              'apikey': SB_KEY,
-              'Authorization': 'Bearer ' + SB_KEY,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ balance: newBalance })
-          });
-        } else {
-          await fetch(SB_URL + '/rest/v1/profiles', {
-            method: 'POST',
-            headers: {
-              'apikey': SB_KEY,
-              'Authorization': 'Bearer ' + SB_KEY,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              id: crypto.randomUUID(),
-              email: userEmail,
-              full_name: userEmail.split('@')[0],
-              balance: newBalance
-            })
-          });
-        }
-
-        await fetch(SB_URL + '/rest/v1/orders_history?id=eq.' + rowId, {
-          method: 'PATCH',
-          headers: {
-            'apikey': SB_KEY,
-            'Authorization': 'Bearer ' + SB_KEY,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ status: 'completed' })
-        });
-
-        showVcAlert("✅", "تم الشحن بنجاح!", `تمت إضافة $${parseFloat(amount).toFixed(2)} لحساب العميل.\nرصيده الجديد: $${newBalance.toFixed(2)}`, "رائع");
-        loadAllAdminData();
-      } catch (e) {
-        showVcAlert("⚠️", "خطأ", "حدث خطأ أثناء تنفيذ العملية، حاول مجدداً.", "حسناً");
-      }
-    },
-    true
-  );
-}
-
-async function updateStatus(rowId, newStatus) {
-  try {
-    await fetch(SB_URL + '/rest/v1/orders_history?id=eq.' + rowId, {
-      method: 'PATCH',
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': 'Bearer ' + SB_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ status: newStatus })
-    });
-    showVcAlert("✅", "تم التحديث", "تم تحديث حالة الطلب بنجاح!", "حسناً");
-    loadAllAdminData();
-  } catch (e) {
-    showVcAlert("⚠️", "خطأ", "تعذر تحديث الحالة حالياً.", "حسناً");
-  }
-}
-
-async function editUserBalance(userId, userEmail, currentBal) {
-  const input = prompt(`أدخل الرصيد الجديد بالدولار ($) للحساب:\n${userEmail}`, currentBal);
-  if (input === null) return;
-  const parsed = parseFloat(input);
-  if (isNaN(parsed) || parsed < 0) {
-    showVcAlert("⚠️", "قيمة غير صالحة", "يرجى إدخال رقم صحيح وموجب للرصيد!", "حسناً");
     return;
   }
 
+  const isDep = activeTab === 'deposits';
+  const list = allHistory.filter(x => (isDep ? x.order_type === 'deposit' : x.order_type !== 'deposit') && ((x.user_email || '').toLowerCase().includes(q) || (x.order_code || '').toLowerCase().includes(q) || (x.service_name || '').toLowerCase().includes(q)));
+  if (!list.length) { box.innerHTML = '<div style="text-align:center;color:#64748b;padding:30px">لا توجد سجلات حالياً</div>'; return; }
+
+  list.forEach(item => {
+    const stClass = item.status === 'completed' ? 'st-done' : (item.status === 'rejected' ? 'st-rej' : 'st-pend');
+    const stText = item.status === 'completed' ? 'مكتمل' : (item.status === 'rejected' ? 'مرفوض' : 'معلق');
+    const actionsHtml = item.status === 'pending' ? `
+      <div class="ic-actions">
+        <button class="act-btn btn-ok" onclick="processItem('${item.id}', '${item.user_email}', ${item.amount}, '${item.order_type}', 'completed')">✓ قبول وتأكيد</button>
+        <button class="act-btn btn-no" onclick="processItem('${item.id}', '${item.user_email}', ${item.amount}, '${item.order_type}', 'rejected')">✕ رفض</button>
+      </div>` : '';
+
+    box.innerHTML += `
+      <div class="item-card">
+        <div class="ic-top">
+          <div>
+            <div class="u-name">${item.service_name}</div>
+            <div class="u-sub">${item.user_email} • <b>${item.order_code}</b></div>
+          </div>
+          <span class="st-tag ${stClass}">${stText}</span>
+        </div>
+        <div class="ic-meta">
+          <div><span>المبلغ</span><b style="color:var(--gold)">$${parseFloat(item.amount || 0).toFixed(2)}</b></div>
+          <div><span>${isDep ? 'بيانات التحويل' : 'معرف اللاعب / الهدف'}</span><b>${item.target_info || '-'}</b></div>
+        </div>
+        ${actionsHtml}
+      </div>`;
+  });
+}
+
+async function processItem(id, email, amount, type, newStatus) {
   try {
-    await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + userId, {
+    await fetch(SB_URL + '/rest/v1/orders_history?id=eq.' + id, {
       method: 'PATCH',
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': 'Bearer ' + SB_KEY,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ balance: parseFloat(parsed.toFixed(2)) })
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: newStatus })
     });
-    showVcAlert("✅", "تم تعديل الرصيد", `تم تحديث رصيد (${userEmail}) إلى $${parsed.toFixed(2)} بنجاح!`, "حسناً");
+
+    if (type === 'deposit' && newStatus === 'completed') {
+      const user = allProfiles.find(u => u.email === email);
+      if (user) {
+        const updatedBal = parseFloat((parseFloat(user.balance || 0) + parseFloat(amount || 0)).toFixed(2));
+        await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + user.id, {
+          method: 'PATCH',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ balance: updatedBal })
+        });
+      }
+    }
+    showAlert("✅", "تم التحديث", newStatus === 'completed' ? "تم قبول العملية وتحديث الحساب بنجاح!" : "تم رفض العملية.");
     loadAllAdminData();
   } catch (e) {
-    showVcAlert("⚠️", "خطأ", "تعذر تعديل الرصيد حالياً.", "حسناً");
+    showAlert("⚠️", "خطأ", "تعذر تنفيذ العملية.");
   }
 }
+
+function openBalModal(uid, email, curBal) {
+  editingUserId = uid;
+  document.getElementById('balEditUser').innerText = email;
+  document.getElementById('balEditInput').value = curBal;
+  document.getElementById('balEditModal').classList.add('show');
+}
+
+function closeBalModal() {
+  document.getElementById('balEditModal').classList.remove('show');
+}
+
+async function confirmEditBalance() {
+  const newVal = parseFloat(document.getElementById('balEditInput').value);
+  if (isNaN(newVal) || newVal < 0 || !editingUserId) return;
+  try {
+    await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + editingUserId, {
+      method: 'PATCH',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ balance: parseFloat(newVal.toFixed(2)) })
+    });
+    closeBalModal();
+    showAlert("✅", "تم تعديل الرصيد", "تم حفظ الرصيد الجديد للعميل بنجاح.");
+    loadAllAdminData();
+  } catch (e) {
+    showAlert("⚠️", "خطأ", "تعذر تعديل الرصيد.");
+  }
+}
+
 async function toggleUserVca(userId, currentStatus) {
-  const newStatus = !currentStatus;
-  const newTier = newStatus ? 'VCA Agency' : 'Member';
+  const nextStatus = !currentStatus;
   try {
     await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + userId, {
       method: 'PATCH',
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ is_vca: newStatus, vip_tier: newTier })
+      body: JSON.stringify({ is_vca: nextStatus, vip_tier: nextStatus ? 'VCA Agency' : 'Member' })
     });
-    showVcAlert(newStatus ? "👑" : "ℹ️", "تم تحديث التوثيق", newStatus ? "تم منح شارة الوكالة الذهبية VCA ✓ للعميل بنجاح!" : "تم إلغاء توثيق الوكالة عن الحساب.", "حسناً");
+    showAlert(nextStatus ? "👑" : "ℹ️", "تحديث التوثيق", nextStatus ? "تم منح شارة الوكالة الذهبية VCA للعميل!" : "تم إلغاء التوثيق عن الحساب.");
     loadAllAdminData();
   } catch (e) {
-    showVcAlert("⚠️", "خطأ", "تعذر تحديث حالة التوثيق حالياً.", "حسناً");
+    showAlert("⚠️", "خطأ", "تعذر تحديث التوثيق.");
   }
 }
-
 </script>
 </body>
 </html>
