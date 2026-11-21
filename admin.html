@@ -163,11 +163,13 @@ window.addEventListener('DOMContentLoaded', () => {
 async function loadAllAdminData() {
   try {
     const [pRes, hRes] = await Promise.all([
-      fetch(SB_URL + '/rest/v1/profiles?select=*&order=created_at.desc', { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }),
-      fetch(SB_URL + '/rest/v1/orders_history?select=*&order=created_at.desc', { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } })
+      fetch(SB_URL + '/rest/v1/profiles?select=*', { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } }),
+      fetch(SB_URL + '/rest/v1/orders_history?select=*', { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } })
     ]);
-    allProfiles = await pRes.json() || [];
-    allHistory = await hRes.json() || [];
+    const pData = await pRes.json();
+    const hData = await hRes.json();
+    allProfiles = Array.isArray(pData) ? pData : [];
+    allHistory = Array.isArray(hData) ? hData.reverse() : [];
 
     const totalBal = allProfiles.reduce((s, u) => s + parseFloat(u.balance || 0), 0);
     const deps = allHistory.filter(x => x.order_type === 'deposit');
@@ -186,7 +188,7 @@ async function loadAllAdminData() {
 
     renderCurrentTab();
   } catch (e) {
-    showAlert("⚠️", "خطأ اتصال", "تعذر جلب البيانات من السحابة.");
+    showAlert("⚠️", "خطأ اتصال", "تعذر جلب البيانات من السحابة، يرجى التحقق من الإنترنت.");
   }
 }
 
@@ -196,7 +198,6 @@ function switchTab(tab) {
   document.getElementById('tabBtn-' + tab).classList.add('active');
   renderCurrentTab();
 }
-
 function renderCurrentTab() {
   const q = document.getElementById('adminSearch').value.trim().toLowerCase();
   const box = document.getElementById('adminListContainer');
