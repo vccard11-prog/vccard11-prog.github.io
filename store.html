@@ -456,14 +456,21 @@ async function submitDirectOrder() {
     const rows = await pRes.json();
     const currentBal = (Array.isArray(rows) && rows.length > 0) ? parseFloat(rows.at(0).balance || 0) : 0;
 
-    if (currentBal < pkgPrice) {
-      btn.innerText = "🚀 تأكيد الشراء"; btn.disabled = false;
-      showVcAlert("💳", "الرصيد غير كافٍ", `رصيدك الحالي ($${currentBal.toFixed(2)}) لا يكفي ($${pkgPrice.toFixed(2)}).`, "شحن الرصيد", () => { window.location.href = 'deposit.html'; }, true);
+    const activeCur = localStorage.getItem('vc_currency') || 'USD';
+    const isAedMode = (activeCur === 'AED');
+    const chargeAmount = isAedMode ? parseFloat((pkgPrice * 3.67).toFixed(2)) : pkgPrice;
+    const displayBal = isAedMode ? parseFloat((currentBal * 3.67).toFixed(2)) : currentBal;
+
+    if (displayBal < chargeAmount) {
+      btn.innerText = "تأكيد الشراء ⚡"; btn.disabled = false;
+      const sym = isAedMode ? 'AED ' : '$';
+      showVcAlert("رصيد غير كافٍ", `سعر الباقة: ${sym}${chargeAmount.toFixed(2)}\nرصيدك الحالي: ${sym}${displayBal.toFixed(2)}`, "💳");
       return;
     }
 
     const newBal = parseFloat((currentBal - pkgPrice).toFixed(2));
-    const orderId = "#ORD-" + Math.floor(10000 + Math.random() * 90000);
+    const orderId = 'ORD-' + Math.floor(10000 + Math.random() * 90000);
+    const recordedLabel = isAedMode ? `${pkgName} [AED ${chargeAmount.toFixed(2)}]` : pkgName;
 
     await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id, {
       method: 'PATCH',
@@ -478,18 +485,22 @@ async function submitDirectOrder() {
         order_code: orderId,
         user_email: savedU.email,
         order_type: 'order',
-        service_name: pkgName,
+        service_name: recordedLabel,
         target_info: target,
-        amount: pkgPrice,
+        amount: chargeAmount,
         status: 'pending'
       })
     });
 
     const balEl = document.getElementById('headerBalance');
-    if (balEl) balEl.innerText = '$' + newBal.toFixed(2);
+    if (balEl) {
+      balEl.dataset.usd = newBal;
+      balEl.innerText = formatPrice(newBal);
+    }
     closeCatModal();
-    showVcAlert("✅", "تم إرسال طلبك بنجاح!", `رقم الطلب: ${orderId}\nالخدمة: ${pkgName}\nرصيدك المتبقي: $${newBal.toFixed(2)}`, "عرض طلباتي", () => { window.location.href = 'orders.html'; });
-  } catch (e) {
+    const paidText = isAedMode ? `AED ${chargeAmount.toFixed(2)}` : `$${pkgPrice.toFixed(2)}`;
+    showVcAlert("تم إرسال طلبك بنجاح!", `رقم الطلب: ${orderId}\nالخدمة: ${pkgName}\nالمبلغ المخصوم: ${paidText}`, "✅");
+
     showVcAlert("⚠️", "خطأ في الاتصال", "تعذر الاتصال بقاعدة البيانات، حاول مجدداً.", "حسناً");
   }
   btn.innerText = "🚀 تأكيد الشراء";
