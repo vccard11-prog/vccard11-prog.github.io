@@ -478,31 +478,25 @@ async function submitDirectOrder() {
         order_code: orderId,
         user_email: savedU.email,
         order_type: 'order',
-        service_name: pkgName,
+        service_name: recordedLabel,
         target_info: target,
-        amount: pkgPrice,
+        amount: chargeAmount,
         status: 'pending'
       })
     });
 
-    const balEl = document.getElementById('headerBalance');
-    if (balEl) balEl.innerText = '$' + newBal.toFixed(2);
-    closeCatModal();
-    showVcAlert("✅", "تم إرسال طلبك بنجاح!", `رقم الطلب: ${orderId}\nالخدمة: ${pkgName}\nرصيدك المتبقي: $${newBal.toFixed(2)}`, "عرض طلباتي", () => { window.location.href = 'orders.html'; });
-  } catch (e) {
-    });
-
-    const balEl = document.getElementById('headerBalance');
+        const balEl = document.getElementById('headerBalance');
     if (balEl) {
       balEl.dataset.usd = newBal;
       balEl.innerText = formatPrice(newBal);
     }
     closeCatModal();
     const paidText = isAedMode ? `AED ${chargeAmount.toFixed(2)}` : `$${pkgPrice.toFixed(2)}`;
-    showVcAlert("تم إرسال طلبك بنجاح!", `رقم الطلب: ${orderId}\nالخدمة: ${pkgName}\nالمبلغ المخصوم: ${paidText}`, "✅");
-
+    showVcAlert("✅", "تم إرسال طلبك بنجاح!", `رقم الطلب: ${orderId}\nالخدمة: ${pkgName}\nالمبلغ المخصوم: ${paidText}`, "حسناً");
+  } catch (e) {
     showVcAlert("⚠️", "خطأ في الاتصال", "تعذر الاتصال بقاعدة البيانات، حاول مجدداً.", "حسناً");
   }
+
   btn.innerText = "🚀 تأكيد الشراء";
   btn.disabled = false;
 }
