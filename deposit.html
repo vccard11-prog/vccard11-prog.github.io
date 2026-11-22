@@ -76,7 +76,7 @@ header{background:rgba(18,22,34,0.95);border-bottom:1px solid var(--border);padd
 .ai-fab:active{transform:scale(0.94)}
 </style>
 </head>
-<body>
+ <body>
 <div id="vcPreloader"><div class="smooth-spinner"></div><div style="font-weight:900;font-size:0.9rem">VC Store <span style="color:#06b6d4">1</span></div></div>
 
 <header>
@@ -101,60 +101,26 @@ header{background:rgba(18,22,34,0.95);border-bottom:1px solid var(--border);padd
   <div class="main-box">
     <div class="sec-title">اختر وسيلة الإيداع</div>
     <div class="pay-grid">
-      <div class="pay-card" onclick="openPayModal('sham_usd')">
-        <span class="auto-tag">تلقائي</span>
-        <div class="sq-icon ic-sham-usd">$</div>
-        <div class="pay-info"><h4>شام كاش دولار</h4><span>تحويل فوري USD</span></div>
-      </div>
-      <div class="pay-card" onclick="openPayModal('sham_syp')">
-        <span class="auto-tag">تلقائي</span>
-        <div class="sq-icon ic-sham-syp">ل.س</div>
-        <div class="pay-info"><h4>شام كاش ليرة</h4><span>تحويل SYP</span></div>
-      </div>
-      <div class="pay-card" onclick="openPayModal('syriatel')">
-        <span class="auto-tag">تلقائي</span>
-        <div class="sq-icon ic-syriatel">S</div>
-        <div class="pay-info"><h4>سيريتل كاش</h4><span>تحويل يدوي / فوري</span></div>
-      </div>
-      <div class="pay-card" onclick="openPayModal('usdt')">
-        <span class="auto-tag">تلقائي</span>
-        <div class="sq-icon ic-usdt">₮</div>
-        <div class="pay-info"><h4>USDT (TRC20)</h4><span>عملات رقمية</span></div>
-      </div>
-      <div class="pay-card" onclick="openPayModal('binance')">
-        <span class="auto-tag">تلقائي</span>
-        <div class="sq-icon ic-binance">B</div>
-        <div class="pay-info"><h4>Binance Pay</h4><span>تحويل داخلي</span></div>
-      </div>
-      <div class="pay-card" onclick="openPayModal('payeer')">
-        <span class="auto-tag">تلقائي</span>
-        <div class="sq-icon ic-payeer">P</div>
-        <div class="pay-info"><h4>حوالات Payeer</h4><span>دولار أمريكي</span></div>
-      </div>
+      <div class="pay-card" onclick="openPayModal('sham_usd')"><span class="auto-tag">تلقائي</span><div class="sq-icon ic-sham-usd">$</div><div class="pay-info"><h4>شام كاش دولار</h4><span>تحويل فوري USD</span></div></div>
+      <div class="pay-card" onclick="openPayModal('sham_syp')"><span class="auto-tag">تلقائي</span><div class="sq-icon ic-sham-syp">ل.س</div><div class="pay-info"><h4>شام كاش ليرة</h4><span>تحويل SYP</span></div></div>
+      <div class="pay-card" onclick="openPayModal('syriatel')"><span class="auto-tag">تلقائي</span><div class="sq-icon ic-syriatel">S</div><div class="pay-info"><h4>سيريتل كاش</h4><span>تحويل يدوي / فوري</span></div></div>
+      <div class="pay-card" onclick="openPayModal('usdt')"><span class="auto-tag">تلقائي</span><div class="sq-icon ic-usdt">₮</div><div class="pay-info"><h4>USDT (TRC20)</h4><span>عملات رقمية</span></div></div>
+      <div class="pay-card" onclick="openPayModal('binance')"><span class="auto-tag">تلقائي</span><div class="sq-icon ic-binance">B</div><div class="pay-info"><h4>Binance Pay</h4><span>تحويل داخلي</span></div></div>
+      <div class="pay-card" onclick="openPayModal('payeer')"><span class="auto-tag">تلقائي</span><div class="sq-icon ic-payeer">P</div><div class="pay-info"><h4>حوالات Payeer</h4><span>دولار أمريكي</span></div></div>
     </div>
   </div>
-</div><div class="modal-overlay" id="payModal" onclick="if(event.target===this)closePayModal()">
+</div>
+
+<div class="modal-overlay" id="payModal" onclick="if(event.target===this)closePayModal()">
   <div class="modal-box">
     <button class="close-btn" onclick="closePayModal()">✕</button>
-    <h3 id="mPayTitle" style="color:var(--gold);font-size:1.05rem;margin-bottom:4px">وسيلة الدفع</h3>
-    <p style="font-size:0.75rem;color:#94a3b8;margin-bottom:10px">انسخ العنوان وحوّل المبلغ ثم أدخل بيانات العملية:</p>
-    <div class="addr-box">
-      <div class="addr-txt" id="mWalletAddr">---</div>
-      <button class="copy-btn" onclick="copyModalAddr()">نسخ</button>
-    </div>
-    <div class="syp-calc" id="sypBox">
-      سعر الصرف المعتمد: <b>1$ = 12,200 ل.س</b><br>
-      المبلغ المطلوب تحويله بالليرة: <b id="sypVal">0 ل.س</b>
-    </div>
-    <div class="field">
-      <label>المبلغ المراد شحنه في محفظتك بالدولار ($):</label>
-      <input type="number" step="0.01" id="mAmount" placeholder="5.00" onkeyup="calcModalSyp()">
-    </div>
-    <div class="field">
-      <label id="mRefLabel">رقم العملية أو اسم المرسل الرباعي:</label>
-      <input type="text" id="mRef" placeholder="اكتب رقم العملية أو الملاحظة هنا...">
-    </div>
-    <button class="btn-send" id="mSendBtn" onclick="submitModalDeposit()">إرسال إشعار الإيداع ⚡</button>
+    <h3 id="mPayTitle" style="font-size:1.05rem;font-weight:900;color:var(--gold);margin-bottom:4px">وسيلة الدفع</h3>
+    <p style="font-size:0.75rem;color:#94a3b8;margin-bottom:10px">انسخ العنوان وحوّل المبلغ ثم أدخل بيانات العملية أدناه:</p>
+    <div class="addr-box"><div class="addr-txt" id="walletAddr">...</div><button class="copy-btn" onclick="copyModalAddr()">نسخ</button></div>
+    <div class="syp-calc" id="sypBox">سعر الصرف المعتمد: 1$ = <b id="exRate">12,200</b> ل.س<br>المبلغ المطلوب تحويله بالليرة: <b id="sypTotal">0</b> ل.س</div>
+    <div class="field"><label>المبلغ المراد شحنه في محفظتك بالدولار ($):</label><input type="number" step="0.01" id="depAmount" placeholder="5.00" onkeyup="calcModalSyp()"></div>
+    <div class="field"><label>رقم العملية أو اسم المرسل الكامل:</label><input type="text" id="txId" placeholder="اكتب رقم الإشعار أو اسمك هنا..."></div>
+    <button class="btn-send" id="sendBtn" onclick="submitModalDeposit()">إرسال إشعار الإيداع ⚡</button>
   </div>
 </div>
 
@@ -181,6 +147,44 @@ header{background:rgba(18,22,34,0.95);border-bottom:1px solid var(--border);padd
   <a href="store.html" class="nav-tab"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>المتجر</a>
   <a href="orders.html" class="nav-tab"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>طلباتي</a>
 </nav>
+<script>
+function hideLoader() {
+  const p = document.getElementById('vcPreloader');
+  if (p) p.classList.add('hide');
+}
+window.addEventListener('load', () => setTimeout(hideLoader, 200));
+setTimeout(hideLoader, 1000);
+
+const SB_URL = "https://supabase.co";
+const SB_KEY = "ضع_مفتاح_مشروعك_الحقيقي_هنا";
+
+function showVcAlert(title, msg, ico = "🔔", onConfirm = null) {
+  document.getElementById('vcAlertTitle').innerText = title;
+  document.getElementById('vcAlertMsg').innerText = msg;
+  document.getElementById('vcAlertIco').innerText = ico;
+  const okBtn = document.getElementById('vcAlertOk');
+  const cancelBtn = document.getElementById('vcAlertCancel');
+  if (onConfirm) {
+    cancelBtn.style.display = 'block';
+    okBtn.onclick = () => { closeVcAlert(); onConfirm(); };
+  } else {
+    cancelBtn.style.display = 'none';
+    okBtn.onclick = closeVcAlert;
+  }
+  document.getElementById('vcAlertBox').classList.add('show');
+}
+function closeVcAlert() { document.getElementById('vcAlertBox').classList.remove('show'); }
+
+let curMethod = '';
+const payMethods = {
+  sham_usd: { title: "شام كاش دولار (USD)", addr: "73392bc8a55ee6ed8be1ece4729d4147" },
+  sham_syp: { title: "شام كاش ليرة سورية (SYP)", addr: "73392bc8a55ee6ed8be1ece4729d4147" },
+  syriatel: { title: "سيريتل كاش (Syriatel Cash)", addr: "0988749547" },
+  usdt: { title: "USDT (شبكة TRC20)", addr: "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb" },
+  binance: { title: "Binance Pay (معرف الدفع)", addr: "845921034" },
+  payeer: { title: "حوالات Payeer (USD)", addr: "P110482951" }
+};
+
 function openPayModal(type) {
   const m = payMethods[type];
   if (!m) return;
@@ -198,23 +202,17 @@ function openPayModal(type) {
   }
   document.getElementById('payModal').classList.add('show');
 }
-
-function closePayModal() {
-  document.getElementById('payModal').classList.remove('show');
-}
-
+function closePayModal() { document.getElementById('payModal').classList.remove('show'); }
 function copyModalAddr() {
   const txt = document.getElementById('walletAddr').innerText;
   navigator.clipboard.writeText(txt);
   showVcAlert("تم النسخ", "تم نسخ عنوان التحويل بنجاح: " + txt, "📋");
 }
-
 function calcModalSyp() {
   const usd = parseFloat(document.getElementById('depAmount').value) || 0;
   const rate = parseFloat(document.getElementById('exRate').innerText) || 12200;
   document.getElementById('sypTotal').innerText = Math.round(usd * rate).toLocaleString('en-US');
 }
-
 async function submitModalDeposit() {
   const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
   if (!savedU || !savedU.id) {
@@ -223,28 +221,17 @@ async function submitModalDeposit() {
   }
   const amount = parseFloat(document.getElementById('depAmount').value);
   const tx = document.getElementById('txId').value.trim();
-  if (!amount || amount <= 0) {
-    showVcAlert("تنبيه", "يرجى إدخال مبلغ صحيح بالدولار.", "⚠️");
-    return;
-  }
-  if (!tx) {
-    showVcAlert("بيانات ناقصة", "يرجى إدخال رقم العملية أو اسم المرسل لتأكيد الحوالة.", "✍️");
-    return;
-  }
+  if (!amount || amount <= 0) { showVcAlert("تنبيه", "يرجى إدخال مبلغ صحيح بالدولار.", "⚠️"); return; }
+  if (!tx) { showVcAlert("بيانات ناقصة", "يرجى إدخال رقم العملية أو اسم المرسل لتأكيد الحوالة.", "✍️"); return; }
 
   const btn = document.getElementById('sendBtn');
-  btn.disabled = true;
-  btn.innerText = "جاري الإرسال...";
+  btn.disabled = true; btn.innerText = "جاري الإرسال...";
 
   try {
     const depCode = 'DEP-' + Math.floor(100000 + Math.random() * 900000);
     await fetch(SB_URL + '/rest/v1/deposits', {
       method: 'POST',
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
-        'Content-Type': 'application/json'
-      },
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY), 'Content-Type': 'application/json' },
       body: JSON.stringify({
         deposit_code: depCode,
         user_email: savedU.email,
@@ -254,14 +241,11 @@ async function submitModalDeposit() {
         status: 'قيد المراجعة'
       })
     });
-
-    btn.disabled = false;
-    btn.innerText = "إرسال إشعار الإيداع ⚡";
+    btn.disabled = false; btn.innerText = "إرسال إشعار الإيداع ⚡";
     closePayModal();
     showVcAlert("تم استلام إشعار الإيداع!", `رقم الإشعار: ${depCode}\nالوسيلة: ${payMethods[curMethod].title}\nالمبلغ: $${amount.toFixed(2)}\nسيتم إضافة الرصيد فور التحقق من العملية.`, "✅");
   } catch (e) {
-    btn.disabled = false;
-    btn.innerText = "إرسال إشعار الإيداع ⚡";
+    btn.disabled = false; btn.innerText = "إرسال إشعار الإيداع ⚡";
     showVcAlert("خطأ اتصال", "تعذر إرسال الطلب، حاول مرة أخرى.", "⚠️");
   }
 }
