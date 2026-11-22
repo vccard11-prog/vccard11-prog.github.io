@@ -553,8 +553,12 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 function toggleAiChat() {
-  document.getElementById('aiChatBox').classList.toggle('open');
+  const box = document.getElementById('aiChatBox');
+  const fab = document.querySelector('.ai-side-fab');
+  const isOpen = box.classList.toggle('open');
+  if (fab) fab.style.display = isOpen ? 'none' : 'flex';
 }
+
 
 function askAiQuick(q) {
   document.getElementById('aiInput').value = q;
