@@ -214,6 +214,7 @@ function calcModalSyp() {
   const rate = parseFloat(document.getElementById('exRate').innerText) || 12200;
   document.getElementById('sypTotal').innerText = Math.round(usd * rate).toLocaleString('en-US');
 }
+
 async function submitModalDeposit() {
   const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
   if (!savedU || !savedU.id) {
