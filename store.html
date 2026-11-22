@@ -7,64 +7,72 @@
 <link rel="icon" type="image/jpeg" href="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg">
 <style>
 @import url('https://googleapis.com');
-:root{--bg-dark:#0b0e14;--bg-card:#121622;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--border:rgba(255,255,255,0.08);--text-main:#f8fafc;--text-dim:#94a3b8}
+:root{--bg-dark:#0b0e14;--bg-card:#121622;--bg-elevated:#191f30;--primary:#7c3aed;--secondary:#06b6d4;--gold:#fbbf24;--green:#10b981;--red:#ef4444;--border:rgba(255,255,255,0.08);--text-dim:#94a3b8}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Cairo',sans-serif;-webkit-tap-highlight-color:transparent}
-body{background-color:var(--bg-dark);color:var(--text-main);padding-bottom:98px;overflow-x:hidden}
-#vcPreloader{position:fixed;inset:0;background:#07090e;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity 0.45s ease,visibility 0.45s ease}
+body{background-color:var(--bg-dark);color:#fff;padding-bottom:85px;overflow-x:hidden}
+#vcPreloader{position:fixed;inset:0;background:#07090e;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity 0.4s ease,visibility 0.4s ease}
 #vcPreloader.hide{opacity:0;visibility:hidden;pointer-events:none}
-.smooth-spinner{width:54px;height:54px;border-radius:50%;border:3px solid rgba(124,58,237,0.2);border-top-color:#06b6d4;animation:spinSmooth 0.8s cubic-bezier(0.5,0.1,0.5,0.9) infinite;box-shadow:0 0 20px rgba(6,182,212,0.35)}
-@keyframes spinSmooth{to{transform:rotate(360deg)}}
-header{background:rgba(18,22,34,0.94);backdrop-filter:blur(12px);padding:12px 4%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:500}
-.hdr-left,.hdr-right{display:flex;align-items:center;gap:10px}
-.menu-btn{background:#182032;border:1px solid var(--border);color:#fff;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem}
-.wallet-pill{background:#182032;border:1px solid rgba(6,182,212,0.45);padding:5px 12px;border-radius:50px;display:flex;align-items:center;gap:7px;font-weight:900;font-size:0.88rem;text-decoration:none;color:#fff}
-.wallet-plus{background:#06b6d4;color:#000;width:19px;height:19px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
-.user-pill-top{background:#182032;border:1px solid var(--border);padding:5px 12px;border-radius:50px;font-size:0.8rem;font-weight:800;color:#fff;display:none;align-items:center;gap:6px;cursor:pointer}
-.auth-btn-top{background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;padding:6px 14px;border-radius:50px;font-size:0.8rem;font-weight:800;text-decoration:none}
-.main-wrap{max-width:520px;margin:14px auto;padding:0 14px}
-.slider-box{position:relative;border-radius:20px;overflow:hidden;height:155px;margin-bottom:14px;border:1px solid var(--border);box-shadow:0 10px 25px rgba(0,0,0,0.5)}
-.slide{position:absolute;inset:0;opacity:0;transition:opacity 0.6s ease;display:flex;flex-direction:column;justify-content:flex-end;padding:15px}
+.smooth-spinner{width:54px;height:54px;border-radius:50%;border:3px solid rgba(124,58,237,0.18);border-top-color:#7c3aed;border-right-color:#06b6d4;animation:spinCw 0.8s linear infinite}
+@keyframes spinCw{to{transform:rotate(360deg)}}
+.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1100;display:none}
+.drawer-overlay.open{display:block}
+.side-drawer{position:fixed;top:0;right:-290px;width:275px;height:100vh;background:#111521;border-left:1px solid var(--border);z-index:1200;transition:right 0.3s ease;padding:20px 16px;display:flex;flex-direction:column;justify-content:space-between}
+.side-drawer.open{right:0}
+.drawer-header{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.drawer-links a{display:flex;align-items:center;gap:12px;padding:11px 12px;color:#e2e8f0;text-decoration:none;border-radius:12px;font-weight:700;font-size:0.9rem;margin-bottom:4px;transition:0.2s}
+.drawer-links a:hover{background:rgba(124,58,237,0.18);color:var(--secondary)}
+header{background:rgba(18,22,34,0.95);backdrop-filter:blur(12px);padding:11px 4%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:900}
+.header-left{display:flex;align-items:center;gap:10px}
+.menu-btn{background:var(--bg-elevated);border:1px solid var(--border);color:#fff;width:38px;height:38px;border-radius:11px;font-size:1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.wallet-pill{background:var(--bg-elevated);border:1px solid rgba(6,182,212,0.45);padding:5px 12px;border-radius:50px;display:flex;align-items:center;gap:7px;font-weight:900;font-size:0.9rem;text-decoration:none;color:#fff}
+.wallet-plus{background:var(--secondary);color:#000;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:0.95rem}
+.header-right{display:flex;align-items:center;gap:8px}
+.auth-btn-top{background:linear-gradient(90deg,var(--primary),#4f46e5);color:#fff;padding:7px 14px;border-radius:11px;font-size:0.82rem;font-weight:800;text-decoration:none}
+.user-pill-top{background:rgba(6,182,212,0.15);border:1px solid rgba(6,182,212,0.4);color:var(--secondary);padding:6px 12px;border-radius:11px;font-size:0.8rem;font-weight:800;cursor:pointer;display:none}
+.main-wrap{max-width:950px;margin:0 auto;padding:14px}
+.slider-box{position:relative;border-radius:20px;overflow:hidden;height:165px;border:1px solid rgba(124,58,237,0.35);margin-bottom:14px;background:#151b2b}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 0.6s ease;display:flex;align-items:flex-end;padding:18px}
 .slide.active{opacity:1}
-.slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
-.slide::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(7,9,14,0.92),rgba(7,9,14,0.15));z-index:1}
-.slide-caption{position:relative;z-index:2}
-.slide-tag{background:rgba(251,191,36,0.2);border:1px solid var(--gold);color:var(--gold);font-size:0.7rem;font-weight:900;padding:2px 9px;border-radius:50px;display:inline-block;margin-bottom:4px}
-.slide-title{font-size:1rem;font-weight:900;color:#fff}
-.dots{position:absolute;bottom:10px;left:14px;display:flex;gap:5px;z-index:3}
-.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.35);transition:0.3s;cursor:pointer}
-.dot.active{width:18px;border-radius:4px;background:var(--secondary)}
-.telecom-strip{background:linear-gradient(135deg,#161e31,#111726);border:1px solid rgba(6,182,212,0.35);border-radius:16px;padding:12px 15px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:0.2s}
-.telecom-strip:hover{border-color:var(--secondary);transform:translateY(-2px)}
+.slide img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.slide::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,10,16,0.92) 10%,rgba(8,10,16,0.25) 100%);z-index:2}
+.slide-caption{position:relative;z-index:3}
+.slide-tag{background:var(--gold);color:#000;font-size:0.7rem;font-weight:900;padding:2px 9px;border-radius:6px;display:inline-block;margin-bottom:4px}
+.slide-title{font-size:1.05rem;font-weight:900;color:#fff}
+.dots{position:absolute;bottom:10px;left:16px;z-index:4;display:flex;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.35);cursor:pointer;transition:0.3s}
+.dot.active{width:22px;border-radius:6px;background:var(--secondary)}
+ .telecom-strip{background:linear-gradient(90deg,rgba(124,58,237,0.18),rgba(6,182,212,0.18));border:1px solid rgba(6,182,212,0.35);border-radius:15px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;cursor:pointer}
 .search-wrap{position:relative;margin-bottom:16px}
-.search-wrap input{width:100%;background:var(--bg-card);border:1px solid var(--border);padding:12px 42px 12px 14px;border-radius:15px;color:#fff;font-size:0.86rem;font-weight:700}
-.search-wrap input:focus{outline:none;border-color:var(--secondary)}
+.search-box{width:100%;background:var(--bg-card);border:1px solid var(--border);padding:12px 42px 12px 14px;border-radius:15px;color:#fff;font-size:0.9rem;font-weight:700}
+.search-box:focus{outline:none;border-color:var(--secondary)}
 .search-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--text-dim)}
-.sec-head{font-size:1rem;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:6px}
-.grid-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.service-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;overflow:hidden;text-align:center;cursor:pointer;transition:0.25s;text-decoration:none;color:#fff;display:block}
-.service-card:hover{transform:translateY(-4px);border-color:var(--secondary)}
+.sec-head{font-size:1.05rem;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.grid-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+@media(max-width:480px){.grid-cards{grid-template-columns:repeat(3,1fr);gap:9px}}
+.service-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;overflow:hidden;text-decoration:none;color:#fff;display:flex;flex-direction:column;transition:0.25s;cursor:pointer}
+.service-card:hover{transform:translateY(-4px);border-color:var(--secondary);box-shadow:0 8px 20px rgba(6,182,212,0.18)}
 .card-visual{height:82px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;position:relative}
-.vis-games{background:linear-gradient(135deg,#0f4c81,#06b6d4)}
+.vis-games{background:linear-gradient(135deg,#4f46e5,#06b6d4)}
 .vis-chat{background:linear-gradient(135deg,#db2777,#9333ea)}
 .vis-wallet{background:linear-gradient(135deg,#d97706,#f59e0b)}
-.vis-social{background:linear-gradient(135deg,#2563eb,#3b82f6)}
+.vis-social{background:linear-gradient(135deg,#2563eb,#38bdf8)}
 .vis-cards{background:linear-gradient(135deg,#059669,#10b981)}
 .vis-design{background:linear-gradient(135deg,#7c3aed,#c084fc)}
 .vis-subs{background:linear-gradient(135deg,#dc2626,#f87171)}
 .vis-vpn{background:linear-gradient(135deg,#0d9488,#2dd4bf)}
-.vis-accounts{background:linear-gradient(135deg,#4338ca,#6366f1)}
-.card-badge{position:absolute;top:6px;left:6px;background:rgba(0,0,0,0.65);color:#fbbf24;font-size:0.62rem;font-weight:900;padding:2px 6px;border-radius:6px}
-.card-label{padding:9px 5px;font-size:0.78rem;font-weight:800;line-height:1.3}
- .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.84);backdrop-filter:blur(6px);z-index:1500;display:none;align-items:center;justify-content:center;padding:15px}
+.vis-accounts{background:linear-gradient(135deg,#334155,#64748b)}
+.card-badge{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.6);font-size:0.62rem;font-weight:800;padding:2px 6px;border-radius:6px;color:#fff}
+.card-label{padding:9px 5px;text-align:center;font-size:0.78rem;font-weight:800;line-height:1.3}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.84);backdrop-filter:blur(6px);z-index:1300;display:none;align-items:center;justify-content:center;padding:15px}
 .modal-overlay.show{display:flex}
 .modal-box{background:#141926;border:1px solid rgba(124,58,237,0.5);border-radius:22px;width:100%;max-width:440px;padding:22px;position:relative;animation:popIn 0.25s ease}
-@keyframes popIn{from{transform:scale(0.92);opacity:0}to{transform:scale(1);opacity:1}}
-.close-modal{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer}
+@keyframes popIn{from{transform:scale(0.93);opacity:0}to{transform:scale(1);opacity:1}}
+.close-modal{position:absolute;top:15px;left:15px;background:rgba(255,255,255,0.08);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer}
 .form-row{margin-bottom:13px}
-.form-row label{display:block;font-size:0.8rem;color:var(--text-dim);margin-bottom:6px;font-weight:700}
-.form-input{width:100%;padding:12px 14px;background:#090b10;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.88rem;font-weight:600}
+.form-row label{display:block;font-size:0.82rem;color:var(--text-dim);margin-bottom:6px;font-weight:700}
+.form-input{width:100%;padding:11px 14px;background:#090b10;border:1px solid #283047;border-radius:12px;color:#fff;font-size:0.9rem;font-weight:600}
 .form-input:focus{outline:none;border-color:var(--secondary)}
-.pkg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:230px;overflow-y:auto;padding:4px 2px}
+ .pkg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:230px;overflow-y:auto;padding:4px 2px}
 .pkg-item{background:#0b0e14;border:1px solid #232a3d;border-radius:14px;padding:12px 10px;text-align:center;cursor:pointer;transition:0.2s;position:relative}
 .pkg-item:hover{border-color:var(--secondary)}
 .pkg-item.active{background:linear-gradient(145deg,rgba(124,58,237,0.25),rgba(6,182,212,0.2));border-color:var(--secondary);box-shadow:0 0 15px rgba(6,182,212,0.25)}
@@ -76,13 +84,11 @@ header{background:rgba(18,22,34,0.94);backdrop-filter:blur(12px);padding:12px 4%
 .btn-confirm{background:linear-gradient(90deg,#7c3aed,#06b6d4);box-shadow:0 4px 15px rgba(124,58,237,0.35)}
 .btn-cancel{background:#23293d;color:var(--text-dim)}
 .prof-logo{width:68px;height:68px;border-radius:18px;border:2px solid var(--secondary);margin:0 auto 10px;display:block}
-.btn-pass-reset{width:100%;padding:10px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.4);color:var(--gold);border-radius:11px;font-weight:800;font-size:0.82rem;cursor:pointer}
-.bottom-nav{position:fixed;bottom:12px;left:14px;right:14px;max-width:480px;margin:0 auto;background:rgba(18,22,34,0.94);backdrop-filter:blur(16px);border:1px solid rgba(6,182,212,0.28);border-radius:24px;display:flex;justify-content:space-around;align-items:center;padding:7px 6px;z-index:900;box-shadow:0 10px 30px rgba(0,0,0,0.65)}
-.nav-tab{text-decoration:none;color:#94a3b8;font-size:0.7rem;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 12px;border-radius:14px;transition:0.25s}
-.nav-tab.active{color:#06b6d4;background:rgba(6,182,212,0.12)}
-.ai-side-fab{position:fixed;bottom:86px;left:16px;height:44px;padding:0 15px;border-radius:50px;background:linear-gradient(135deg,#7c3aed,#06b6d4);color:#fff;border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;gap:6px;font-weight:900;font-size:0.85rem;letter-spacing:0.5px;box-shadow:0 8px 24px rgba(124,58,237,0.5);cursor:pointer;z-index:950;transition:0.25s}
-.ai-side-fab:active{transform:scale(0.94)}
- .vc-alert-overlay{position:fixed;inset:0;background:rgba(4,6,11,0.86);backdrop-filter:blur(8px);z-index:2500;display:none;align-items:center;justify-content:center;padding:18px}
+.btn-pass-reset{width:100%;padding:10px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.4);color:var(--gold);border-radius:12px;font-weight:800;font-size:0.84rem;cursor:pointer;margin-bottom:10px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#121622;border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0 10px;z-index:900}
+.nav-tab{text-decoration:none;color:var(--text-dim);font-size:0.72rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:4px}
+.nav-tab.active{color:var(--secondary)}
+.vc-alert-overlay{position:fixed;inset:0;background:rgba(4,6,11,0.86);backdrop-filter:blur(8px);z-index:2500;display:none;align-items:center;justify-content:center;padding:18px}
 .vc-alert-overlay.show{display:flex}
 .vc-alert-card{background:linear-gradient(160deg,#161c2e 0%,#0e1320 100%);border:1px solid rgba(6,182,212,0.4);border-radius:24px;width:100%;max-width:360px;padding:26px 20px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.8);animation:popIn 0.25s ease}
 .vc-alert-ico{width:62px;height:62px;border-radius:20px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.9rem;background:rgba(124,58,237,0.16);border:1px solid rgba(124,58,237,0.4)}
@@ -92,28 +98,22 @@ header{background:rgba(18,22,34,0.94);backdrop-filter:blur(12px);padding:12px 4%
 .vc-alert-btn{flex:1;padding:12px;border:none;border-radius:13px;font-weight:800;font-size:0.9rem;cursor:pointer;color:#fff}
 .vc-btn-primary{background:linear-gradient(90deg,#7c3aed,#06b6d4)}
 .vc-btn-sec{background:#1e2538;color:#94a3b8}
-.vca-badge{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#000;font-size:0.68rem;font-weight:900;padding:2px 8px;border-radius:50px;display:inline-flex;align-items:center;gap:3px;box-shadow:0 2px 10px rgba(245,158,11,0.4);margin-right:4px}
-.tier-tag{font-size:0.7rem;font-weight:800;padding:2px 8px;border-radius:50px;background:rgba(124,58,237,0.2);color:#c084fc;border:1px solid rgba(124,58,237,0.4)}
-.ai-box{position:fixed;bottom:145px;left:16px;right:16px;max-width:440px;margin:0 auto;background:rgba(15,20,32,0.96);backdrop-filter:blur(18px);border:1px solid rgba(6,182,212,0.5);border-radius:24px;box-shadow:0 20px 55px rgba(0,0,0,0.9);z-index:1200;display:none;flex-direction:column;overflow:hidden}
+.vca-badge{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#000;font-size:0.68rem;font-weight:900;padding:2px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:3px;box-shadow:0 0 12px rgba(251,191,36,0.5);margin-right:6px}
+.tier-tag{font-size:0.7rem;font-weight:800;padding:2px 8px;border-radius:50px;background:rgba(124,58,237,0.2);color:#c084fc;border:1px solid rgba(124,58,237,0.4);margin-right:4px}
+.ai-fab{position:fixed;bottom:76px;left:16px;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);color:#fff;border:2px solid rgba(255,255,255,0.25);box-shadow:0 8px 25px rgba(124,58,237,0.55);font-size:1.5rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:950;transition:0.25s}
+.ai-fab:hover{transform:scale(1.08)}
+.ai-box{position:fixed;bottom:140px;left:16px;width:330px;max-width:90vw;background:#121622;border:1px solid rgba(6,182,212,0.45);border-radius:22px;box-shadow:0 15px 40px rgba(0,0,0,0.85);z-index:1400;display:none;flex-direction:column;overflow:hidden}
 .ai-box.open{display:flex;animation:popIn 0.25s ease}
-body:has(.ai-box.open) .ai-side-fab{display:none!important}
-.ai-head{background:linear-gradient(90deg,#7c3aed,#06b6d4);padding:13px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:0.9rem;color:#fff}
-.ai-msgs{height:220px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;font-size:0.82rem}
-.msg-bot{background:#182032;border:1px solid rgba(255,255,255,0.06);color:#f1f5f9;padding:10px 13px;border-radius:16px 16px 4px 16px;align-self:flex-start;max-width:86%;line-height:1.55}
-.msg-usr{background:linear-gradient(90deg,#7c3aed,#4f46e5);color:#fff;padding:10px 13px;border-radius:16px 16px 16px 4px;align-self:flex-end;max-width:86%;line-height:1.5}
-.ai-quick{display:flex;gap:6px;padding:8px 12px;overflow-x:auto;border-top:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.2)}
-.ai-qbtn{background:#161e31;border:1px solid rgba(6,182,212,0.35);color:#06b6d4;font-size:0.72rem;font-weight:800;padding:5px 11px;border-radius:50px;white-space:nowrap;cursor:pointer}
-.ai-inp-row{display:flex;padding:10px 12px;border-top:1px solid rgba(255,255,255,0.08);gap:8px;background:#0b0f19}
-.ai-inp-row input{flex:1;background:#131927;border:1px solid #283047;border-radius:12px;padding:9px 12px;color:#fff;font-size:0.82rem}
-.ai-inp-row button{background:linear-gradient(90deg,#7c3aed,#06b6d4);color:#fff;border:none;border-radius:12px;padding:0 16px;font-weight:900;font-size:0.82rem;cursor:pointer}
-.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:1800;display:none}
-.drawer-overlay.open{display:block}
-.side-drawer{position:fixed;top:0;right:-280px;width:270px;height:100%;background:#121622;border-left:1px solid var(--border);z-index:1900;padding:20px 16px;transition:right 0.3s ease;display:flex;flex-direction:column;justify-content:space-between}
-.side-drawer.open{right:0}
-.drawer-head{font-size:1.2rem;font-weight:900;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:14px}
-.drawer-links{display:flex;flex-direction:column;gap:8px}
-.drawer-links a{text-decoration:none;color:#e2e8f0;padding:11px 12px;border-radius:12px;font-size:0.88rem;font-weight:800;background:rgba(255,255,255,0.03)}
-.drawer-links a:hover{background:rgba(6,182,212,0.12);color:var(--secondary)}
+.ai-head{background:linear-gradient(90deg,#7c3aed,#06b6d4);padding:12px 15px;display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:0.9rem}
+.ai-msgs{height:230px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;font-size:0.82rem}
+.msg-bot{background:#1b2234;color:#e2e8f0;padding:9px 12px;border-radius:14px 14px 14px 4px;align-self:flex-start;max-width:85%;line-height:1.5}
+.msg-usr{background:linear-gradient(90deg,#7c3aed,#4f46e5);color:#fff;padding:9px 12px;border-radius:14px 14px 4px 14px;align-self:flex-end;max-width:85%}
+.ai-quick{display:flex;gap:5px;padding:6px 10px;overflow-x:auto;border-top:1px solid rgba(255,255,255,0.06)}
+.ai-qbtn{background:#191f30;border:1px solid rgba(6,182,212,0.35);color:#06b6d4;font-size:0.7rem;font-weight:800;padding:4px 9px;border-radius:50px;white-space:nowrap;cursor:pointer}
+.ai-inp-row{display:flex;padding:8px;border-top:1px solid rgba(255,255,255,0.08);gap:6px}
+.ai-inp-row input{flex:1;background:#090b10;border:1px solid #283047;border-radius:10px;padding:8px 10px;color:#fff;font-size:0.8rem}
+.ai-inp-row button{background:#06b6d4;color:#000;border:none;border-radius:10px;padding:0 12px;font-weight:900;cursor:pointer}
+ 
 </style>
 </head>
  <body>
@@ -122,27 +122,27 @@ body:has(.ai-box.open) .ai-side-fab{display:none!important}
 <div class="drawer-overlay" id="overlay" onclick="toggleDrawer()"></div>
 <aside class="side-drawer" id="sideDrawer">
   <div>
-    <div class="drawer-head">VC Store <span style="color:var(--primary)">1</span></div>
+    <div class="drawer-header"><span style="font-weight:900;font-size:1.1rem">VC Store <span style="color:var(--primary)">1</span></span><button onclick="toggleDrawer()" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">✕</button></div>
     <div class="drawer-links">
       <a href="index.html">🏠 الصفحة الرئيسية</a>
-      <a href="javascript:void(0)" id="profileDrawerLink" style="display:none" onclick="toggleDrawer();openProfileModal()">👤 إعدادات الحساب</a>
+      <a href="javascript:void(0)" id="profileDrawerLink" style="display:none" onclick="toggleDrawer();openProfileModal()">👤 تعديل الملف الشخصي</a>
       <a href="games.html">🎮 قسم الألعاب الفوري</a>
       <a href="orders.html">🛒 سجل طلباتي</a>
       <a href="deposit.html">💳 إضافة رصيد للمحفظة</a>
     </div>
   </div>
   <div>
-    <a href="login.html" id="drawerLoginBtn" style="display:block;text-align:center;background:var(--primary);color:#fff;padding:11px;border-radius:12px;text-decoration:none;font-weight:900">تسجيل الدخول</a>
-    <button id="drawerLogoutBtn" onclick="logoutUser()" style="display:none;width:100%;padding:11px;background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.4);border-radius:12px;font-weight:900;cursor:pointer">تسجيل الخروج</button>
+    <a href="login.html" id="drawerLoginBtn" style="display:block;text-align:center;background:var(--primary);color:#fff;padding:11px;border-radius:12px;text-decoration:none;font-weight:800">🔐 تسجيل الدخول / حساب جديد</a>
+    <button id="drawerLogoutBtn" onclick="logoutUser()" style="display:none;width:100%;padding:11px;background:rgba(239,68,68,0.15);border:1px solid #ef4444;color:#ef4444;border-radius:12px;font-weight:800;cursor:pointer">🚪 تسجيل الخروج</button>
   </div>
 </aside>
 
 <header>
-  <div class="hdr-left">
+  <div class="header-left">
     <button class="menu-btn" onclick="toggleDrawer()">☰</button>
     <a href="deposit.html" class="wallet-pill"><span id="headerBalance">$0.00</span><span class="wallet-plus">+</span></a>
   </div>
-  <div class="hdr-right">
+  <div class="header-right">
     <a href="login.html" class="auth-btn-top" id="authLink">تسجيل الدخول</a>
     <div class="user-pill-top" id="accountPill" onclick="openProfileModal()"></div>
   </div>
@@ -151,105 +151,101 @@ body:has(.ai-box.open) .ai-side-fab{display:none!important}
 <div class="main-wrap">
   <div class="slider-box">
     <div class="slide active" id="slide0">
-      <img src="17923777926944.jpg" onerror="this.src='Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg'" alt="عرض 1">
+      <img src="1792377926944.jpg" onerror="this.src='Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg'" alt="إعلان 1">
       <div class="slide-caption">
-        <span class="slide-tag">عروض حصرية</span>
+        <span class="slide-tag">🔥 عروض حصرية</span>
         <div class="slide-title">شحن فوري لجميع الألعاب والبطاقات الرقمية</div>
       </div>
     </div>
     <div class="slide" id="slide1">
-      <img src="1795368474377.jpg" alt="عرض Call of Duty">
-      <div class="slide-caption">
-        <span class="slide-tag">Call of Duty</span>
-        <div class="slide-title">تحديث خاص • خصومات تصل إلى +15%</div>
-      </div>
+      <img src="IMG-20261119-WA0010.jpg" alt="إعلان 2">
     </div>
     <div class="dots">
       <span class="dot active" onclick="goSlide(0)"></span>
       <span class="dot" onclick="goSlide(1)"></span>
     </div>
   </div>
-
   <div class="telecom-strip" onclick="openCatModal('telecom')">
-    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.3rem">📡</span><div style="font-weight:900;font-size:0.88rem">قسم الاتصالات والإنترنت (سيريتل و MTN)</div></div>
-    <span style="color:var(--secondary);font-weight:900">اطلب ❯</span>
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.5rem">📡</span><div><div style="font-weight:900;font-size:0.9rem">قسم الاتصالات والإنترنت</div><div style="font-size:0.74rem;color:var(--text-dim)">شحن رصيد وباقات فورية • اضغط للطلب</div></div></div>
+    <span style="color:var(--secondary);font-weight:900">◀</span>
   </div>
 
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" placeholder="ابحث عن لعبة، تطبيق، بطاقة أو خدمة..." onkeyup="filterCards()">
+    <input type="text" class="search-box" id="searchInput" placeholder="ابحث عن لعبة، تطبيق، بطاقة أو خدمة..." onkeyup="filterCards()">
   </div>
 
-  <div class="sec-head">⚡ جميع الأقسام والخدمات</div>
+  <div class="sec-head">✨ جميع التصنيفات</div>
   <div class="grid-cards" id="cardsGrid">
-    <a href="games.html" class="service-card" data-name="قسم الالعاب شدات ببجي جواهر فري فاير موبايل ليجند روبلوكس كول اوف ديوتي"><div class="card-visual vis-games"><span class="card-badge">تلقائي</span>🎮</div><div class="card-label">قسم الألعاب</div></a>
-    <div class="service-card" data-name="تطبيقات الدردشة لايف بيكو لايكي تيك توك ايمو يلا لودو" onclick="openCatModal('chat')"><div class="card-visual vis-chat">💬</div><div class="card-label">تطبيقات الدردشة</div></div>
-    <div class="service-card" data-name="بايير بيرفكت موني رصيد المحافظ الرقمية usdt" onclick="openCatModal('wallet')"><div class="card-visual vis-wallet">💳</div><div class="card-label">المحافظ الرقمية</div></div>
-    <div class="service-card" data-name="خدمات السوشيال ميديا متابعين لايكات مشاهدات انستغرام تيك توك" onclick="openCatModal('social')"><div class="card-visual vis-social">🚀</div><div class="card-label">السوشيال ميديا</div></div>
-    <div class="service-card" data-name="البطاقات الرقمية جوجل بلاي ايتونز ستيم بلايستيشن ريزر" onclick="openCatModal('cards')"><div class="card-visual vis-cards">🎁</div><div class="card-label">البطاقات الرقمية</div></div>
-    <div class="service-card" data-name="خدمات التصميم والمونتاج شعارات لوغو مواقع" onclick="openCatModal('design')"><div class="card-visual vis-design">🎨</div><div class="card-label">التصميم والمونتاج</div></div>
-    <div class="service-card" data-name="الاشتراكات الرقمية نتفلكس شاهد سبوتيفاي يوتيوب بريميوم" onclick="openCatModal('subs')"><div class="card-visual vis-subs">📺</div><div class="card-label">الاشتراكات الرقمية</div></div>
-    <div class="service-card" data-name="تطبيقات vpn بروكسي كاسر بروكسي" onclick="openCatModal('vpn')"><div class="card-visual vis-vpn">🛡️</div><div class="card-label">تطبيقات VPN</div></div>
-    <div class="service-card" data-name="الحسابات الجاهزة تيك توك انستغرام فيسبوك" onclick="openCatModal('accounts')"><div class="card-visual vis-accounts">🔑</div><div class="card-label">الحسابات الجاهزة</div></div>
+    <a href="games.html" class="service-card" data-name="قسم الالعاب شدات ببجي جواهر فري فاير موبايل ليجند روبلوكس"><div class="card-visual vis-games"><span class="card-badge">⚡ API</span>🎮</div><div class="card-label">قسم الألعاب</div></a>
+    <div class="service-card" data-name="تطبيقات الدردشة تيك توك بيكو لايف يلا لودو" onclick="openCatModal('chat')"><div class="card-visual vis-chat">💬</div><div class="card-label">تطبيقات الدردشة</div></div>
+    <div class="service-card" data-name="العملات والمحافظ الرقمية usdt بايير بيرفكت" onclick="openCatModal('wallet')"><div class="card-visual vis-wallet">🪙</div><div class="card-label">العملات والمحافظ</div></div>
+    <div class="service-card" data-name="السوشيال ميديا متابعين انستغرام تيك توك تيليجرام" onclick="openCatModal('social')"><div class="card-visual vis-social">📱</div><div class="card-label">السوشيال ميديا</div></div>
+    <div class="service-card" data-name="البطاقات الرقمية جوجل بلاي ايتونز بلايستيشن ستيم" onclick="openCatModal('cards')"><div class="card-visual vis-cards">💳</div><div class="card-label">البطاقات الرقمية</div></div>
+    <div class="service-card" data-name="خدمات التصميم شعارات لوجو مونتاج فيديو" onclick="openCatModal('design')"><div class="card-visual vis-design">🎨</div><div class="card-label">خدمات التصميم</div></div>
+    <div class="service-card" data-name="الاشتراكات الرقمية نتفلكس شاهد يوتيوب بريميوم" onclick="openCatModal('subs')"><div class="card-visual vis-subs">🎬</div><div class="card-label">الاشتراكات الرقمية</div></div>
+    <div class="service-card" data-name="تطبيقات vpn بروكسي حماية انترنت" onclick="openCatModal('vpn')"><div class="card-visual vis-vpn">🛡️</div><div class="card-label">تطبيقات VPN</div></div>
+    <div class="service-card" data-name="الحسابات الجاهزة ببجي فري فاير تيك توك" onclick="openCatModal('accounts')"><div class="card-visual vis-accounts">🔑</div><div class="card-label">الحسابات الجاهزة</div></div>
   </div>
 </div>
+<div class="modal-overlay" id="profileModal" onclick="if(event.target===this)closeProfileModal()">
+  <div class="modal-box">
+    <button class="close-modal" onclick="closeProfileModal()">✕</button>
+    <img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" class="prof-logo" alt="Logo">
+    <div style="text-align:center;font-size:1.1rem;font-weight:900;color:var(--gold);margin-bottom:14px">إعدادات الحساب الشخصي</div>
+    <div class="form-row"><label>الاسم المعروض في المتجر:</label><input type="text" id="profNameInput" class="form-input"></div>
+    <div class="form-row"><label>البريد الإلكتروني المسجل:</label><input type="email" id="profEmailInput" class="form-input" readonly style="opacity:0.7"></div>
+    <button class="btn-pass-reset" onclick="requestPasswordReset()">🔑 إرسال رابط تغيير كلمة المرور لبريدي</button>
+    <div class="order-buttons">
+      <button class="btn-exec btn-confirm" id="saveProfBtn" onclick="saveProfileChanges()">💾 حفظ التعديلات</button>
+      <button class="btn-exec btn-cancel" onclick="closeProfileModal()">إغلاق</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="catModal" onclick="if(event.target===this)closeCatModal()">
   <div class="modal-box">
     <button class="close-modal" onclick="closeCatModal()">✕</button>
-    <h3 id="cTitle" style="font-size:1.1rem;font-weight:900;color:var(--gold);margin-bottom:4px;padding-left:32px">قسم</h3>
+    <div style="font-size:1.1rem;font-weight:900;color:var(--gold);margin-bottom:4px;padding-left:30px" id="cTitle">اسم القسم</div>
     <div style="font-size:0.78rem;color:var(--text-dim);margin-bottom:14px">الخصم المباشر من رصيد المحفظة</div>
     <div class="form-row">
-      <label>اختر الباقة أو الخدمة:</label>
+      <label>اختر الباقة أو الفئة المطلوبة:</label>
       <div class="pkg-grid" id="catPackagesGrid"></div>
       <input type="hidden" id="catSelName">
       <input type="hidden" id="catSelPrice">
     </div>
-    <div class="form-row"><label id="idFieldLabel">أدخل المعرّف المطلوب (ID / الرابط):</label><input type="text" id="idField" class="form-input"></div>
+    <div class="form-row"><label id="idFieldLabel">أدخل المعرف المطلوب (ID):</label><input type="text" id="idField" class="form-input" placeholder="اكتب البيانات بدقة..."></div>
     <div class="order-buttons">
-      <button class="btn-exec btn-confirm" onclick="submitDirectOrder()">تأكيد الشراء ⚡</button>
+      <button class="btn-exec btn-confirm" onclick="submitDirectOrder()">🚀 تأكيد الشراء</button>
       <button class="btn-exec btn-cancel" onclick="closeCatModal()">إلغاء</button>
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="profileModal" onclick="if(event.target===this)closeProfileModal()">
-  <div class="modal-box" style="text-align:center">
-    <button class="close-modal" onclick="closeProfileModal()">✕</button>
-    <img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" class="prof-logo" alt="Logo">
-    <h3 id="profModalName" style="font-size:1.15rem;font-weight:900">العميل</h3>
-    <div id="profModalEmail" style="font-size:0.8rem;color:var(--text-dim);margin-bottom:14px">user@email.com</div>
-    <div style="background:#0b0e14;border:1px solid #232a3d;border-radius:14px;padding:12px;margin-bottom:14px;display:flex;justify-content:space-around">
-      <div><div style="font-size:0.7rem;color:var(--text-dim)">الرصيد المتاح</div><div id="profModalBal" style="font-weight:900;color:var(--secondary)">$0.00</div></div>
-      <div><div style="font-size:0.7rem;color:var(--text-dim)">نقاط الولاء</div><div id="profModalPts" style="font-weight:900;color:var(--gold)">0 نقطة</div></div>
-    </div>
-    <button class="btn-pass-reset" onclick="sendPasswordReset()">🔑 تغيير كلمة المرور عبر البريد</button>
-  </div>
-</div>
-
 <div class="vc-alert-overlay" id="vcAlertBox">
   <div class="vc-alert-card">
-    <div class="vc-alert-ico" id="vcAlertIco">🔔</div>
+    <div class="vc-alert-ico" id="vcAlertIco">🔐</div>
     <div class="vc-alert-title" id="vcAlertTitle">تنبيه</div>
     <div class="vc-alert-msg" id="vcAlertMsg"></div>
     <div class="vc-alert-actions">
       <button class="vc-alert-btn vc-btn-primary" id="vcAlertOk">حسناً</button>
-      <button class="vc-alert-btn vc-btn-sec" id="vcAlertCancel" onclick="closeVcAlert()">إلغاء</button>
+      <button class="vc-alert-btn vc-btn-sec" id="vcAlertCancel" onclick="closeVcAlert()">إغلاق</button>
     </div>
   </div>
 </div>
-
+<button class="ai-fab" onclick="toggleAiChat()" title="مساعد VC الذكي">🤖</button>
 <div class="ai-box" id="aiChatBox">
   <div class="ai-head">
-    <span>✨ مساعد VC Store 1 الذكي</span>
+    <span>🤖 مساعد VC Store 1 الذكي</span>
     <button onclick="toggleAiChat()" style="background:none;border:none;color:#fff;font-size:1.1rem;cursor:pointer">✕</button>
   </div>
   <div class="ai-msgs" id="aiMsgs">
-    <div class="msg-bot">أهلاً بك في منصة <b>VC Store 1</b>! 👋<br>أنا مساعدك الذكي، اسألني عن الشحن، نظام النقاط، أو توثيق الوكالة VCA.</div>
+    <div class="msg-bot">أهلاً بك في منصة <b>VC Store 1</b>! 👋<br>أنا مساعدك الذكي، اسألني عن الشحن، نظام النقاط، أو توثيق الوكالة <b>VCA</b>.</div>
   </div>
   <div class="ai-quick">
-    <button class="ai-qbtn" onclick="askAiQuick('طريقة الإيداع')">💳 طريقة الإيداع</button>
-    <button class="ai-qbtn" onclick="askAiQuick('وكالة VCA')">👑 وكالة VCA</button>
-    <button class="ai-qbtn" onclick="askAiQuick('نظام النقاط')">🎁 نظام النقاط</button>
+    <button class="ai-qbtn" onclick="askAiQuick('كيف أشحن رصيدي؟')">💳 طريقة الإيداع</button>
+    <button class="ai-qbtn" onclick="askAiQuick('ما هو توثيق VCA؟')">👑 وكالة VCA</button>
+    <button class="ai-qbtn" onclick="askAiQuick('كيف أحصل على خصم؟')">🎁 نظام النقاط</button>
   </div>
   <div class="ai-inp-row">
     <input type="text" id="aiInput" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key==='Enter')sendAiMsg()">
@@ -257,74 +253,94 @@ body:has(.ai-box.open) .ai-side-fab{display:none!important}
   </div>
 </div>
 
-<button class="ai-side-fab" onclick="toggleAiChat()" title="مساعد VC الذكي">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L14.4 8.6L21 11L14.4 13.4L12 20L9.6 13.4L3 11L9.6 8.6L12 2ZM19 16L20.1 18.9L23 20L20.1 21.1L19 24L17.9 21.1L15 20L17.9 18.9L19 16Z"/></svg>
-  <span>AI</span>
-</button>
-
 <nav class="bottom-nav">
-  <a href="index.html" class="nav-tab"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>الرئيسية</a>
-  <a href="deposit.html" class="nav-tab"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>إضافة رصيد</a>
-  <a href="store.html" class="nav-tab active"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>المتجر</a>
-  <a href="orders.html" class="nav-tab"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>طلباتي</a>
+  <a href="index.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>الرئيسية</a>
+  <a href="deposit.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>إضافة رصيد</a>
+  <a href="store.html" class="nav-tab active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>المتجر</a>
+  <a href="orders.html" class="nav-tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>طلباتي</a>
 </nav>
 <script>
 function hideLoader() {
   const p = document.getElementById('vcPreloader');
   if (p) p.classList.add('hide');
 }
-window.addEventListener('load', () => setTimeout(hideLoader, 200));
-setTimeout(hideLoader, 1500);
+window.addEventListener('load', hideLoader);
+setTimeout(hideLoader, 400);
 
-const SB_URL = "https://supabase.co";
-const SB_KEY = "sb_publishable_q60B56Y08-yM_0qW6_vO7w_1a2b3c4d";
+const SB_URL = "https://" + "qfumtnofsifygdxfxdyq.supabase.co";
+const SB_KEY = "sb_publishable_J0SXeWud6RX2oNDrE_xSBw_fZ06jP1B";
 
-function showVcAlert(title, msg, ico = "🔔", onConfirm = null) {
+function showVcAlert(icon, title, msg, okText, onConfirm, showCancel = false) {
+  document.getElementById('vcAlertIco').innerText = icon;
   document.getElementById('vcAlertTitle').innerText = title;
   document.getElementById('vcAlertMsg').innerText = msg;
-  document.getElementById('vcAlertIco').innerText = ico;
   const okBtn = document.getElementById('vcAlertOk');
-  const cancelBtn = document.getElementById('vcAlertCancel');
-  if (onConfirm) {
-    cancelBtn.style.display = 'block';
-    okBtn.onclick = () => { closeVcAlert(); onConfirm(); };
-  } else {
-    cancelBtn.style.display = 'none';
-    okBtn.onclick = closeVcAlert;
-  }
+  okBtn.innerText = okText || 'حسناً';
+  okBtn.onclick = () => {
+    closeVcAlert();
+    if (onConfirm) onConfirm();
+  };
+  document.getElementById('vcAlertCancel').style.display = showCancel ? 'block' : 'none';
   document.getElementById('vcAlertBox').classList.add('show');
 }
-function closeVcAlert() { document.getElementById('vcAlertBox').classList.remove('show'); }
 
-function logoutUser() {
-  localStorage.removeItem('vc_user');
-  location.href = 'login.html';
+function closeVcAlert() {
+  document.getElementById('vcAlertBox').classList.remove('show');
 }
 
 function openProfileModal() {
-  const u = JSON.parse(localStorage.getItem('vc_user') || 'null');
-  if (!u) return;
-  document.getElementById('profModalName').innerText = u.name || u.email.split('@').at(0);
-  document.getElementById('profModalEmail').innerText = u.email;
-  document.getElementById('profModalBal').innerText = document.getElementById('headerBalance').innerText;
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  if (!savedU) return;
+  document.getElementById('profNameInput').value = savedU.name || '';
+  document.getElementById('profEmailInput').value = savedU.email || '';
   document.getElementById('profileModal').classList.add('show');
 }
-function closeProfileModal() { document.getElementById('profileModal').classList.remove('show'); }
 
-async function sendPasswordReset() {
-  const u = JSON.parse(localStorage.getItem('vc_user') || 'null');
-  if (!u || !u.email) return;
+function closeProfileModal() {
+  document.getElementById('profileModal').classList.remove('show');
+}
+
+async function saveProfileChanges() {
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  const newName = document.getElementById('profNameInput').value.trim();
+  if (!savedU || !newName) return;
+  const btn = document.getElementById('saveProfBtn');
+  btn.innerText = "⏳ جاري الحفظ...";
+  btn.disabled = true;
+  try {
+    await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id, {
+      method: 'PATCH',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ full_name: newName })
+    });
+    savedU.name = newName;
+    localStorage.setItem('vc_user', JSON.stringify(savedU));
+    const pill = document.getElementById('accountPill');
+    if (pill) pill.innerHTML = `👋 أهلاً، ${newName}`;
+    closeProfileModal();
+    showVcAlert("✅", "تم التحديث", "تم حفظ اسمك الجديد بنجاح!", "حسناً");
+  } catch (e) {
+    showVcAlert("⚠️", "خطأ", "تعذر حفظ التعديلات حالياً.", "حسناً");
+  }
+  btn.innerText = "💾 حفظ التعديلات";
+  btn.disabled = false;
+}
+
+async function requestPasswordReset() {
+  const email = document.getElementById('profEmailInput').value.trim();
+  if (!email) return;
   try {
     await fetch(SB_URL + '/auth/v1/recover', {
       method: 'POST',
       headers: { 'apikey': SB_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: u.email })
+      body: JSON.stringify({ email })
     });
-    showVcAlert("تم الإرسال", "أرسلنا رابط تغيير كلمة المرور إلى بريدك الإلكتروني بنجاح.", "📩");
+    showVcAlert("📧", "تم إرسال الرابط", "أرسلنا رابط تغيير كلمة المرور إلى بريدك الإلكتروني بنجاح!", "حسناً");
   } catch (e) {
-    showVcAlert("تنبيه", "يرجى المحاولة مرة أخرى بعد قليل.", "⚠️");
+    showVcAlert("⚠️", "تنبيه", "يرجى المحاولة مرة أخرى بعد قليل.", "حسناً");
   }
 }
+
 let curSlide = 0;
 function goSlide(n) {
   curSlide = n;
@@ -334,46 +350,16 @@ function goSlide(n) {
 setInterval(() => goSlide((curSlide + 1) % 2), 5000);
 
 const storeCatalog = {
-  telecom: { title: "قسم الاتصالات والإنترنت", label: "أدخل رقم الهاتف:", placeholder: "09XXXXXXXX", packages: [
-    { name: "وحدات سيريتل 1500", price: 1.40 }, { name: "وحدات سيريتل 3000", price: 2.75 },
-    { name: "وحدات MTN 1500", price: 1.40 }, { name: "وحدات MTN 3000", price: 2.75 },
-    { name: "باقة إنترنت 5GB", price: 2.20 }, { name: "باقة إنترنت 15GB", price: 5.50 }
-  ]},
-  chat: { title: "تطبيقات الدردشة والبث المباشر", label: "في التطبيق ID أدخل رقم الـ:", placeholder: "ID...", packages: [
-    { name: "بيكو لايف 100 ماسة", price: 2.10 }, { name: "بيكو لايف 500 ماسة", price: 9.80 },
-    { name: "يلا لودو 230 ماسة", price: 1.95 }, { name: "يلا لودو 830 ماسة", price: 5.80 },
-    { name: "لايكي 100 ماسة", price: 2.00 }, { name: "تيك توك 350 عملة", price: 4.50 }
-  ]},
-  wallet: { title: "العملات والمحافظ الرقمية", label: "أدخل عنوان المحفظة أو الحساب:", placeholder: "P1000... / TRC20...", packages: [
-    { name: "شحن Payeer $5", price: 5.35 }, { name: "شحن Payeer $10", price: 10.60 },
-    { name: "شحن USDT 10$", price: 10.50 }, { name: "شحن USDT 25$", price: 26.00 }
-  ]},
-  social: { title: "خدمات السوشيال ميديا", label: "أدخل رابط الحساب أو المنشور:", placeholder: "https://...", packages: [
-    { name: "1000 متابع انستغرام", price: 1.20 }, { name: "5000 متابع انستغرام", price: 5.20 },
-    { name: "1000 متابع تيك توك", price: 2.50 }, { name: "10000 مشاهدة فيديو", price: 0.90 }
-  ]},
-  cards: { title: "البطاقات الرقمية العالمية", label: "أدخل البريد لاستلام الكود:", placeholder: "email@example.com", packages: [
-    { name: "جوجل بلاي $5 أمريكي", price: 5.25 }, { name: "جوجل بلاي $10 أمريكي", price: 10.40 },
-    { name: "ايتونز $10 أمريكي", price: 10.40 }, { name: "بلايستيشن $10 ستور أمريكي", price: 10.45 }
-  ]},
-  design: { title: "خدمات التصميم والمونتاج", label: "اكتب تفاصيل التصميم المطلوب:", placeholder: "شعار / بوستر / مونتاج...", packages: [
-    { name: "تصميم شعار (Logo) احترافي", price: 8.00 }, { name: "تصميم بانر إعلاني", price: 4.00 },
-    { name: "مونتاج فيديو ريلز احترافي", price: 10.00 }
-  ]},
-  subs: { title: "الاشتراكات الرقمية", label: "أدخل البريد الإلكتروني المفعّل:", placeholder: "email@example.com", packages: [
-    { name: "نتفلكس شهر 4K", price: 3.80 }, { name: "شاهد VIP شهر", price: 2.90 },
-    { name: "يوتيوب بريميوم شهر", price: 2.50 }, { name: "سبوتيفاي بريميوم شهر", price: 2.40 }
-  ]},
-  vpn: { title: "تطبيقات VPN والحماية", label: "أدخل البريد الإلكتروني:", placeholder: "email@example.com", packages: [
-    { name: "ExpressVPN شهر", price: 3.50 }, { name: "NordVPN شهر", price: 3.20 },
-    { name: "سيرفر بروكسي خاص شهر", price: 2.80 }
-  ]},
-  accounts: { title: "الحسابات الجاهزة", label: "أدخل رقم الواتساب للتسليم:", placeholder: "+963...", packages: [
-    { name: "حساب تيك توك 1K متابع", price: 6.50 }, { name: "حساب انستغرام قديم", price: 4.50 },
-    { name: "حساب جيميل موثق", price: 1.50 }
-  ]}
+  telecom: { title: "قسم الاتصالات والإنترنت", label: "أدخل رقم الهاتف:", placeholder: "09XXXXXXXX", packages: [{ name: "رصيد وحدات 10,000", price: 1.20 }, { name: "باقة إنترنت 5 GB", price: 2.50 }] },
+  chat: { title: "تطبيقات الدردشة والبث المباشر", label: "أدخل رقم الـ ID في التطبيق:", placeholder: "اكتب رقم الـ ID...", packages: [{ name: "تيك توك - 70 عملة", price: 1.00 }, { name: "بيكو لايف - 100 ماسة", price: 2.10 }, { name: "يلا لودو - 2,320 ماسة", price: 5.00 }] },
+  wallet: { title: "العملات والمحافظ الرقمية", label: "أدخل عنوان المحفظة أو الحساب:", placeholder: "عنوان USDT / Payeer...", packages: [{ name: "شحن USDT - بقيمة $5", price: 5.30 }, { name: "شحن Payeer - بقيمة $10", price: 10.50 }] },
+  social: { title: "خدمات السوشيال ميديا", label: "أدخل رابط الحساب أو المنشور:", placeholder: "https://instagram.com...", packages: [{ name: "1,000 متابع انستغرام حقيقي", price: 1.50 }, { name: "1,000 متابع تيك توك", price: 2.00 }, { name: "1,000 عضو تيليجرام", price: 1.80 }] },
+  cards: { title: "البطاقات الرقمية العالمية", label: "أدخل البريد لاستلام الكود:", placeholder: "name@gmail.com", packages: [{ name: "بطاقة جوجل بلاي $5 أمريكي", price: 5.20 }, { name: "بطاقة آيتونز $10 أمريكي", price: 10.30 }] },
+  design: { title: "خدمات التصميم والمونتاج", label: "اكتب تفاصيل التصميم المطلوب:", placeholder: "شعار لمتجر / بنر...", packages: [{ name: "تصميم شعار (Logo) احترافي", price: 5.00 }, { name: "تصميم إعلان سوشيال ميديا", price: 3.00 }] },
+  subs: { title: "الاشتراكات الرقمية", label: "أدخل البريد الإلكتروني للتفعيل:", placeholder: "name@gmail.com", packages: [{ name: "اشتراك نتفلكس شهر كامل (4K)", price: 3.50 }, { name: "اشتراك شاهد VIP شهر", price: 2.50 }] },
+  vpn: { title: "تطبيقات VPN والحماية", label: "أدخل البريد الإلكتروني:", placeholder: "name@gmail.com", packages: [{ name: "اشتراك ExpressVPN شهر", price: 4.00 }, { name: "اشتراك NordVPN شهر", price: 3.50 }] },
+  accounts: { title: "الحسابات الجاهزة", label: "أدخل رقم الواتساب للتسليم:", placeholder: "9639XXXXXXXX", packages: [{ name: "حساب ببجي مشحون سيزون", price: 15.00 }, { name: "حساب تيك توك 10K متابع", price: 20.00 }] }
 };
-
 function toggleDrawer() {
   document.getElementById('sideDrawer').classList.toggle('open');
   document.getElementById('overlay').classList.toggle('open');
@@ -398,104 +384,147 @@ function openCatModal(key) {
   });
   document.getElementById('catModal').classList.add('show');
 }
+
 function selectStorePkg(el, item) {
-  document.querySelectorAll('#catPackagesGrid .pkg-item').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#catPackagesGrid .pkg-item').forEach(c => c.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('catSelName').value = item.name;
   document.getElementById('catSelPrice').value = item.price;
 }
-function closeCatModal() { document.getElementById('catModal').classList.remove('show'); }
+
+function closeCatModal() {
+  document.getElementById('catModal').classList.remove('show');
+}
 
 function filterCards() {
-  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const q = document.getElementById('searchInput').value.toLowerCase();
   document.querySelectorAll('.service-card').forEach(c => {
-    const txt = (c.innerText + " " + (c.dataset.name || "")).toLowerCase();
-    c.style.display = txt.includes(q) ? 'block' : 'none';
+    c.style.display = c.getAttribute('data-name').includes(q) ? 'flex' : 'none';
   });
 }
+
 async function submitDirectOrder() {
   const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
   if (!savedU || !savedU.id) {
-    showVcAlert("تسجيل الدخول مطلوب", "يرجى تسجيل الدخول أولاً لإتمام عملية الشراء.", "🔐", () => location.href = 'login.html');
+    showVcAlert("🔐", "تسجيل الدخول مطلوب", "يرجى تسجيل الدخول أو إنشاء حساب أولاً لتتمكن من إتمام الشراء!", "تسجيل الدخول", () => { window.location.href = 'login.html'; }, true);
     return;
   }
-  const pkgName = document.getElementById('catSelName').value;
-  const basePrice = parseFloat(document.getElementById('catSelPrice').value);
-  const targetId = document.getElementById('idField').value.trim();
-  if (!pkgName || isNaN(basePrice)) { showVcAlert("تنبيه", "يرجى اختيار الباقة المطلوبة أولاً.", "⚠️"); return; }
-  if (!targetId) { showVcAlert("بيانات ناقصة", "يرجى إدخال المعرّف أو رقم الهاتف المطلوب للشحن.", "✍️"); return; }
 
-  const btn = document.querySelector('.btn-confirm');
-  btn.disabled = true; btn.innerText = "جاري المعالجة...";
+  const pkgName = document.getElementById('catSelName').value;
+  const pkgPrice = parseFloat(document.getElementById('catSelPrice').value) || 1.00;
+  const target = document.getElementById('idField').value.trim();
+
+  if (!target) {
+    showVcAlert("⚠️", "بيانات ناقصة", "يرجى إدخال الرقم أو المعرّف المطلوب أولاً!", "حسناً", () => { document.getElementById('idField').focus(); });
+    return;
+  }
+
+  const btn = document.querySelector('#catModal .btn-confirm');
+  btn.innerText = "⏳ جاري تنفيذ الطلب...";
+  btn.disabled = true;
 
   try {
-    const profRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance,vca_vip_tier,total_spent,loyalty_points', {
+    const pRes = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
     });
-    const profRows = await profRes.json();
-    const prof = (Array.isArray(profRows) && profRows.length > 0) ? profRows.at(0) : { balance: 0, vca_vip_tier: 'standard', total_spent: 0, loyalty_points: 0 };
-    const curBal = parseFloat(prof.balance || 0);
+    const rows = await pRes.json();
+    const currentBal = (Array.isArray(rows) && rows.length > 0) ? parseFloat(rows.at(0).balance || 0) : 0;
 
-    let discRate = 0;
-    if (prof.vca_vip_tier === 'silver') discRate = 0.04;
-    else if (prof.vca_vip_tier === 'gold') discRate = 0.08;
-    else if (prof.vca_vip_tier === 'diamond') discRate = 0.12;
-    const finalPrice = parseFloat((basePrice * (1 - discRate)).toFixed(2));
-
-    if (curBal < finalPrice) {
-      btn.disabled = false; btn.innerText = "تأكيد الشراء ⚡";
-      showVcAlert("رصيد غير كافٍ", `سعر الباقة: $${finalPrice.toFixed(2)}\nرصيدك الحالي: $${curBal.toFixed(2)}\nيرجى شحن محفظتك أولاً.`, "💳", () => location.href = 'deposit.html');
+    if (currentBal < pkgPrice) {
+      btn.innerText = "🚀 تأكيد الشراء"; btn.disabled = false;
+      showVcAlert("💳", "الرصيد غير كافٍ", `رصيدك الحالي ($${currentBal.toFixed(2)}) لا يكفي ($${pkgPrice.toFixed(2)}).`, "شحن الرصيد", () => { window.location.href = 'deposit.html'; }, true);
       return;
     }
 
-    const newBal = parseFloat((curBal - finalPrice).toFixed(2));
-    const newSpent = parseFloat((parseFloat(prof.total_spent || 0) + finalPrice).toFixed(2));
-    const earnedPts = Math.floor(finalPrice * 10);
-    const newPts = parseInt(prof.loyalty_points || 0) + earnedPts;
+    const newBal = parseFloat((currentBal - pkgPrice).toFixed(2));
+    const orderId = "#ORD-" + Math.floor(10000 + Math.random() * 90000);
 
     await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id, {
       method: 'PATCH',
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ balance: newBal, total_spent: newSpent, loyalty_points: newPts })
+      body: JSON.stringify({ balance: newBal })
     });
 
-    const orderNum = 'VC-' + Math.floor(100000 + Math.random() * 900000);
     await fetch(SB_URL + '/rest/v1/orders_history', {
       method: 'POST',
       headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY), 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        order_code: orderNum,
+        order_code: orderId,
         user_email: savedU.email,
+        order_type: 'order',
         service_name: pkgName,
-        target_id: targetId,
-        price: finalPrice,
-        status: 'قيد التنفيذ'
+        target_info: target,
+        amount: pkgPrice,
+        status: 'pending'
       })
     });
 
-    document.getElementById('headerBalance').innerText = '$' + newBal.toFixed(2);
-    btn.disabled = false; btn.innerText = "تأكيد الشراء ⚡";
+    const balEl = document.getElementById('headerBalance');
+    if (balEl) balEl.innerText = '$' + newBal.toFixed(2);
     closeCatModal();
-    showVcAlert("تم استلام طلبك بنجاح!", `رقم الطلب: ${orderNum}\nالخدمة: ${pkgName}\nالمبلغ المخصوم: $${finalPrice.toFixed(2)}\nالنقاط المكتسبة: +${earnedPts} نقطة 🎁`, "✅");
+    showVcAlert("✅", "تم إرسال طلبك بنجاح!", `رقم الطلب: ${orderId}\nالخدمة: ${pkgName}\nرصيدك المتبقي: $${newBal.toFixed(2)}`, "عرض طلباتي", () => { window.location.href = 'orders.html'; });
   } catch (e) {
-    btn.disabled = false; btn.innerText = "تأكيد الشراء ⚡";
-    showVcAlert("خطأ اتصال", "تعذر الاتصال بالسيرفر، حاول مرة أخرى.", "⚠️");
+    showVcAlert("⚠️", "خطأ في الاتصال", "تعذر الاتصال بقاعدة البيانات، حاول مجدداً.", "حسناً");
   }
+  btn.innerText = "🚀 تأكيد الشراء";
+  btn.disabled = false;
 }
+function logoutUser() {
+  localStorage.removeItem('vc_user');
+  window.location.href = 'login.html';
+}
+
 window.addEventListener('DOMContentLoaded', async () => {
+  hideLoader();
+  const hash = window.location.hash;
+  if (hash && hash.includes('access_token=')) {
+    const params = new URLSearchParams(hash.substring(1));
+    const token = params.get('access_token');
+    if (token) {
+      try {
+        const uRes = await fetch(SB_URL + '/auth/v1/user', { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token } });
+        const gUser = await uRes.json();
+        if (gUser && gUser.id) {
+          const gName = (gUser.user_metadata && gUser.user_metadata.full_name) ? gUser.user_metadata.full_name : gUser.email.split('@').at(0);
+          localStorage.setItem('vc_user', JSON.stringify({ id: gUser.id, email: gUser.email, name: gName, token: token }));
+          await fetch(SB_URL + '/rest/v1/profiles', {
+            method: 'POST',
+            headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Prefer': 'resolution=ignore-duplicates' },
+            body: JSON.stringify({ id: gUser.id, email: gUser.email, full_name: gName, balance: 0 })
+          });
+          window.history.replaceState(null, null, window.location.pathname);
+        }
+      } catch (e) {}
+    }
+  }
+
   const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
   if (savedU && savedU.id) {
-    document.getElementById('authLink').style.display = 'none';
-    const accPill = document.getElementById('accountPill');
-    accPill.style.display = 'flex';
-    accPill.innerHTML = `<span style="width:8px;height:8px;border-radius:50%;background:#10b981"></span><span>${savedU.name || savedU.email.split('@').at(0)}</span>`;
-    document.getElementById('drawerLoginBtn').style.display = 'none';
-    document.getElementById('drawerLogoutBtn').style.display = 'block';
-    document.getElementById('profileDrawerLink').style.display = 'block';
+    const authLink = document.getElementById('authLink');
+    const profLink = document.getElementById('profileDrawerLink');
+    const dLogin = document.getElementById('drawerLoginBtn');
+    const dLogout = document.getElementById('drawerLogoutBtn');
+    const pill = document.getElementById('accountPill');
+    if (authLink) authLink.style.display = 'none';
+    if (profLink) profLink.style.display = 'flex';
+    if (dLogin) dLogin.style.display = 'none';
+    if (dLogout) dLogout.style.display = 'block';
+    if (pill) { pill.innerHTML = `👋 أهلاً، ${savedU.name}`; pill.style.display = 'block'; }
+
+    await fetch(SB_URL + '/rest/v1/profiles', {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (savedU.token || SB_KEY),
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=ignore-duplicates'
+      },
+      body: JSON.stringify({ id: savedU.id, email: savedU.email, full_name: savedU.name, balance: 0 })
+    }).catch(() => {});
 
     try {
       const [pRes, oRes] = await Promise.all([
-        fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance,vca_vip_tier,loyalty_points', {
+        fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=balance', {
           headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
         }),
         fetch(SB_URL + '/rest/v1/orders_history?user_email=eq.' + encodeURIComponent(savedU.email) + '&select=id', {
@@ -504,31 +533,22 @@ window.addEventListener('DOMContentLoaded', async () => {
       ]);
       const rows = await pRes.json();
       if (Array.isArray(rows) && rows.length > 0) {
-        const p = rows.at(0);
-        document.getElementById('headerBalance').innerText = '$' + parseFloat(p.balance || 0).toFixed(2);
-        document.getElementById('profModalPts').innerText = (p.loyalty_points || 0) + ' نقطة';
-        if (p.vca_vip_tier && p.vca_vip_tier !== 'standard') {
-          accPill.innerHTML = `<span class="vca-badge">✓ VCA</span><span>${savedU.name || savedU.email.split('@').at(0)}</span>`;
-        }
+        const bal = parseFloat(rows.at(0).balance || 0).toFixed(2);
+        const balEl = document.getElementById('headerBalance');
+        if (balEl) balEl.innerText = '$' + bal;
       }
       const oList = await oRes.json();
       if (Array.isArray(oList) && oList.length > 0) {
-        const tab = document.querySelector('a[href="orders.html"]');
-        if (tab) {
+        document.querySelectorAll('a[href="orders.html"]').forEach(tab => {
           tab.style.position = 'relative';
-          tab.innerHTML += `<span style="position:absolute;top:2px;right:14px;background:#ef4444;color:#fff;font-size:0.62rem;font-weight:900;padding:1px 5px;border-radius:50px">${oList.length}</span>`;
-        }
+          tab.innerHTML += `<span style="position:absolute;top:2px;right:18px;background:#ef4444;color:#fff;font-size:0.65rem;font-weight:900;padding:1px 6px;border-radius:50px">${oList.length}</span>`;
+        });
       }
     } catch (e) {}
   }
-  if (location.search.includes('openAi=1')) toggleAiChat();
 });
-
 function toggleAiChat() {
-  const box = document.getElementById('aiChatBox');
-  const fab = document.querySelector('.ai-side-fab');
-  const isOpen = box.classList.toggle('open');
-  if (fab) fab.style.display = isOpen ? 'none' : 'flex';
+  document.getElementById('aiChatBox').classList.toggle('open');
 }
 
 function askAiQuick(q) {
@@ -546,18 +566,47 @@ function sendAiMsg() {
   box.scrollTop = box.scrollHeight;
 
   setTimeout(() => {
-    let reply = "يمكنك شحن رصيدك فوراً من قسم (إضافة رصيد) ثم طلب أي خدمة بضغطة زر! ⚡";
-    if (txt.includes('إيداع') || txt.includes('رصيد') || txt.includes('شحن')) {
-      reply = "طرق الإيداع المتوفرة لدينا: شام كاش (ليرة ودولار)، سيريتل كاش، و USDT / Binance بتأكيد سريع. 💳";
-    } else if (txt.includes('وكالة') || txt.includes('vca') || txt.includes('VCA')) {
-      reply = "برنامج وكالة VCA يمنحك شارة التوثيق الذهبية وخصومات تلقائية تصل حتى 12% على جميع الطلبات! 👑";
-    } else if (txt.includes('نقاط') || txt.includes('ولاء')) {
-      reply = "مع كل $1 تنفقه في المتجر تحصل تلقائياً على 10 نقاط ولاء يمكنك استبدالها برصيد مجاني! 🎁";
+    let reply = "شكراً لتواصلك مع منصة <b>VC Store 1</b>! يمكنك متابعة طلباتك من قسم (طلباتي) أو شحن محفظتك من علامة (+).";
+    if (txt.includes('إيداع') || txt.includes('أشحن') || txt.includes('رصيد')) {
+      reply = "لإضافة رصيد لمحفظتك: اضغط على علامة <b>(+)</b> في الأعلى، اختر وسيلة الدفع (سيريتل كاش، شام كاش، USDT)، وأدخل رقم العملية ليتم شحن رصيدك فوراً! 💳";
+    } else if (txt.includes('vca') || txt.includes('وكالة') || txt.includes('وكيل')) {
+      reply = "توثيق الوكالة الذهبي <span class='vca-badge'>VCA ✓</span> يمنحك خصم <b>12%</b> على كافة الباقات وأولوية في التنفيذ! يتفعل تلقائياً عند شحن <b>$250</b> أو بطلب التفعيل من الإدارة. 👑";
+    } else if (txt.includes('خصم') || txt.includes('نقاط') || txt.includes('100')) {
+      reply = "نظام الولاء في منصتنا يكافئك تلقائياً:<br>• شحن <b>$50+</b>: خصم <b>3%</b><br>• شحن <b>$100+</b>: خصم <b>7%</b><br>• شحن <b>$250+</b>: وكالة <b>VCA ✓</b> بخصم <b>12%</b>! 🚀";
     }
     box.innerHTML += `<div class="msg-bot">${reply}</div>`;
     box.scrollTop = box.scrollHeight;
-  }, 350);
+  }, 400);
 }
+
+(async function loadVcaStatus() {
+  const savedU = JSON.parse(localStorage.getItem('vc_user') || 'null');
+  if (!savedU || !savedU.id) return;
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + savedU.id + '&select=is_vca,vip_tier,total_spent', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + (savedU.token || SB_KEY) }
+    });
+    const rows = await res.json();
+    if (Array.isArray(rows) && rows.length > 0) {
+      const prof = rows.at(0);
+      const starSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="#fbbf24" style="vertical-align:middle;margin-right:4px;filter:drop-shadow(0 0 5px rgba(251,191,36,0.65))"><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"/></svg>`;
+      const vcaBadge = prof.is_vca ? `<span class="vca-badge">VCA</span>${starSvg}` : '';
+      const tierHtml = (!prof.is_vca && prof.vip_tier && prof.vip_tier !== 'Member') ? `<span class="tier-tag">${prof.vip_tier}</span>` : '';
+
+      const pill = document.getElementById('accountPill');
+      if (pill) pill.innerHTML = `${savedU.name} ${vcaBadge}${tierHtml}`;
+
+      const drawerHead = document.querySelector('.drawer-header span');
+      if (drawerHead && prof.is_vca) {
+        drawerHead.innerHTML = `${savedU.name} ${starSvg} <span style="font-size:0.72rem;color:#fbbf24;display:block">وكيل معتمد VCA</span>`;
+      }
+
+      localStorage.setItem('vc_tier_data', JSON.stringify(prof));
+    }
+  } catch (e) {}
+})();
+
+
 </script>
 </body>
-</html>
+                                                                                                                                                                                                                </html>
