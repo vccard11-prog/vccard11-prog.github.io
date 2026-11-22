@@ -134,15 +134,17 @@ body:has(.ai-box.open) .ai-fab{display:none!important}
       <a href="javascript:void(0)" id="profileDrawerLink" style="display:none" onclick="toggleDrawer();openProfileModal()">👤 تعديل الملف الشخصي</a>
       <a href="games.html">🎮 قسم الألعاب الفوري</a>
       <a href="orders.html">🛒 سجل طلباتي</a>
-      <a href="deposit.html">💳 إضافة رصيد للمحفظة</a>
-     <div style="background:#0b0e14;border:1px solid rgba(6,182,212,0.3);border-radius:12px;padding:10px;margin-bottom:8px">
-  <div style="font-size:0.75rem;color:#94a3b8;font-weight:800;margin-bottom:6px">💱 عملة العرض في المتجر:</div>
-  <select id="currencySwitcher" onchange="changeStoreCurrency(this.value)" style="width:100%;background:#182032;color:#fff;border:1px solid #283047;border-radius:9px;padding:7px;font-weight:800;font-size:0.82rem">
-    <option value="USD">🇺🇸 دولار أمريكي ($ USD)</option>
-    <option value="AED">🇦🇪 درهم إماراتي (AED د.إ)</option>
-    <option value="SYP">🇸🇾 ليرة سورية جديدة (SYP ل.س)</option>
-  </select>
+<div onclick="toggleDrawer();openCurrencyModal()" style="background:linear-gradient(135deg,#161e31,#111726);border:1px solid rgba(6,182,212,0.35);border-radius:14px;padding:11px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+  <div style="display:flex;align-items:center;gap:8px">
+    <span style="font-size:1.1rem">💱</span>
+    <div>
+      <div style="font-size:0.72rem;color:#94a3b8;font-weight:700">عملة العرض</div>
+      <div id="curDisplayLabel" style="font-size:0.84rem;color:#fff;font-weight:900">دولار أمريكي (USD $)</div>
+    </div>
+  </div>
+  <span style="color:#06b6d4;font-weight:900;font-size:0.8rem">تغيير ❯</span>
 </div>
+
 
 <a href="javascript:void(0)" onclick="toggleDrawer();openLegalModal('privacy')">🔒 سياسة الخصوصية</a>
 <a href="javascript:void(0)" onclick="toggleDrawer();openLegalModal('terms')">📜 شروط الاستخدام</a>
@@ -703,6 +705,40 @@ window.addEventListener('load', () => {
     }
   }, 1200);
 });
+const CUR_NAMES = {
+  USD: 'دولار أمريكي (USD $)',
+  AED: 'درهم إماراتي (AED د.إ)',
+  SYP: 'ليرة سورية جديدة (SYP ل.س)'
+};
+
+function openCurrencyModal() {
+  const cur = localStorage.getItem('vc_currency') || 'USD';
+  document.querySelectorAll('.cur-opt').forEach(el => {
+    el.style.borderColor = '#232a3d';
+    el.style.background = '#0b0e14';
+    el.querySelector('.cur-check').style.display = 'none';
+  });
+  const activeEl = document.getElementById('opt-' + cur);
+  if (activeEl) {
+    activeEl.style.borderColor = '#06b6d4';
+    activeEl.style.background = 'rgba(6,182,212,0.12)';
+    activeEl.querySelector('.cur-check').style.display = 'inline';
+  }
+  document.getElementById('currencyModal').classList.add('show');
+}
+
+function selectModalCurrency(cur) {
+  changeStoreCurrency(cur);
+  const lbl = document.getElementById('curDisplayLabel');
+  if (lbl) lbl.innerText = CUR_NAMES[cur] || CUR_NAMES.USD;
+  document.getElementById('currencyModal').classList.remove('show');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const cur = localStorage.getItem('vc_currency') || 'USD';
+  const lbl = document.getElementById('curDisplayLabel');
+  if (lbl) lbl.innerText = CUR_NAMES[cur] || CUR_NAMES.USD;
+});
 
 </script>
   <div class="modal-overlay" id="legalModal" onclick="if(event.target===this)this.classList.remove('show')">
@@ -712,5 +748,46 @@ window.addEventListener('load', () => {
     <div id="legalBody" style="font-size:0.84rem;color:#cbd5e1;line-height:1.75;white-space:pre-line"></div>
   </div>
   </div>
+  <div class="modal-overlay" id="currencyModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="modal-box" style="max-width:380px;text-align:center">
+    <button class="close-modal" onclick="document.getElementById('currencyModal').classList.remove('show')">✕</button>
+    <h3 style="font-size:1.05rem;font-weight:900;color:#fff;margin-bottom:4px">💱 اختر عملة العرض</h3>
+    <p style="font-size:0.75rem;color:#94a3b8;margin-bottom:14px">يتم تحويل الرصيد وأسعار جميع الباقات تلقائياً</p>
+
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <div class="cur-opt" id="opt-USD" onclick="selectModalCurrency('USD')" style="background:#0b0e14;border:1px solid #232a3d;border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:0.2s">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:1.5rem">🇺🇸</span>
+          <div style="text-align:right"><div style="font-weight:900;font-size:0.88rem;color:#fff">دولار أمريكي</div><div style="font-size:0.7rem;color:#94a3b8">USD ($)</div></div>
+        </div>
+        <span class="cur-check" style="color:#06b6d4;font-weight:900">✓</span>
+      </div>
+
+      <div class="cur-opt" id="opt-AED" onclick="selectModalCurrency('AED')" style="background:#0b0e14;border:1px solid #232a3d;border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:0.2s">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:1.5rem">🇦🇪</span>
+          <div style="text-align:right"><div style="font-weight:900;font-size:0.88rem;color:#fff">درهم إماراتي</div><div style="font-size:0.7rem;color:#94a3b8">AED (د.إ)</div></div>
+        </div>
+        <span class="cur-check" style="color:#06b6d4;font-weight:900;display:none">✓</span>
+      </div>
+
+      <div class="cur-opt" id="opt-SYP" onclick="selectModalCurrency('SYP')" style="background:#0b0e14;border:1px solid #232a3d;border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:0.2s">
+        <div style="display:flex;align-items:center;gap:10px">
+          <svg width="26" height="19" viewBox="0 0 30 20" style="border-radius:4px;flex-shrink:0;box-shadow:0 2px 5px rgba(0,0,0,0.4)">
+            <rect width="30" height="6.66" y="0" fill="#007A3D"/>
+            <rect width="30" height="6.66" y="6.66" fill="#FFFFFF"/>
+            <rect width="30" height="6.68" y="13.32" fill="#000000"/>
+            <polygon points="8,7.8 8.6,9.5 10.4,9.5 8.9,10.5 9.5,12.2 8,11.2 6.5,12.2 7.1,10.5 5.6,9.5 7.4,9.5" fill="#CE1126"/>
+            <polygon points="15,7.8 15.6,9.5 17.4,9.5 15.9,10.5 16.5,12.2 15,11.2 13.5,12.2 14.1,10.5 12.6,9.5 14.4,9.5" fill="#CE1126"/>
+            <polygon points="22,7.8 22.6,9.5 24.4,9.5 22.9,10.5 23.5,12.2 22,11.2 20.5,12.2 21.1,10.5 19.6,9.5 21.4,9.5" fill="#CE1126"/>
+          </svg>
+          <div style="text-align:right"><div style="font-weight:900;font-size:0.88rem;color:#fff">ليرة سورية جديدة</div><div style="font-size:0.7rem;color:#94a3b8">SYP (ل.س)</div></div>
+        </div>
+        <span class="cur-check" style="color:#06b6d4;font-weight:900;display:none">✓</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
                                                                                                                                                                                                                 </html>
