@@ -400,7 +400,8 @@ function openCatModal(key) {
   data.packages.forEach((item, idx) => {
     const card = document.createElement('div');
     card.className = 'pkg-item' + (idx === 0 ? ' active' : '');
-    card.innerHTML = `<div class="pkg-name">${item.name}</div><div class="pkg-price">$${item.price.toFixed(2)}</div>`;
+    card.innerHTML = `<div class="pkg-name">${item.name}</div><div class="pkg-price" data-usd="${item.price}">${formatPrice(item.price)}</div>`;
+
     card.onclick = () => selectStorePkg(card, item);
     grid.appendChild(card);
     if (idx === 0) selectStorePkg(card, item);
@@ -646,11 +647,23 @@ function formatPrice(usdAmount) {
 
 function changeStoreCurrency(cur) {
   localStorage.setItem('vc_currency', cur);
-  const switchEl = document.getElementById('currencySwitcher');
-  if (switchEl) switchEl.value = cur;
-  const rawBal = parseFloat(document.getElementById('headerBalance').dataset.usd || '0');
-  document.getElementById('headerBalance').innerText = formatPrice(rawBal);
+  const sw = document.getElementById('currencySwitcher');
+  if (sw) sw.value = cur;
+
+  // 1. تحديث الرصيد في الهيدر
+  const balEl = document.getElementById('headerBalance');
+  if (balEl) {
+    const rawBal = parseFloat(balEl.dataset.usd || balEl.innerText.replace(/[^0-9.]/g, '') || '0');
+    balEl.dataset.usd = rawBal;
+    balEl.innerText = formatPrice(rawBal);
+  }
+
+  // 2. تحديث أسعار جميع الباقات الظاهرة حالياً في المتجر
+  document.querySelectorAll('.pkg-price[data-usd]').forEach(el => {
+    el.innerText = formatPrice(parseFloat(el.dataset.usd));
+  });
 }
+
 
 // 2. نصوص السياسات القانونية الاحترافية
 const LEGAL_DOCS = {
