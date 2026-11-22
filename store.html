@@ -135,6 +135,19 @@ body:has(.ai-box.open) .ai-fab{display:none!important}
       <a href="games.html">🎮 قسم الألعاب الفوري</a>
       <a href="orders.html">🛒 سجل طلباتي</a>
       <a href="deposit.html">💳 إضافة رصيد للمحفظة</a>
+     <div style="background:#0b0e14;border:1px solid rgba(6,182,212,0.3);border-radius:12px;padding:10px;margin-bottom:8px">
+  <div style="font-size:0.75rem;color:#94a3b8;font-weight:800;margin-bottom:6px">💱 عملة العرض في المتجر:</div>
+  <select id="currencySwitcher" onchange="changeStoreCurrency(this.value)" style="width:100%;background:#182032;color:#fff;border:1px solid #283047;border-radius:9px;padding:7px;font-weight:800;font-size:0.82rem">
+    <option value="USD">🇺🇸 دولار أمريكي ($ USD)</option>
+    <option value="AED">🇦🇪 درهم إماراتي (AED د.إ)</option>
+    <option value="SYP">🇸🇾 ليرة سورية جديدة (SYP ل.س)</option>
+  </select>
+</div>
+
+<a href="javascript:void(0)" onclick="toggleDrawer();openLegalModal('privacy')">🔒 سياسة الخصوصية</a>
+<a href="javascript:void(0)" onclick="toggleDrawer();openLegalModal('terms')">📜 شروط الاستخدام</a>
+<a href="javascript:void(0)" onclick="toggleDrawer();openLegalModal('refund')">🔄 سياسة الاسترجاع</a>
+
     </div>
   </div>
   <div>
@@ -617,6 +630,74 @@ function sendAiMsg() {
 })();
 
 
+// 1. إعدادات أسعار الصرف (1 دولار أمريكي)
+const CURRENCY_RATES = {
+  USD: { symbol: '$', rate: 1, decimals: 2 },
+  AED: { symbol: 'AED ', rate: 3.67, decimals: 2 },
+  SYP: { symbol: 'ل.س ', rate: 122, decimals: 0 } // سعر الليرة السورية الجديدة (بعد حذف الأصفار)
+};
+
+function formatPrice(usdAmount) {
+  const cur = localStorage.getItem('vc_currency') || 'USD';
+  const cfg = CURRENCY_RATES[cur] || CURRENCY_RATES.USD;
+  const val = (parseFloat(usdAmount) * cfg.rate).toFixed(cfg.decimals);
+  return cur === 'SYP' ? `${Number(val).toLocaleString('en-US')} ل.س` : `${cfg.symbol}${val}`;
+}
+
+function changeStoreCurrency(cur) {
+  localStorage.setItem('vc_currency', cur);
+  const switchEl = document.getElementById('currencySwitcher');
+  if (switchEl) switchEl.value = cur;
+  const rawBal = parseFloat(document.getElementById('headerBalance').dataset.usd || '0');
+  document.getElementById('headerBalance').innerText = formatPrice(rawBal);
+}
+
+// 2. نصوص السياسات القانونية الاحترافية
+const LEGAL_DOCS = {
+  privacy: {
+    title: "🔒 سياسة الخصوصية وحماية البيانات",
+    body: "• تلتزم منصة VC Store 1 بحماية خصوصية جميع المستخدمين وبياناتهم الشخصية.\n• تُستخدم البيانات المدخلة (البريد الإلكتروني، معرّفات الألعاب ID، وأرقام المحافظ) حصرياً لتنفيذ طلبات الشحن وتوثيق الحسابات.\n• لا يتم مشاركة أو بيع بيانات العملاء لأي طرف ثالث خارج بوابات الدفع والتنفيذ المعتمدة.\n• جميع العمليات محمية بتشفير سحابي آمن لضمان سلامة الرصيد والمعاملات."
+  },
+  terms: {
+    title: "📜 شروط وأحكام الاستخدام",
+    body: "• باستخدامك لمنصة VC Store 1 فإنك توافق على الالتزام بجميع القوانين والأنظمة المعمول بها.\n• يتحمل العميل مسؤولية التأكد من صحة معرّف اللاعب (ID) أو رقم الهاتف أو عنوان المحفظة قبل تأكيد الطلب.\n• تُنفّذ الطلبات التلقائية فوراً، بينما تستغرق الطلبات اليدوية من 5 إلى 30 دقيقة كحد أقصى.\n• يُمنع استخدام المنصة في أي عمليات احتيال أو تحويلات غير مشروعة، ويحق للإدارة إيقاف أي حساب مخالف."
+  },
+  refund: {
+    title: "🔄 سياسة الاسترجاع وإلغاء الطلبات",
+    body: "• نظراً لطبيعة المنتجات الرقمية (شدات، جواهر، بطاقات، وأرصدة)، لا يمكن إلغاء أو استرجاع الطلب بعد إتمام عملية الشحن بنجاح.\n• في حال تعذر تنفيذ الطلب من طرف المنصة أو وجود خطأ تقني، يُعاد كامل المبلغ إلى رصيد محفظة العميل داخل الموقع فوراً.\n• في حال إدخال معرّف (ID) خاطئ من قبل العميل وتم الشحن له بالفعل، لا تتحمل المنصة مسؤولية التعويض.\n• يمكن طلب سحب الرصيد غير المستخدم وفق شروط المحفظة ورسوم التحويل المعتمدة."
+  }
+};
+
+function openLegalModal(type) {
+  const doc = LEGAL_DOCS[type];
+  if (!doc) return;
+  document.getElementById('legalTitle').innerText = doc.title;
+  document.getElementById('legalBody').innerText = doc.body;
+  document.getElementById('legalModal').classList.add('show');
+}
+
+// حفظ الرصيد الأصلي بالدولار عند تحميل الصفحة لتحديثه عند تبديل العملة
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const balEl = document.getElementById('headerBalance');
+    if (balEl) {
+      const num = parseFloat(balEl.innerText.replace(/[^0-9.]/g, '')) || 0;
+      balEl.dataset.usd = num;
+      const savedCur = localStorage.getItem('vc_currency') || 'USD';
+      const sw = document.getElementById('currencySwitcher');
+      if (sw) sw.value = savedCur;
+      if (savedCur !== 'USD') balEl.innerText = formatPrice(num);
+    }
+  }, 1200);
+});
+
 </script>
+  <div class="modal-overlay" id="legalModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="modal-box" style="max-height:80vh;overflow-y:auto">
+    <button class="close-modal" onclick="document.getElementById('legalModal').classList.remove('show')">✕</button>
+    <h3 id="legalTitle" style="font-size:1.1rem;font-weight:900;color:var(--secondary);margin-bottom:10px;padding-left:30px">العنوان</h3>
+    <div id="legalBody" style="font-size:0.84rem;color:#cbd5e1;line-height:1.75;white-space:pre-line"></div>
+  </div>
+  </div>
 </body>
                                                                                                                                                                                                                 </html>
