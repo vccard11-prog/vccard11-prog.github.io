@@ -279,7 +279,8 @@ function openGameModal(key) {
   g.packages.forEach((p, idx) => {
     const card = document.createElement('div');
     card.className = 'pkg-item' + (idx === 0 ? ' active' : '');
-    card.innerHTML = `<div class="pkg-name">${p.name}</div><div class="pkg-price">$${p.price.toFixed(2)}</div>`;
+    card.innerHTML = `<div class="pkg-name">${p.name}</div><div class="pkg-price">${formatPrice(p.price)}</div>`;
+
     card.onclick = () => selectGamePkg(card, p);
     grid.appendChild(card);
     if (idx === 0) selectGamePkg(card, p);
@@ -449,6 +450,29 @@ async function submitDirectGameOrder() {
     showVcAlert("⚠️", "خطأ في الاتصال", "تعذر الاتصال بقاعدة البيانات، حاول مجدداً.", "حسناً");
   }
 }
+  const CURRENCY_RATES = {
+  USD: { symbol: '$', rate: 1, decimals: 2 },
+  AED: { symbol: 'AED ', rate: 3.67, decimals: 2 },
+  SYP: { symbol: 'ل.س ', rate: 122, decimals: 0 }
+};
+
+function formatPrice(usdAmount) {
+  const cur = localStorage.getItem('vc_currency') || 'USD';
+  const cfg = CURRENCY_RATES[cur] || CURRENCY_RATES.USD;
+  const val = (parseFloat(usdAmount) * cfg.rate).toFixed(cfg.decimals);
+  return cur === 'SYP' ? `${Number(val).toLocaleString('en-US')} ل.س` : `${cfg.symbol}${val}`;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    const balEl = document.getElementById('headerBalance');
+    if (balEl) {
+      const num = parseFloat(balEl.innerText.replace(/[^0-9.]/g, '')) || 0;
+      balEl.innerText = formatPrice(num);
+    }
+  }, 900);
+});
+
 </script>
 </body>
 </html>
