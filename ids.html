@@ -13,7 +13,7 @@
 </style>
 </head>
 <body>
-  <h3>📦 كاشف أرقام باقات سوريا ماركت (product_id)</h3>
+  <h3>📦 أرقام باقات سوريا ماركت (product_id)</h3>
   <button onclick="getProducts()">جلب الأرقام الآن ⚡</button>
   <input type="text" id="search" placeholder="ابحث عن: PUBG أو ببجي أو Free Fire..." onkeyup="filter()">
   <div id="box"></div>
@@ -21,21 +21,25 @@
   <script>
     let items = [];
     async function getProducts() {
-      const token = prompt("ألصق توكن سوريا ماركت السري (sst_...):");
-      if (!token) return;
-      document.getElementById("box").innerHTML = "جاري جلب الباقات...";
+      document.getElementById("box").innerHTML = "جاري جلب الباقات من السيرفر...";
       try {
-        const res = await fetch("https://syrimarket.com", {
-          headers: { "Authorization": "Bearer " + token.trim() }
+        const res = await fetch("https://supabase.co", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "catalog" })
         });
         const data = await res.json();
         items = data.data || data.products || data || [];
         show(items);
       } catch (e) {
-        document.getElementById("box").innerHTML = "حدث خطأ، تأكد من التوكن والاتصال.";
+        document.getElementById("box").innerHTML = "حدث خطأ في الاتصال بالسيرفر.";
       }
     }
     function show(arr) {
+      if (!Array.isArray(arr)) {
+        document.getElementById("box").innerHTML = "<pre>" + JSON.stringify(arr, null, 2) + "</pre>";
+        return;
+      }
       document.getElementById("box").innerHTML = arr.map(p => `
         <div class="card">
           <div>
