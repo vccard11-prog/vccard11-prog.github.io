@@ -407,22 +407,27 @@ async function submitDirectGameOrder() {
 
     let finalStatus = 'pending';
     if (serviceId && serviceId !== "0") {
-      try {
-        const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 60000);
-        const apiRes = await fetch(`${SERVER_URL}/api/create-order`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ service_id: serviceId, target_id: pid, quantity: 1 }),
-          signal: ctrl.signal
-        });
-        clearTimeout(timer);
-        const apiData = await apiRes.json();
-        if (apiData && apiData.success) finalStatus = 'completed';
-      } catch (e) {
-        finalStatus = 'pending';
-      }
+        try {
+    const apiRes = await fetch(SB_URL + '/functions/v1/create-order', {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + SB_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        product_id: Number(pkgId),
+        qty: 1,
+        player_id: String(playerId)
+      })
+    });
+    const apiData = await apiRes.json();
+    if (apiRes.ok && !apiData.error) {
+      finalStatus = 'completed';
     }
+  } catch (e) {
+    finalStatus = 'pending';
+  }
 
     await fetch(SB_URL + '/rest/v1/orders_history', {
       method: 'POST',
