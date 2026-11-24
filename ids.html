@@ -17,25 +17,36 @@
   <button onclick="getProducts()">جلب الأرقام الآن ⚡</button>
   <input type="text" id="search" placeholder="ابحث عن: PUBG أو ببجي أو Free Fire..." onkeyup="filter()">
   <div id="box"></div>
-  <script>
+    <script>
+    const SB_URL = "https://supabase.co";
+    const SB_KEY = "ضع_مفتاح_SB_KEY_هنا";
     let items = [];
+
     async function getProducts() {
-      document.getElementById("box").innerHTML = "جاري جلب الباقات من السيرفر...";
+      const box = document.getElementById("box");
+      box.innerHTML = "جاري الاتصال بالسيرفر...";
       try {
-        const res = await fetch("https://supabase.co", {
+        const res = await fetch(SB_URL + "/functions/v1/create-order", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "apikey": SB_KEY,
+            "Authorization": "Bearer " + SB_KEY,
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify({ action: "catalog" })
         });
-        const data = await res.json();
+        const text = await res.text();
+        let data;
+        try { data = JSON.parse(text); } catch { box.innerHTML = "<pre>" + text + "</pre>"; return; }
         items = data.data || data.products || data || [];
         show(items);
       } catch (e) {
-        document.getElementById("box").innerHTML = "حدث خطأ في الاتصال بالسيرفر.";
+        box.innerHTML = "خطأ اتصال: " + e.message;
       }
     }
+
     function show(arr) {
-      if (!Array.isArray(arr)) {
+      if (!Array.isArray(arr) || arr.length === 0) {
         document.getElementById("box").innerHTML = "<pre>" + JSON.stringify(arr, null, 2) + "</pre>";
         return;
       }
@@ -47,15 +58,14 @@
           </div>
           <div style="text-align:left">
             <div class="id-num">ID: ${p.id}</div>
-            <button style="padding:5px 10px;font-size:0.75rem;margin-top:4px" onclick="navigator.clipboard.writeText('${p.id}');alert('تم نسخ الرقم: ${p.id}')">نسخ</button>
+            <button style="padding:5px 10px;font-size:0.75rem;margin-top:4px" onclick="navigator.clipboard.writeText('${p.id}');alert('تم نسخ: ${p.id}')">نسخ</button>
           </div>
         </div>
       `).join('');
     }
+
     function filter() {
       const q = document.getElementById("search").value.toLowerCase();
       show(items.filter(p => JSON.stringify(p).toLowerCase().includes(q)));
     }
   </script>
-</body>
-</html>
