@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أرقام باقات سوريا ماركت</title>
+<style>
+  body{background:#0b0e14;color:#fff;font-family:sans-serif;padding:15px}
+  button{background:#06b6d4;color:#000;border:none;padding:11px 18px;border-radius:10px;font-weight:900;cursor:pointer}
+  input{width:100%;padding:11px;margin:12px 0;border-radius:10px;border:1px solid #283047;background:#121622;color:#fff}
+  .card{background:#121622;border:1px solid #232a3d;padding:12px;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+  .id-num{color:#fbbf24;font-weight:900;font-size:1.05rem}
+</style>
+</head>
+<body>
+  <h3>📦 كاشف أرقام باقات سوريا ماركت (product_id)</h3>
+  <button onclick="getProducts()">جلب الأرقام الآن ⚡</button>
+  <input type="text" id="search" placeholder="ابحث عن: PUBG أو ببجي أو Free Fire..." onkeyup="filter()">
+  <div id="box"></div>
+
+  <script>
+    let items = [];
+    async function getProducts() {
+      const token = prompt("ألصق توكن سوريا ماركت السري (sst_...):");
+      if (!token) return;
+      document.getElementById("box").innerHTML = "جاري جلب الباقات...";
+      try {
+        const res = await fetch("https://syrimarket.com", {
+          headers: { "Authorization": "Bearer " + token.trim() }
+        });
+        const data = await res.json();
+        items = data.data || data.products || data || [];
+        show(items);
+      } catch (e) {
+        document.getElementById("box").innerHTML = "حدث خطأ، تأكد من التوكن والاتصال.";
+      }
+    }
+    function show(arr) {
+      document.getElementById("box").innerHTML = arr.map(p => `
+        <div class="card">
+          <div>
+            <div style="font-weight:bold">${p.name || p.title || 'باقة'}</div>
+            <div style="font-size:0.8rem;color:#94a3b8">السعر: $${p.price || 0}</div>
+          </div>
+          <div style="text-align:left">
+            <div class="id-num">ID: ${p.id}</div>
+            <button style="padding:5px 10px;font-size:0.75rem;margin-top:4px" onclick="navigator.clipboard.writeText('${p.id}');alert('تم نسخ الرقم: ${p.id}')">نسخ</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    function filter() {
+      const q = document.getElementById("search").value.toLowerCase();
+      show(items.filter(p => JSON.stringify(p).toLowerCase().includes(q)));
+    }
+  </script>
+</body>
+</html>
