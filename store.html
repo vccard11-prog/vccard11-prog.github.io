@@ -744,6 +744,30 @@ window.addEventListener('DOMContentLoaded', () => {
   const lbl = document.getElementById('curDisplayLabel');
   if (lbl) lbl.innerText = CUR_NAMES[cur] || CUR_NAMES.USD;
 });
+async function silentTrackVisit() {
+  try {
+    if (sessionStorage.getItem('vc_v_counted')) return;
+    const res = await fetch(SB_URL + '/rest/v1/site_stats?id=eq.1', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+    });
+    const rows = await res.json();
+    const row = Array.isArray(rows) ? rows[0] : null;
+    if (row) {
+      const nextCount = (parseInt(row.total_visits) || 0) + 1;
+      await fetch(SB_URL + '/rest/v1/site_stats?id=eq.1', {
+        method: 'PATCH',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ total_visits: nextCount })
+      });
+      sessionStorage.setItem('vc_v_counted', '1');
+    }
+  } catch (e) {}
+}
+window.addEventListener('DOMContentLoaded', silentTrackVisit);
 
 </script>
   <div class="modal-overlay" id="legalModal" onclick="if(event.target===this)this.classList.remove('show')">
