@@ -71,6 +71,20 @@ header{background:rgba(17,22,34,0.95);backdrop-filter:blur(12px);padding:12px 4%
 </div>
 
 <header>
+ <div style="background:linear-gradient(135deg,#131929,#0e1320);border:1px solid rgba(6,182,212,0.35);border-radius:18px;padding:15px 18px;margin:14px auto;max-width:520px;display:flex;align-items:center;justify-content:space-between">
+  <div style="display:flex;align-items:center;gap:10px">
+    <span style="width:10px;height:10px;border-radius:50%;background:#10b981;box-shadow:0 0 10px #10b981;display:inline-block"></span>
+    <div>
+      <div style="font-size:0.85rem;font-weight:900;color:#fff">إجمالي زيارات المتجر الحقيقية</div>
+      <div style="font-size:0.7rem;color:#94a3b8">مُفعّل بصمت ومخفي عن العملاء</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span id="adminVisitCount" style="font-size:1.35rem;font-weight:900;color:#06b6d4;direction:ltr">0</span>
+    <button onclick="loadAdminVisits()" style="background:#1e2538;border:1px solid #2d3748;color:#fff;padding:6px 10px;border-radius:9px;font-size:0.75rem;cursor:pointer">تحديث</button>
+  </div>
+</div>
+
   <a href="store.html" class="brand">
     <img src="Gemini_Generated_Image_k8lwiwk8lwiwk8lw.jpeg" alt="Logo">
     <span>إدارة <span style="color:var(--secondary)">VC Store 1</span></span>
@@ -330,6 +344,20 @@ async function toggleUserVca(userId, currentStatus) {
     showAlert("⚠️", "خطأ", "تعذر تحديث التوثيق.");
   }
 }
+ async function loadAdminVisits() {
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/site_stats?id=eq.1', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+    });
+    const rows = await res.json();
+    const row = Array.isArray(rows) ? rows[0] : null;
+    if (row) {
+      document.getElementById('adminVisitCount').innerText = (parseInt(row.total_visits) || 0).toLocaleString('en-US');
+    }
+  } catch (e) {}
+}
+window.addEventListener('DOMContentLoaded', loadAdminVisits);
+
 </script>
 </body>
 </html>
