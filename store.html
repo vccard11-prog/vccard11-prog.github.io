@@ -149,6 +149,7 @@ body:has(.ai-box.open) .ai-fab{display:none!important}
 <a href="javascript:void(0)" onclick="toggleDrawer();openLegalModal('privacy')">🔒 سياسة الخصوصية</a>
 <a href="javascript:void(0)" onclick="toggleDrawer();openLegalModal('terms')">📜 شروط الاستخدام</a>
 <a href="javascript:void(0)" onclick="toggleDrawer();openLegalModal('refund')">🔄 سياسة الاسترجاع</a>
+<a href="javascript:void(0)" onclick="toggleDrawer();document.getElementById('aboutModal').classList.add('show')">🏢 من نحن (VC Store 1)</a>
 
     </div>
   </div>
@@ -814,6 +815,35 @@ window.addEventListener('DOMContentLoaded', silentTrackVisit);
         </div>
         <span class="cur-check" style="color:#06b6d4;font-weight:900;display:none">✓</span>
       </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="aboutModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="modal-box" style="max-width:420px;text-align:right;line-height:1.7">
+    <button class="close-modal" onclick="document.getElementById('aboutModal').classList.remove('show')">✕</button>
+    <div style="text-align:center;margin-bottom:14px">
+      <div style="font-size:1.8rem;margin-bottom:4px">🚀</div>
+      <h3 style="font-size:1.15rem;font-weight:900;color:#fff">من نحن — VC Store 1</h3>
+      <p style="font-size:0.75rem;color:#06b6d4;font-weight:700">منصتك الرقمية المتكاملة للشحن والخدمات الفورية</p>
+    </div>
+
+    <div style="background:#0b0e14;border:1px solid #232a3d;border-radius:14px;padding:13px;font-size:0.82rem;color:#cbd5e1;margin-bottom:10px">
+      <strong style="color:#fff">VC Store 1</strong> هي منصة تجارة إلكترونية وخدمات رقمية متخصصة في شحن الألعاب العالمية، بطاقات الهدايا، وتفعيل التطبيقات والاشتراكات الرقمية بأعلى معايير السرعة والأمان.
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;font-size:0.76rem">
+      <div style="background:#121622;border:1px solid #1e2538;border-radius:11px;padding:10px">
+        <div style="color:#10b981;font-weight:900">⚡ تنفيذ فوري</div>
+        <div style="color:#94a3b8;margin-top:2px">معالجة آلية للطلبات على مدار 24 ساعة.</div>
+      </div>
+      <div style="background:#121622;border:1px solid #1e2538;border-radius:11px;padding:10px">
+        <div style="color:#fbbf24;font-weight:900">🛡️ أمان وموثوقية</div>
+        <div style="color:#94a3b8;margin-top:2px">حماية كاملة للمحافظ وشفافية تامة في الأسعار.</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;font-size:0.74rem;color:#94a3b8;border-top:1px solid #1e2538;padding-top:10px">
+      للتواصل والدعم الرسمي: <span style="color:#06b6d4;font-weight:800">vccard11@gmail.com</span>
     </div>
   </div>
 </div>
