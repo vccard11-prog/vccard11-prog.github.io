@@ -112,6 +112,9 @@ header{background:rgba(17,22,34,0.95);backdrop-filter:blur(12px);padding:12px 4%
     <button class="pill-btn active" id="tabBtn-deposits" onclick="switchTab('deposits')">الإيداعات <span class="cnt-dot" id="cntDep">0</span></button>
     <button class="pill-btn" id="tabBtn-orders" onclick="switchTab('orders')">الطلبات <span class="cnt-dot" id="cntOrd">0</span></button>
     <button class="pill-btn" id="tabBtn-users" onclick="switchTab('users')">العملاء <span class="cnt-dot" id="cntUsr">0</span></button>
+<button class="pill-btn" id="tabBtn-profits" onclick="switchTab('profits')">💰 الأرباح اليومية</button>
+<button class="pill-btn" id="tabBtn-kyc" onclick="switchTab('kyc')">🛡️ توثيق الهوية</button>
+
   </div>
 
   <div id="adminListContainer"></div>
@@ -357,6 +360,64 @@ async function toggleUserVca(userId, currentStatus) {
   } catch (e) {}
 }
 window.addEventListener('DOMContentLoaded', loadAdminVisits);
+const origSwitchTab = window.switchTab;
+window.switchTab = function(tab) {
+  document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+  const activeBtn = document.getElementById('tabBtn-' + tab);
+  if (activeBtn) activeBtn.classList.add('active');
+
+  if (tab === 'profits') {
+    const today = new Date().toISOString().slice(0, 10);
+    const todayOrders = allHistory.filter(o => o.order_type === 'order' && (o.created_at || '').startsWith(today) && o.status !== 'rejected');
+    const todayDeps = allHistory.filter(o => o.order_type === 'deposit' && (o.created_at || '').startsWith(today) && o.status === 'completed');
+    const sales = todayOrders.reduce((s, o) => s + (parseFloat(o.amount) || 0), 0);
+    const deps = todayDeps.reduce((s, o) => s + (parseFloat(o.amount) || 0), 0);
+    const profit = (sales * 0.15).toFixed(2);
+
+    document.getElementById('adminListContainer').innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+        <div style="background:#121622;border:1px solid #232a3d;border-radius:14px;padding:14px">
+          <div style="font-size:0.75rem;color:#94a3b8">مبيعات اليوم (${todayOrders.length} طلب)</div>
+          <div style="font-size:1.3rem;font-weight:900;color:#06b6d4;margin-top:4px">$${sales.toFixed(2)}</div>
+        </div>
+        <div style="background:#121622;border:1px solid #232a3d;border-radius:14px;padding:14px">
+          <div style="font-size:0.75rem;color:#94a3b8">إيداعات اليوم المؤكدة</div>
+          <div style="font-size:1.3rem;font-weight:900;color:#10b981;margin-top:4px">$${deps.toFixed(2)}</div>
+        </div>
+        <div style="grid-column:span 2;background:linear-gradient(135deg,rgba(124,58,237,0.18),rgba(6,182,212,0.12));border:1px solid rgba(124,58,237,0.4);border-radius:14px;padding:16px;text-align:center">
+          <div style="font-size:0.8rem;color:#cbd5e1;font-weight:800">صافي الأرباح التقديرية اليوم</div>
+          <div style="font-size:1.6rem;font-weight:900;color:#fbbf24;margin-top:4px">$${profit}</div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  if (tab === 'kyc') {
+    document.getElementById('adminListContainer').innerHTML = allProfiles.map(u => `
+      <div style="background:#121622;border:1px solid #232a3d;border-radius:14px;padding:13px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:900;color:#fff;font-size:0.9rem">${u.full_name || 'مستخدم'} ${u.is_verified ? '✅' : ''}</div>
+          <div style="font-size:0.75rem;color:#94a3b8">${u.email || ''}</div>
+        </div>
+        <button onclick="toggleUserVerify('${u.id}', ${!u.is_verified})" style="background:${u.is_verified ? '#ef4444' : '#10b981'};color:#fff;border:none;padding:8px 12px;border-radius:10px;font-weight:800;font-size:0.75rem;cursor:pointer">
+          ${u.is_verified ? 'إلغاء التوثيق' : 'توثيق الحساب 🛡️'}
+        </button>
+      </div>`).join('');
+    return;
+  }
+
+  if (typeof origSwitchTab === 'function') origSwitchTab(tab);
+};
+
+async function toggleUserVerify(uid, status) {
+  await fetch(SB_URL + '/rest/v1/profiles?id=eq.' + uid, {
+    method: 'PATCH',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ is_verified: status })
+  });
+  showVcAlert(status ? 'تم التوثيق' : 'تم الإلغاء', status ? 'تم منح شارة التوثيق الرسمية للعميل بنجاح!' : 'تم إلغاء شارة التوثيق.', '🛡️');
+  if (typeof loadAllAdminData === 'function') loadAllAdminData();
+}
 
 </script>
 </body>
